@@ -530,6 +530,70 @@ def scan_pillar_8_portability(root: Path) -> dict:
 
 
 # ==============================================================================
+# Pillar 9 · Metacognition & Self-Assessment
+# ==============================================================================
+
+def scan_pillar_9_metacognition(root: Path) -> dict:
+    signals: dict[str, Any] = {
+        "metacog_tool_found": False,
+        "capability_profile_found": False,
+        "verbalized_confidence_mechanism": False,
+        "composite_formula_documented": False,
+        "conflict_detection": False,
+        "decision_gate_documented": False,
+        "ema_update_mechanism": False,
+        "ece_or_calibration_tracking": False,
+        "anti_pattern_doc_count": 0,
+        "dpi_integration_documented": False,
+        "policy_doc_found": False,
+        "metacog_paper_cited": False,
+    }
+
+    for f in find_files_by_pattern(root, "*metacog*.py") + find_files_by_pattern(root, "*self-assess*.py"):
+        signals["metacog_tool_found"] = True
+        content = safe_read(f).lower()
+        if "verbalized" in content and "claude" in content or "llm" in content:
+            signals["verbalized_confidence_mechanism"] = True
+        if "lambda" in content and ("c_v" in content or "verbalized" in content) and ("c_p" in content or "profile" in content):
+            signals["composite_formula_documented"] = True
+        if "conflict" in content or "delta" in content and "abs" in content:
+            signals["conflict_detection"] = True
+        if "delegation_threshold" in content or "theta" in content or "decision" in content:
+            signals["decision_gate_documented"] = True
+        if "ema" in content or "p_new" in content and "p_old" in content or "learning_rate" in content:
+            signals["ema_update_mechanism"] = True
+        break
+
+    for f in find_files_by_pattern(root, "*capability*profile*") + find_files_by_pattern(root, "*capability_profile*"):
+        signals["capability_profile_found"] = True
+        content = safe_read(f).lower()
+        if "reasoning" in content and "retrieval" in content and "coding" in content:
+            # Vector of dimensions present
+            pass
+        if "ema" in content or "alpha" in content:
+            signals["ema_update_mechanism"] = signals["ema_update_mechanism"] or True
+        if "ece" in content or "calibration" in content:
+            signals["ece_or_calibration_tracking"] = True
+        if "2605.17292" in content or "metacog" in content:
+            signals["metacog_paper_cited"] = True
+        break
+
+    for f in find_files_by_pattern(root, "*metacognition*policy*") + find_files_by_pattern(root, "*metacognition*.md"):
+        if f.is_file():
+            signals["policy_doc_found"] = True
+            content = safe_read(f).lower()
+            if "anti-pattern" in content or "antipattern" in content:
+                signals["anti_pattern_doc_count"] = content.count("❌") + content.count("anti-pattern")
+            if "dpi" in content or "multi-agent" in content:
+                signals["dpi_integration_documented"] = True
+            if "2605.17292" in content or "metacogagent" in content:
+                signals["metacog_paper_cited"] = True
+            break
+
+    return signals
+
+
+# ==============================================================================
 # Main
 # ==============================================================================
 
@@ -545,7 +609,7 @@ def run_audit(workspace_path: Path, verbose: bool = False) -> dict:
 
     audit = {
         "tool": "workspace-agentic-benchmark/audit.py",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "audited_at": datetime.now().isoformat(),
         "workspace": str(workspace),
         "pillars": {},
@@ -560,6 +624,7 @@ def run_audit(workspace_path: Path, verbose: bool = False) -> dict:
         ("6_observability", scan_pillar_6_observability),
         ("7_credentials_security", scan_pillar_7_credentials),
         ("8_portability", scan_pillar_8_portability),
+        ("9_metacognition", scan_pillar_9_metacognition),
     ]
 
     for name, scanner in pillar_scanners:

@@ -42,7 +42,7 @@ Output: a 0-70 score across 7 pillars · grade A/B/C/D · plus per-pillar deep-d
 
 ---
 
-## The 8 pillars
+## The 9 pillars
 
 | # | Pillar | First-principle | Max |
 |---|--------|------------------|-----|
@@ -54,11 +54,12 @@ Output: a 0-70 score across 7 pillars · grade A/B/C/D · plus per-pillar deep-d
 | **[6](pillars/06-observability.md)** | Observability & Recovery | Centralized logs · liveness watchdog · aggregate health · drift detector | 10 |
 | **[7](pillars/07-credentials-security.md)** | Credentials & Security | Zero plaintext · secret manager · approval gates · audit log | 10 |
 | **[8](pillars/08-portability.md)** | Portability & Re-deployability ⭐ | Bootstrap doc · client-agnostic skills · vault isolation · time-to-redeploy measured | 10 |
-| | | **Total** | **80** |
+| **[9](pillars/09-metacognition.md)** | Metacognition & Self-Assessment ⭐ | MCU verbalized + capability profile · composite confidence · conflict detection · EMA cybernetic | 10 |
+| | | **Total** | **90** |
 
-⭐ Pillar 8 is **unique to this benchmark** · no public benchmark measures workspace re-deployability for FDE engagements.
+⭐ Pillars 8 and 9 are **unique to this benchmark** · no public benchmark measures workspace re-deployability for FDE engagements (Pillar 8) or prospective metacognition for delegation gating (Pillar 9).
 
-**Grades**: A (68+) · B (51-67) · C (34-50) · D (<34).
+**Grades**: A (76+) · B (58-75) · C (39-57) · D (<39).
 
 Read [METHODOLOGY.md](METHODOLOGY.md) for the first-principles derivation of each pillar.
 
@@ -92,6 +93,7 @@ Read [METHODOLOGY.md](METHODOLOGY.md) for the first-principles derivation of eac
 
 Key papers:
 - arXiv 2604.02460 (Stanford · DPI for single vs multi-agent)
+- arXiv 2605.17292 (MetaCogAgent · prospective metacognition · May 2026)
 - arXiv 2303.11366 (Reflexion · verbal reinforcement learning)
 - arXiv 2305.16291 (Voyager · open-ended embodied agent)
 - Anthropic "Effective Harnesses" blog series

@@ -1,11 +1,11 @@
 {
   "tool": "workspace-agentic-benchmark/score.py",
-  "version": "0.1.0",
-  "scored_at": "2026-05-19T22:36:10.298973",
+  "version": "0.2.0",
+  "scored_at": "2026-05-19T22:57:12.809581",
   "workspace": "/Users/nourmatine/madani",
-  "audit_at": "2026-05-19T22:34:32.286819",
-  "total": 70.5,
-  "max": 80,
+  "audit_at": "2026-05-19T22:55:35.274514",
+  "total": 79.5,
+  "max": 90,
   "grade": "A",
   "pillars": {
     "1_context_memory": {
@@ -383,6 +383,53 @@
       "score": 9.0,
       "max": 10,
       "title": "Portability & Re-deployability"
+    },
+    "9_metacognition": {
+      "criteria": [
+        {
+          "name": "pre_task_self_assessment",
+          "score": 1.0
+        },
+        {
+          "name": "verbalized_confidence",
+          "score": 1.0
+        },
+        {
+          "name": "capability_profile_maintained",
+          "score": 1.0
+        },
+        {
+          "name": "composite_formula",
+          "score": 1.0
+        },
+        {
+          "name": "conflict_detection",
+          "score": 1.0
+        },
+        {
+          "name": "decision_gate",
+          "score": 1.0
+        },
+        {
+          "name": "post_task_ema_update",
+          "score": 1.0
+        },
+        {
+          "name": "ece_calibration_tracked",
+          "score": 0.0
+        },
+        {
+          "name": "anti_pattern_documentation",
+          "score": 1.0
+        },
+        {
+          "name": "dpi_integration",
+          "score": 1.0
+        }
+      ],
+      "score": 9.0,
+      "max": 10,
+      "title": "Metacognition & Self-Assessment"
     }
   }
 }

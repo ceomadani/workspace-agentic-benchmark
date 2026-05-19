@@ -137,13 +137,13 @@ A pillar measures **a property** (e.g., "memory tier separation is enforced"), n
 
 Each pillar scored 0-10 against a checklist of 10 binary criteria. Each criterion either passes (1.0), partially passes (0.5), or fails (0.0). Total clamped to 10.
 
-**Grade thresholds** (total 0-80 · 8 pillars):
-- **A** (68-80) · production-grade · forward-deployable
-- **B** (51-67) · solid · needs hardening in 1-2 pillars
-- **C** (34-50) · early-stage · multiple gaps
-- **D** (0-33) · prototype · not production-ready
+**Grade thresholds** (total 0-90 · 9 pillars):
+- **A** (76-90) · production-grade · forward-deployable
+- **B** (58-75) · solid · needs hardening in 1-2 pillars
+- **C** (39-57) · early-stage · multiple gaps
+- **D** (0-38) · prototype · not production-ready
 
-**Why these thresholds**: derived from Madani internal milestones (iter-20: C · iter-30: B · iter-37+: A) and empirical observation of FDE engagements where workspaces below 34 require infrastructure-first work before agent work.
+**Why these thresholds**: derived from Madani internal milestones (iter-20: C · iter-30: B · iter-37+: A) and empirical observation of FDE engagements where workspaces below the C threshold require infrastructure-first work before agent work. Thresholds remain proportional to the original 8-pillar scheme (A: ≥85% · B: ≥64% · C: ≥43%).
 
 ### Pillar 8 added · evidence
 
@@ -152,6 +152,18 @@ Initial 7-pillar framework was validated against 30+ existing benchmarks (resear
 - Anthropic FDE model (embedded engineers, customer-KPI-driven)
 - MIT pilot failure research (95% of AI pilots fail · differentiator is infrastructure replicability)
 - Cross-engagement memory leakage as documented P0 compliance risk in regulated industries
+
+### Pillar 9 added · evidence (v0.2)
+
+The 8-pillar framework had a measurement gap on multi-agent delegation: Pillar 5 (DPI) says "default single-thread unless evidence" but the "evidence" was operationally vague. The **MetaCogAgent paper** (arXiv 2605.17292v1 · Wang/Shu · 17 May 2026) provides the missing operational mechanism: prospective metacognition via Metacognitive Unit (MCU) with verbalized + profile-based composite confidence, conflict detection, and cybernetic feedback loop on capability profile.
+
+We added Pillar 9 (Metacognition & Self-Assessment) based on:
+- MetaCogAgent · 82.4% accuracy · -34% API calls · ECE 0.087 (well-calibrated · vs 0.194 Single-Agent overconfident)
+- Kadavath et al. (arXiv 2207.05221) · LLMs "(mostly) know what they know" · poor calibration baseline
+- Guo et al. (ICML 2017) · ECE metric for calibration measurement
+- Direct operational pairing with Pillar 5: MetaCog `c < θ` *is* the DPI 3rd condition evidence trigger
+
+This is the second pillar unique to this benchmark (alongside Pillar 8 · Portability). No public benchmark currently measures prospective metacognition for delegation gating.
 
 ---
 

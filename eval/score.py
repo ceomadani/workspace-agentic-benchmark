@@ -236,6 +236,22 @@ def _bundle(criteria: list[tuple[str, float]]) -> dict:
     }
 
 
+def score_pillar_9(s: dict) -> dict:
+    criteria = [
+        ("pre_task_self_assessment", _b(s.get("metacog_tool_found", False))),
+        ("verbalized_confidence", _b(s.get("verbalized_confidence_mechanism", False))),
+        ("capability_profile_maintained", _b(s.get("capability_profile_found", False))),
+        ("composite_formula", _b(s.get("composite_formula_documented", False))),
+        ("conflict_detection", _b(s.get("conflict_detection", False))),
+        ("decision_gate", _b(s.get("decision_gate_documented", False))),
+        ("post_task_ema_update", _b(s.get("ema_update_mechanism", False))),
+        ("ece_calibration_tracked", _p(s.get("ece_or_calibration_tracking", False), partial=False)),
+        ("anti_pattern_documentation", _p(s.get("anti_pattern_doc_count", 0) >= 4, partial=(s.get("anti_pattern_doc_count", 0) >= 1))),
+        ("dpi_integration", _b(s.get("dpi_integration_documented", False))),
+    ]
+    return _bundle(criteria)
+
+
 PILLARS = [
     ("1_context_memory", "Context Hierarchy & Memory", score_pillar_1),
     ("2_skill_tool", "Skill / Tool Architecture", score_pillar_2),
@@ -245,15 +261,17 @@ PILLARS = [
     ("6_observability", "Observability & Recovery", score_pillar_6),
     ("7_credentials_security", "Credentials & Security", score_pillar_7),
     ("8_portability", "Portability & Re-deployability", score_pillar_8),
+    ("9_metacognition", "Metacognition & Self-Assessment", score_pillar_9),
 ]
 
 
 def grade(total: float) -> str:
-    if total >= 68:
+    # 9 pillars × 10 = 90 max · thresholds proportional to 8-pillar scheme
+    if total >= 76:
         return "A"
-    if total >= 51:
+    if total >= 58:
         return "B"
-    if total >= 34:
+    if total >= 39:
         return "C"
     return "D"
 
@@ -275,12 +293,12 @@ def score_audit(audit: dict) -> dict:
 
     return {
         "tool": "workspace-agentic-benchmark/score.py",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "scored_at": datetime.now().isoformat(),
         "workspace": audit.get("workspace"),
         "audit_at": audit.get("audited_at"),
         "total": round(total, 2),
-        "max": 80,
+        "max": 90,
         "grade": grade(total),
         "pillars": pillars_out,
     }

@@ -1,8 +1,8 @@
 # Madani Workspace · Reference Case Study
 
-> **Score**: 70.5 / 80 · Grade **A** · production-grade · forward-deployable
-> **Audited**: 2026-05-19 (iter-38)
-> **Workspace size**: ~5 GB · 12 macro folders · 7 production cron jobs
+> **Score**: 79.5 / 90 · Grade **A** · production-grade · forward-deployable
+> **Audited**: 2026-05-19 (iter-38 · post-MetaCog integration)
+> **Workspace size**: ~5 GB · 12 macro folders · 7 production cron jobs · 11 pattern adapters
 
 This is the first reference workspace audited with this framework. Madani is a portfolio operation (~50M EUR aggregate revenue) running an iterated agentic system since iter-1 (Apr 2026). Use it as a high-score case study to compare against your own.
 
@@ -18,10 +18,11 @@ This is the first reference workspace audited with this framework. Madani is a p
 | 4 · Auto-Improvement Loop | 9 / 10 | A | Dreams 6-stage pipeline · Reflexion cron 23:30 · A-MAC 6-factor scoring · Sonnet (cost-aware) · two-stage review. |
 | 5 · Multi-Agent Discipline (DPI) | 10 / 10 | A | multi-agent-policy.md · single-thread default · arXiv 2604.02460 cited · 3-condition gate · 4 anti-patterns documented. |
 | 6 · Observability & Recovery | 9 / 10 | A | Centralized `_logs/` · liveness-watchdog hourly · aggregate-report daily 09:00 · M08 6-state lifecycle · stderr separated. |
-| 7 · Credentials & Security | 6 / 10 | C ⚠️ | Vault integrated (1Password op://) but **20 plaintext keys found** in legacy `madani-website/scripts/` + archive files. Rotation undocumented. |
+| 7 · Credentials & Security | 6 / 10 | C ⚠️ | Vault integrated (1Password op://) but legacy plaintext keys found in archive paths. Rotation undocumented. |
 | 8 · Portability & Re-deployability | 9 / 10 | A | 8 clients isolated · per-engagement vault · handoff format documented · low hardcoded paths (mostly in scripts). |
+| 9 · Metacognition & Self-Assessment | 9 / 10 | A | MCU runner `metacog-self-assess.py` · capability profile 6 dims · composite formula · conflict detection · EMA update · DPI integrated. Loses 1.0 for ECE not yet tracked over time. |
 
-**Total**: 70.5 / 80 (88%)
+**Total**: 79.5 / 90 (88%)
 
 ---
 
@@ -146,6 +147,8 @@ Bootstrap procedure exists (`ONBOARDING.md`) but **time-to-bootstrap not measure
 4. **Pattern transfer REGISTRY**: 10 named adapters (Hermes / PaperClip / OpenCode / Voyager / Reflexion / Manus / DGM / Cynefin / ECHO / Crafft) — each is a "named pattern" from external research adapted to Madani. The REGISTRY tracks which patterns are active and what they're inspired by.
 
 5. **Mission V2 §0.1 four-level intent** (L1 letterale · L2 funzionale · L3 architettonico · L4 filosofico): when the agent receives a directive, it parses the four levels to avoid surface-reading. This is unique terminology not documented elsewhere.
+
+6. **MetaCogAgent adapter (#11 REGISTRY)** — adopted within 4 days of the paper's release (arXiv 2605.17292v1 · May 17, 2026). Provides operational evidence for the DPI 3rd condition: `c < θ` becomes the measurable trigger for sub-agent delegation, replacing subjective judgment with calibrated composite confidence. Capability profile in procedural memory tier updated via EMA from outcome signal. ECE tracking pending (target ≤ 0.10).
 
 ---
 

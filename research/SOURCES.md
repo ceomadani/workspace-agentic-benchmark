@@ -29,6 +29,10 @@
 | Paper | arXiv | Year | Pillar(s) | Insight |
 |---|---|---|---|---|
 | **Single-Agent LLMs Outperform Multi-Agent** (Tran, Kiela Stanford) | [2604.02460](https://arxiv.org/abs/2604.02460) | 2026 | **5** | DPI: single-thread wins under fixed token budget unless context degraded |
+| **MetaCogAgent · Metacognitive Multi-Agent LLM Framework** (Wang, Shu) | [2605.17292](https://arxiv.org/abs/2605.17292) | 2026 | **5, 9** | Prospective metacognition · MCU (verbalized + profile composite confidence) · adaptive delegation · cybernetic feedback. 82.4% acc · -34% API calls · ECE 0.087 |
+| **Language Models (Mostly) Know What They Know** (Kadavath et al.) | [2207.05221](https://arxiv.org/abs/2207.05221) | 2022 | **9** | LLMs exhibit some ability to verbalize confidence but are poorly calibrated · baseline for MetaCog |
+| **Can LLMs Express Their Uncertainty?** (Xiong et al.) | [2306.13063](https://arxiv.org/abs/2306.13063) | 2023 | **9** | Empirical evaluation of confidence elicitation strategies in LLMs |
+| **On Calibration of Modern Neural Networks** (Guo et al.) | ICML 2017 | 2017 | **9** | Expected Calibration Error (ECE) metric definition |
 | **Why Do Multi-Agent LLM Systems Fail? (MAST)** | [2503.13657](https://arxiv.org/abs/2503.13657) | 2025 NeurIPS spotlight | **5, 6** | 14 failure modes in 3 categories · 41-86% MAS failure rate |
 | **Darwin Gödel Machine** (Sakana + Clune) | [2505.22954](https://arxiv.org/abs/2505.22954) | 2025 | **4** | Self-improving agents · SWE-bench 20→50% · evolutionary archive |
 | **Reflexion** (Shinn et al.) | [2303.11366](https://arxiv.org/abs/2303.11366) | 2023 | **1, 4** | Verbal RL via episodic memory buffer · +22% AlfWorld |
@@ -94,6 +98,7 @@ What this benchmark adds (8 pillars vs. landscape):
 | **6 · Observability** | OTEL GenAI · AgentTrace | Workspace-level: query layer (Brain MCP-style) · session handoff · cronologia |
 | **7 · Credentials** | RAS-Eval · ASB · SEC-bench | Workspace property: zero plaintext · op:// resolution · vault topology |
 | **8 · Portability** | (no public benchmark) ⭐ | **Unique** · FDE re-deployability · cross-engagement isolation |
+| **9 · Metacognition** | MetaCogAgent (2605.17292) is the source · NO public benchmark measures it ⭐ | **Unique** · prospective metacognition · MCU runner · capability profile · EMA cybernetic loop · operationalizes DPI 3rd condition |
 
 ---
 
