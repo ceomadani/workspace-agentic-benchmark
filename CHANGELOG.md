@@ -6,6 +6,45 @@ Format inspired by [Keep a Changelog](https://keepachangelog.com/). Versioning f
 
 ---
 
+## [0.3.1] · 2026-05-20
+
+### Added · sophisticated CLI experience
+
+- **`workspace_bench/` Python package** · proper distribution structure
+- **`pyproject.toml`** · `pip install` ready · console_scripts entry point (`workspace-bench` command)
+- **Rich-powered terminal UI** · `slash context`-style ultra-detailed visualization
+  - Composite hero card with 12-block pillar visualization (one block per pillar · colored by maturity)
+  - Tree-indented per-cluster breakdown (`▸ Cluster X` · `├─ P0N`)
+  - Per-pillar maturity dots (⬤⬤⬤○ = L3 · ⬤⬤⬤⬤ = L4)
+  - Improvement priorities panel with cluster tags and next-level transition
+  - L0-L4 legend panel with score mapping
+  - Live progress bar during audit (spinner · bar · M/N · elapsed time)
+- **Polished HTML report** (29KB · self-contained)
+  - Composite hero card with grade badge
+  - Cluster grid (responsive · 2-4 column auto-fit)
+  - Pillar maturity table with colored cells (4-cell L0-L4 bar)
+  - Improvement priority cards with counter-incremented numbering
+  - L0-L4 legend section
+  - Print-friendly CSS (white background · dark text on @media print)
+  - Responsive mobile breakpoint at 720px
+  - Google Fonts JetBrains Mono integration
+- **Unified CLI subcommands** via Click: `audit`, `score`, `report`, `run`
+- **`workspace-bench run`** · full pipeline (audit + score + HTML report) in one command with live progress
+- **Agent self-audit prompt** documented in README · copy-paste into any LLM with file-system tools
+
+### Changed
+
+- `eval/audit.py` · `eval/score.py` · `eval/report.py` are now thin backwards-compatible shims forwarding to `workspace_bench` package
+- Score output now includes `cluster_averages` with cluster names (not just letter codes)
+- Audit output `tool` field renamed from `workspace-agentic-benchmark/audit.py` to `workspace-bench`
+
+### Dependencies
+
+- `rich>=13.0` · sophisticated terminal rendering
+- `click>=8.0` · CLI structure with subcommands
+
+---
+
 ## [0.3.0] · 2026-05-19
 
 ### Added

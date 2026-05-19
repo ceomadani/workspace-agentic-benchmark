@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workspace Agentic Benchmark · Report · Grade B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #0a0d0a;
+    --bg-elev: #0f1410;
+    --bg-card: #131815;
+    --border: rgba(168, 192, 168, 0.18);
+    --border-strong: rgba(168, 192, 168, 0.35);
+    --fg: #E8EBE8;
+    --fg-dim: rgba(232, 235, 232, 0.70);
+    --fg-faint: rgba(232, 235, 232, 0.45);
+    --accent: #A8C0A8;
+    --accent-bright: #C8DDC8;
+    --font-serif: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+}
+
+.brand {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    margin: 0 0 0.5rem;
+    color: #F5F7F5;
+}
+
+h1 em {
+    font-style: italic;
+    color: var(--accent-bright);
+}
+
+.subtitle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--fg-dim);
+    margin: 0 0 2rem;
+}
+
+h2 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: #F5F7F5;
+    margin: 3rem 0 1rem;
+}
+
+h3 {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    color: var(--accent-bright);
+    margin: 2rem 0 0.75rem;
+}
+
+.eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg-faint);
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.meta span { margin-right: 1.5rem; }
+.meta b { color: var(--fg-dim); font-weight: normal; }
+
+/* Composite hero */
+.composite-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 2.5rem;
+    margin: 2rem 0 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.composite-score {
+    text-align: center;
+}
+
+.composite-value {
+    font-family: var(--font-serif);
+    font-size: 4.5rem;
+    line-height: 1;
+    font-weight: 400;
+    margin: 0;
+}
+
+.composite-max {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--fg-faint);
+    letter-spacing: 0.1em;
+}
+
+.grade-badge {
+    display: inline-block;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.grade-description {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--fg-dim);
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Cluster cards */
+.cluster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 2rem;
+}
+
+.cluster-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+}
+
+.cluster-card .label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.cluster-card .value {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    line-height: 1;
+    margin: 0.75rem 0;
+    color: #F5F7F5;
+}
+
+.cluster-card .progress {
+    height: 6px;
+    background: rgba(168, 192, 168, 0.08);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.cluster-card .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.cluster-card .desc {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--fg-faint);
+    margin: 0.5rem 0 0;
+    line-height: 1.4;
+}
+
+/* Pillar table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+}
+
+th {
+    text-align: left;
+    padding: 0.75rem 0.75rem;
+    border-bottom: 2px solid var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+td {
+    padding: 0.85rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+tr:hover td { background: rgba(168, 192, 168, 0.04); }
+
+td.pillar-name {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--accent-bright);
+}
+
+.new-badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 1px 6px;
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--accent-bright);
+    text-transform: uppercase;
+}
+
+.level-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.maturity-bar {
+    display: inline-flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.maturity-cell {
+    width: 18px;
+    height: 14px;
+    border-radius: 2px;
+}
+
+.cluster-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #fff;
+}
+
+/* Priorities */
+.priority-list {
+    counter-reset: priority;
+    list-style: none;
+    padding: 0;
+}
+
+.priority-item {
+    counter-increment: priority;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin: 0 0 1rem;
+    position: relative;
+}
+
+.priority-item::before {
+    content: counter(priority);
+    position: absolute;
+    top: 1.25rem;
+    right: 1.5rem;
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--accent);
+    line-height: 1;
+}
+
+.priority-pillar {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--accent-bright);
+    margin: 0 0 0.5rem;
+    padding-right: 3rem;
+}
+
+.priority-transition {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--fg-dim);
+    margin: 0 0 0.5rem;
+}
+
+.priority-principle {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--fg-dim);
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.55;
+}
+
+/* Legend */
+.legend {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.legend-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+}
+
+.legend-code {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    min-width: 32px;
+}
+
+.legend-name {
+    font-family: var(--font-mono);
+    color: var(--fg-dim);
+    min-width: 110px;
+}
+
+.legend-desc {
+    font-family: var(--font-serif);
+    color: var(--fg-dim);
+    font-size: 0.95rem;
+}
+
+/* Footer */
+footer {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+}
+
+/* Print */
+@media print {
+    body { background: white; color: #1a1a1a; }
+    .container { max-width: none; padding: 1rem; }
+    .composite-card, .cluster-card, .priority-item, .legend { background: #f8f8f5; border-color: #ddd; }
+    h1, h2, h3 { color: #1a1a1a; }
+    a { color: #1a1a1a; text-decoration: underline; }
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+    .composite-card { grid-template-columns: 1fr; text-align: center; }
+    .container { padding: 2rem 1rem 4rem; }
+    table { font-size: 11px; }
+    th, td { padding: 0.5rem 0.4rem; }
+}
+</style>
+
+</head>
+<body>
+<div class="container">
+    <div class="brand">Workspace Agentic Benchmark · v0.3.1</div>
+    <h1>Workspace<br><em>Benchmark Report</em></h1>
+    <p class="subtitle">A first-principles audit across 12 pillars in 4 clusters · L0-L4 maturity model</p>
+
+    <div class="meta">
+        <span><b>Workspace</b> /Users/nourmatine/madani</span>
+        <span><b>Scored</b> 2026-05-20T00:07:49.503106</span>
+        <span><b>Tool</b> workspace-bench v0.3.1</span>
+    </div>
+
+    <div class="eyebrow">Executive summary</div>
+    <div class="composite-card">
+        <div class="composite-score">
+            <div class="composite-value" style="color:#3b82f6;">81.25</div>
+            <div class="composite-max">/ 100 composite</div>
+        </div>
+        <div>
+            <span class="grade-badge" style="background:#3b82f6;">B</span>
+            <p class="grade-description">Solid · 1-2 pillars need hardening before scale</p>
+        </div>
+    </div>
+
+    <div class="eyebrow">Cluster averages</div>
+    <h2 style="margin-top:0.5rem;">Four dimensions of workspace maturity</h2>
+    <div class="cluster-grid">
+        
+        <div class="cluster-card">
+            <div class="label" style="color:#a855f7">A · Cognition</div>
+            <div class="value">83.3<span style="font-size:0.5em;color:rgba(232,235,232,0.4);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:83.33%;background:#a855f7"></div></div>
+            <p class="desc">the agent's mind · memory · learning · self-assessment</p>
+        </div>
+        <div class="cluster-card">
+            <div class="label" style="color:#3b82f6">B · Action</div>
+            <div class="value">91.7<span style="font-size:0.5em;color:rgba(232,235,232,0.4);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:91.67%;background:#3b82f6"></div></div>
+            <p class="desc">how it executes · skills · multi-agent discipline · reliability</p>
+        </div>
+        <div class="cluster-card">
+            <div class="label" style="color:#f59e0b">C · Trust</div>
+            <div class="value">81.2<span style="font-size:0.5em;color:rgba(232,235,232,0.4);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:81.25%;background:#f59e0b"></div></div>
+            <p class="desc">safety and governance · gates · observability · security · human-in-the-loop</p>
+        </div>
+        <div class="cluster-card">
+            <div class="label" style="color:#10b981">D · Operations</div>
+            <div class="value">62.5<span style="font-size:0.5em;color:rgba(232,235,232,0.4);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:62.5%;background:#10b981"></div></div>
+            <p class="desc">production readiness · portability · cost economics</p>
+        </div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:3rem;">12 pillars</div>
+    <h2 style="margin-top:0.5rem;">Per-pillar maturity breakdown</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pillar</th>
+                <th>Cluster</th>
+                <th>Maturity level</th>
+                <th style="text-align:right">Score</th>
+                <th style="text-align:right">Criteria</th>
+                <th>L0&nbsp;→&nbsp;L4</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P01</td>
+            <td class="pillar-name">Context Hierarchy & Memory</td>
+            <td><span class="cluster-tag" style="background:#a855f7">A</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">8/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P02</td>
+            <td class="pillar-name">Skill / Tool Architecture</td>
+            <td><span class="cluster-tag" style="background:#3b82f6">B</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">10/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P03</td>
+            <td class="pillar-name">Governance & Compliance</td>
+            <td><span class="cluster-tag" style="background:#f59e0b">C</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">9/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P04</td>
+            <td class="pillar-name">Auto-Improvement Loop</td>
+            <td><span class="cluster-tag" style="background:#a855f7">A</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">9/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P05</td>
+            <td class="pillar-name">Multi-Agent Discipline (DPI)</td>
+            <td><span class="cluster-tag" style="background:#3b82f6">B</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">10/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P06</td>
+            <td class="pillar-name">Observability & Recovery</td>
+            <td><span class="cluster-tag" style="background:#f59e0b">C</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">9/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P07</td>
+            <td class="pillar-name">Credentials & Security</td>
+            <td><span class="cluster-tag" style="background:#f59e0b">C</span></td>
+            <td><span class="level-badge" style="background:#f59e0b">L2</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Managed</span> <span title="needs improvement">⚠</span></td>
+            <td style="text-align:right;"><b style="color:#f59e0b;font-size:1.05rem">50</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">4/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P08</td>
+            <td class="pillar-name">Portability & Re-deployability</td>
+            <td><span class="cluster-tag" style="background:#10b981">D</span></td>
+            <td><span class="level-badge" style="background:#f59e0b">L2</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Managed</span> <span title="needs improvement">⚠</span></td>
+            <td style="text-align:right;"><b style="color:#f59e0b;font-size:1.05rem">50</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">5/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P09</td>
+            <td class="pillar-name">Metacognition & Self-Assessment</td>
+            <td><span class="cluster-tag" style="background:#a855f7">A</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">9/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P10</td>
+            <td class="pillar-name">Reliability & Determinism<span class="new-badge">⭐ v0.3</span></td>
+            <td><span class="cluster-tag" style="background:#3b82f6">B</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">8/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P11</td>
+            <td class="pillar-name">Human-in-the-Loop<span class="new-badge">⭐ v0.3</span></td>
+            <td><span class="cluster-tag" style="background:#f59e0b">C</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">8/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P12</td>
+            <td class="pillar-name">Cost & Performance Efficiency<span class="new-badge">⭐ v0.3</span></td>
+            <td><span class="cluster-tag" style="background:#10b981">D</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">6/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="eyebrow" style="margin-top:3rem;">Top improvement priorities</div>
+    <h2 style="margin-top:0.5rem;">Ordered by gap to next maturity level</h2>
+    <ol class="priority-list">
+            <li class="priority-item" style="border-left-color:#f59e0b">
+                <h3 class="priority-pillar">P07 · Credentials & Security</h3>
+                <p class="priority-transition">
+                    <span style="color:#f59e0b">L2</span> →
+                    <span style="color:#3b82f6">L3</span>
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster C · Trust</span>
+                </p>
+                <p class="priority-principle">Zero plaintext credentials. Ever. Including placeholder patterns.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#10b981">
+                <h3 class="priority-pillar">P08 · Portability & Re-deployability</h3>
+                <p class="priority-transition">
+                    <span style="color:#f59e0b">L2</span> →
+                    <span style="color:#3b82f6">L3</span>
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster D · Operations</span>
+                </p>
+                <p class="priority-principle">Re-deployable on new engagement in days, not months. FDE-grade.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#a855f7">
+                <h3 class="priority-pillar">P01 · Context Hierarchy & Memory</h3>
+                <p class="priority-transition">
+                    <span style="color:#3b82f6">L3</span> →
+                    <span style="color:#10b981">L4</span>
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster A · Cognition</span>
+                </p>
+                <p class="priority-principle">Information flows into context only when needed, only the parts needed.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#a855f7">
+                <h3 class="priority-pillar">P09 · Metacognition & Self-Assessment</h3>
+                <p class="priority-transition">
+                    <span style="color:#3b82f6">L3</span> →
+                    <span style="color:#10b981">L4</span>
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster A · Cognition</span>
+                </p>
+                <p class="priority-principle">An agent must know what it doesn't know · before acting · not after failing.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#3b82f6">
+                <h3 class="priority-pillar">P10 · Reliability & Determinism</h3>
+                <p class="priority-transition">
+                    <span style="color:#3b82f6">L3</span> →
+                    <span style="color:#10b981">L4</span>
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster B · Action</span>
+                </p>
+                <p class="priority-principle">An agent that succeeds once in eight tries is not a system — it is a coin flip.</p>
+            </li></ol>
+
+    <div class="eyebrow" style="margin-top:3rem;">L0-L4 maturity model</div>
+    <h2 style="margin-top:0.5rem;">CMMI-inspired · used by AWS Well-Architected · NIST AI RMF · OWASP</h2>
+    <div class="legend">
+        <div class="legend-row">
+            <span class="legend-code" style="color:#7c2d12">L0</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span>
+            <span class="legend-name">Absent</span>
+            <span class="legend-desc">Pillar doesn't exist in workspace</span>
+        </div>
+        <div class="legend-row">
+            <span class="legend-code" style="color:#ef4444">L1</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:#ef4444"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span>
+            <span class="legend-name">Initial</span>
+            <span class="legend-desc">Ad-hoc · undocumented · operator's head only</span>
+        </div>
+        <div class="legend-row">
+            <span class="legend-code" style="color:#f59e0b">L2</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span>
+            <span class="legend-name">Managed</span>
+            <span class="legend-desc">Documented · manually executed</span>
+        </div>
+        <div class="legend-row">
+            <span class="legend-code" style="color:#3b82f6">L3</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span>
+            <span class="legend-name">Defined</span>
+            <span class="legend-desc">Enforced via tools/hooks · automated</span>
+        </div>
+        <div class="legend-row">
+            <span class="legend-code" style="color:#10b981">L4</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span>
+            <span class="legend-name">Optimizing</span>
+            <span class="legend-desc">Auto-improves · measured · cybernetic feedback loop</span>
+        </div></div>
+
+    <footer>
+        Generated by workspace-bench v0.3.1 · 2026-05-20 00:07:49<br>
+        github.com/ceomadani/workspace-agentic-benchmark · MIT license
+    </footer>
+</div>
+</body>
+</html>

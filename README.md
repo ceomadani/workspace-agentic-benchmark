@@ -22,21 +22,41 @@ The Anthropic harness research (Nov 2025 + Mar 2026) demonstrated that swapping 
 
 ## How to use
 
+**Install** (recommended · pip from GitHub):
+
+```bash
+pip install git+https://github.com/ceomadani/workspace-agentic-benchmark.git
+```
+
+**Score your workspace in one command** (audit + score + HTML report with live progress):
+
+```bash
+workspace-bench run /path/to/your/workspace --output-dir ./bench-output
+```
+
+This produces a sophisticated terminal display (slash-context style · pillar maturity dots · cluster aggregation · improvement priorities) and writes `audit.json` · `score.json` · `report.html` to the output directory.
+
+**Subcommands** (when you need them separately):
+
+```bash
+workspace-bench audit /path/to/workspace > audit.json
+workspace-bench score audit.json --output score.json
+workspace-bench report score.json --output report.html
+```
+
+**Or use the agent self-audit prompt** (no install required · copy into Claude Code · Cursor · or any LLM with file-system tools):
+
+> Read https://github.com/ceomadani/workspace-agentic-benchmark/blob/main/METHODOLOGY.md . Then walk my workspace at `/path/to/workspace`, score it against the 12 pillars using L0-L4 maturity levels (0/20/50/75/100), and output a report with the top 3 improvement priorities. Be honest · default to lower levels when evidence is missing.
+
+**Or clone + run via Python module** (no install · uses local code):
+
 ```bash
 git clone https://github.com/ceomadani/workspace-agentic-benchmark.git
 cd workspace-agentic-benchmark
-
-# Audit your workspace
-python3 eval/audit.py /path/to/your/workspace > audit.json
-
-# Score against 12 pillars (L0-L4 maturity + weighted composite)
-python3 eval/score.py audit.json > score.json
-
-# Generate report
-python3 eval/report.py score.json --output report.html
+python3 -m workspace_bench run /path/to/your/workspace --output-dir ./bench-output
 ```
 
-Output: per-pillar maturity level (L0-L4) · weighted composite score (0-100) · grade (A/B/C/D/F) · per-pillar deep-dive with concrete recommendations to advance to the next level.
+Output: per-pillar maturity level (L0-L4) · weighted composite score (0-100) · grade (A/B/C/D/F) · per-pillar deep-dive · concrete improvement actions for advancing to the next level.
 
 ---
 

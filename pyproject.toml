@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "workspace-bench"
+version = "0.3.1"
+description = "Workspace Agentic Benchmark · first-principles framework to evaluate agentic workspace infrastructures · 12 pillars · 4 clusters · L0-L4 maturity"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Nour Matine", email = "nour@madani.agency"},
+]
+keywords = [
+    "agentic",
+    "benchmark",
+    "evaluation",
+    "forward-deploy-engineering",
+    "fde",
+    "workspace",
+    "ai-infrastructure",
+    "metacognition",
+    "multi-agent",
+    "dpi",
+    "maturity-model",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "rich>=13.0",
+    "click>=8.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/ceomadani/workspace-agentic-benchmark"
+Documentation = "https://github.com/ceomadani/workspace-agentic-benchmark/blob/main/METHODOLOGY.md"
+Repository = "https://github.com/ceomadani/workspace-agentic-benchmark"
+Issues = "https://github.com/ceomadani/workspace-agentic-benchmark/issues"
+Changelog = "https://github.com/ceomadani/workspace-agentic-benchmark/blob/main/CHANGELOG.md"
+
+[project.scripts]
+workspace-bench = "workspace_bench.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "build>=1.0",
+    "twine>=4.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["workspace_bench*"]
+exclude = ["eval*", "examples*", "submissions*", "RFC*", "pillars*", "research*"]
