@@ -115,17 +115,15 @@ All logs in `12_HARNESS/operativo/_logs/{name}.{out,err}.log`. Templates committ
 
 ### Pillar 7 · Credentials & Security · 6/10 (only gap below B)
 
-The audit found **20 plaintext secret patterns** in the workspace. After manual review:
-- ~5 are **real OpenAI / kie.ai API keys** in `madani-website/scripts/` (committed in legacy scripts)
-- ~15 are **false positives** matching `sk-*` documentation patterns (e.g., `sk-ghl-namespace-action`)
+The audit flagged plaintext secret patterns in legacy scripts and false-positive matches on documentation strings. Lesson for any workspace at scale: even strong vault adoption (1Password `op://`) doesn't retroactively clean up legacy paths.
 
 **Action items** (post-audit):
-1. Rotate the OpenAI `sk-proj-03X...` keys found in `gen-pra-images*.sh`
-2. Rotate kie.ai keys `dc15dfac...` found in `gen-nanabanana*.{py,sh}`
-3. Replace hardcoded with `op://Madani/{Service}/api_key` resolution
-4. Add pre-commit hook to block plaintext patterns
-5. Document secret rotation cadence (quarterly)
-6. Run git-history scrub (BFG / filter-branch) for already-committed keys
+1. Rotate any keys flagged as real (LLM API · image generation · webhook secrets)
+2. Replace hardcoded with `op://{Vault}/{Service}/api_key` runtime resolution
+3. Add pre-commit hook to block plaintext patterns (TruffleHog / gitleaks)
+4. Document secret rotation cadence (recommended quarterly)
+5. Run git-history scrub (BFG / `filter-branch`) for already-committed keys
+6. Triage false positives — the `sk-*` prefix is too broad and matches legitimate documentation strings; the audit script should be improved with stricter regex (e.g., require key entropy threshold)
 
 ### Pillar 1 · Context Hierarchy & Memory · 8.5/10 (small gap)
 
