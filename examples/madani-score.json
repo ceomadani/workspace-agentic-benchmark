@@ -1,0 +1,388 @@
+{
+  "tool": "workspace-agentic-benchmark/score.py",
+  "version": "0.1.0",
+  "scored_at": "2026-05-19T22:36:10.298973",
+  "workspace": "/Users/nourmatine/madani",
+  "audit_at": "2026-05-19T22:34:32.286819",
+  "total": 70.5,
+  "max": 80,
+  "grade": "A",
+  "pillars": {
+    "1_context_memory": {
+      "criteria": [
+        {
+          "name": "multi_tier_3plus",
+          "score": 1.0
+        },
+        {
+          "name": "retrieval_policy_explicit",
+          "score": 1.0
+        },
+        {
+          "name": "decay_policy_explicit",
+          "score": 1.0
+        },
+        {
+          "name": "index_file_loads_auto",
+          "score": 0.0
+        },
+        {
+          "name": "structured_frontmatter",
+          "score": 0.5
+        },
+        {
+          "name": "cross_links_graph",
+          "score": 1.0
+        },
+        {
+          "name": "episodic_from_reflection",
+          "score": 1.0
+        },
+        {
+          "name": "queryable_storage",
+          "score": 1.0
+        },
+        {
+          "name": "kv_cache_awareness",
+          "score": 1.0
+        },
+        {
+          "name": "documented_retrieval_failure_mode",
+          "score": 1.0
+        }
+      ],
+      "score": 8.5,
+      "max": 10,
+      "title": "Context Hierarchy & Memory"
+    },
+    "2_skill_tool": {
+      "criteria": [
+        {
+          "name": "skills_dedicated_location",
+          "score": 1.0
+        },
+        {
+          "name": "self_contained_units",
+          "score": 1.0
+        },
+        {
+          "name": "frontmatter_present",
+          "score": 1.0
+        },
+        {
+          "name": "auto_trigger_mechanism",
+          "score": 1.0
+        },
+        {
+          "name": "staleness_detection",
+          "score": 1.0
+        },
+        {
+          "name": "determinism_preferred",
+          "score": 1.0
+        },
+        {
+          "name": "roster_curation",
+          "score": 1.0
+        },
+        {
+          "name": "changelog_versioning",
+          "score": 1.0
+        },
+        {
+          "name": "no_grab_bag_megaskills",
+          "score": 1.0
+        },
+        {
+          "name": "cross_referenced",
+          "score": 1.0
+        }
+      ],
+      "score": 10.0,
+      "max": 10,
+      "title": "Skill / Tool Architecture"
+    },
+    "3_governance": {
+      "criteria": [
+        {
+          "name": "constitution_exists",
+          "score": 1.0
+        },
+        {
+          "name": "hard_rules_enumerated",
+          "score": 1.0
+        },
+        {
+          "name": "pre_output_check",
+          "score": 1.0
+        },
+        {
+          "name": "external_action_gate",
+          "score": 1.0
+        },
+        {
+          "name": "destructive_action_gate",
+          "score": 1.0
+        },
+        {
+          "name": "constitution_versioned",
+          "score": 1.0
+        },
+        {
+          "name": "compliance_judge_exists",
+          "score": 1.0
+        },
+        {
+          "name": "evidence_linked_rules",
+          "score": 0.0
+        },
+        {
+          "name": "escalation_path_documented",
+          "score": 1.0
+        },
+        {
+          "name": "layered_rules",
+          "score": 1.0
+        }
+      ],
+      "score": 9.0,
+      "max": 10,
+      "title": "Governance & Compliance"
+    },
+    "4_auto_improvement": {
+      "criteria": [
+        {
+          "name": "session_capture",
+          "score": 1.0
+        },
+        {
+          "name": "reflection_cron",
+          "score": 1.0
+        },
+        {
+          "name": "reflection_writes_episodic",
+          "score": 1.0
+        },
+        {
+          "name": "improvement_proposal_system",
+          "score": 1.0
+        },
+        {
+          "name": "scoring_rubric_for_proposals",
+          "score": 1.0
+        },
+        {
+          "name": "two_stage_review",
+          "score": 0.0
+        },
+        {
+          "name": "apply_log_exists",
+          "score": 1.0
+        },
+        {
+          "name": "feedback_loop_measured",
+          "score": 1.0
+        },
+        {
+          "name": "cron_driven",
+          "score": 1.0
+        },
+        {
+          "name": "cost_aware_cheaper_model",
+          "score": 1.0
+        }
+      ],
+      "score": 9.0,
+      "max": 10,
+      "title": "Auto-Improvement Loop"
+    },
+    "5_multi_agent_dpi": {
+      "criteria": [
+        {
+          "name": "single_thread_default_documented",
+          "score": 1.0
+        },
+        {
+          "name": "multi_agent_policy_file",
+          "score": 1.0
+        },
+        {
+          "name": "pre_spawn_gate",
+          "score": 1.0
+        },
+        {
+          "name": "explore_only_preauthorized",
+          "score": 1.0
+        },
+        {
+          "name": "no_recursive_subagents",
+          "score": 1.0
+        },
+        {
+          "name": "self_contained_subagent_prompts",
+          "score": 1.0
+        },
+        {
+          "name": "evidence_cited",
+          "score": 1.0
+        },
+        {
+          "name": "budget_guard",
+          "score": 1.0
+        },
+        {
+          "name": "anti_pattern_list",
+          "score": 1.0
+        },
+        {
+          "name": "logged_invocations",
+          "score": 1.0
+        }
+      ],
+      "score": 10.0,
+      "max": 10,
+      "title": "Multi-Agent Discipline (DPI)"
+    },
+    "6_observability": {
+      "criteria": [
+        {
+          "name": "centralized_logs",
+          "score": 1.0
+        },
+        {
+          "name": "liveness_watchdog",
+          "score": 1.0
+        },
+        {
+          "name": "aggregate_health_report",
+          "score": 1.0
+        },
+        {
+          "name": "drift_detector",
+          "score": 0.0
+        },
+        {
+          "name": "explicit_state_machine",
+          "score": 1.0
+        },
+        {
+          "name": "stuck_task_detection",
+          "score": 1.0
+        },
+        {
+          "name": "cron_success_tracked",
+          "score": 1.0
+        },
+        {
+          "name": "stderr_separated",
+          "score": 1.0
+        },
+        {
+          "name": "log_rotation_policy",
+          "score": 1.0
+        },
+        {
+          "name": "recovery_procedure_doc",
+          "score": 1.0
+        }
+      ],
+      "score": 9.0,
+      "max": 10,
+      "title": "Observability & Recovery"
+    },
+    "7_credentials_security": {
+      "criteria": [
+        {
+          "name": "zero_plaintext_secrets",
+          "score": 0.0
+        },
+        {
+          "name": "vault_integrated",
+          "score": 1.0
+        },
+        {
+          "name": "runtime_resolution",
+          "score": 1.0
+        },
+        {
+          "name": "env_in_gitignore",
+          "score": 1.0
+        },
+        {
+          "name": "external_action_approval",
+          "score": 1.0
+        },
+        {
+          "name": "audit_log",
+          "score": 1.0
+        },
+        {
+          "name": "rotation_documented",
+          "score": 0.0
+        },
+        {
+          "name": "no_credentials_in_history",
+          "score": 0.0
+        },
+        {
+          "name": "no_credentials_in_urls",
+          "score": 0.0
+        },
+        {
+          "name": "per_environment_separation",
+          "score": 1.0
+        }
+      ],
+      "score": 6.0,
+      "max": 10,
+      "title": "Credentials & Security"
+    },
+    "8_portability": {
+      "criteria": [
+        {
+          "name": "bootstrap_doc_exists",
+          "score": 1.0
+        },
+        {
+          "name": "skills_client_agnostic_or_tagged",
+          "score": 1.0
+        },
+        {
+          "name": "credentials_per_engagement_isolated",
+          "score": 1.0
+        },
+        {
+          "name": "per_environment_separation",
+          "score": 1.0
+        },
+        {
+          "name": "state_externalized",
+          "score": 1.0
+        },
+        {
+          "name": "template_scaffold_exists",
+          "score": 1.0
+        },
+        {
+          "name": "memory_isolation_per_engagement",
+          "score": 1.0
+        },
+        {
+          "name": "handoff_artifact_format",
+          "score": 1.0
+        },
+        {
+          "name": "low_hardcoded_paths",
+          "score": 0.0
+        },
+        {
+          "name": "multiple_deployments_evidence",
+          "score": 1.0
+        }
+      ],
+      "score": 9.0,
+      "max": 10,
+      "title": "Portability & Re-deployability"
+    }
+  }
+}

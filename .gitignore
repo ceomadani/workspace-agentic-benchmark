@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Audit outputs (user-specific)
+audit-*.json
+score-*.json
+report-*.html
+report-*.md
+out/
+tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Secrets (never)
+.env
+.env.*
+*.pem
+*.key
+credentials.json
