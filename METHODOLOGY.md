@@ -191,5 +191,5 @@ If you use this benchmark in research or FDE engagements, cite:
 
 ```
 Matine, N. (2026). Workspace Agentic Benchmark · First-Principles Framework for
-Evaluating Agentic Workspace Infrastructures. https://github.com/nourmatine/workspace-agentic-benchmark
+Evaluating Agentic Workspace Infrastructures. https://github.com/ceomadani/workspace-agentic-benchmark
 ```

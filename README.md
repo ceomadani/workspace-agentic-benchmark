@@ -25,7 +25,7 @@ This is the **L3 architectural layer** · what separates a demo from a productio
 ## How to use
 
 ```bash
-git clone https://github.com/nourmatine/workspace-agentic-benchmark.git
+git clone https://github.com/ceomadani/workspace-agentic-benchmark.git
 cd workspace-agentic-benchmark
 
 # Audit your workspace
