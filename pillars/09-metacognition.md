@@ -1,7 +1,8 @@
 # Pillar 9 · Metacognition & Self-Assessment
 
+> **Cluster A · Cognition**
 > **First principle**: *An agent must know what it doesn't know · before acting · not after failing.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -43,15 +44,15 @@ Stanford 2604.02460 says "default single-thread unless evidence of context degra
 
 ---
 
-## Scoring rubric
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | MCU runner · capability profile · composite formula · conflict detection · ECE tracked · EMA update · DPI integration · documented anti-patterns |
-| **7-8** | Self-assessment + profile + composite + decision gate · partial conflict/calibration tracking |
-| **5-6** | Verbalized confidence implemented · no profile · no cybernetic loop |
-| **3-4** | Ad-hoc "I'm not sure about this" prompts · no measurement · no profile |
-| **0-2** | Agent acts on every request with implicit full confidence · no metacognition layer |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | Agent acts on every request with implicit full confidence · no metacognition layer. |
+| **L1 Initial** | 20 | Ad-hoc "I'm not sure about this" prompts · no measurement · no profile. |
+| **L2 Managed** | 50 | Verbalized confidence implemented (operator-elicited) · no capability profile · no cybernetic loop. |
+| **L3 Defined** | 75 | MCU tool runs verbalized + profile composite (`c = λ·c^v + (1-λ)·c^p`) · capability profile maintained · conflict detection (`δ > 0.3`) · decision gate documented · EMA post-task update · DPI integration. |
+| **L4 Optimizing** | 100 | ECE tracked over time (target ≤ 0.10) · profile updates from outcome feedback automated (Reflexion → EMA pipeline) · model routing decisions evidence-based on confidence · documented anti-patterns enforced via policy. |
 
 ---
 

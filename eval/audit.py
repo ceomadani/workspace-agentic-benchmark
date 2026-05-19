@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
 """
 ================================================================================
-audit.py · Workspace Agentic Benchmark · deterministic scanner
+audit.py · Workspace Agentic Benchmark v0.3 · deterministic scanner
 ================================================================================
 
-LEGGENDA 4W:
-  COSA  · Scan a workspace directory for signals across 8 pillars.
+LEGEND 4W:
+  WHAT  · Scan a workspace directory for signals across 12 pillars (4 clusters).
           Pure deterministic file-tree + grep scanner · NO LLM calls.
-  COME  · Walk file tree · pattern match · count occurrences · output structured JSON.
-  DOVE  · Input: workspace path (positional arg). Output: JSON to stdout.
-  QUANDO · CLI usage: python3 audit.py /path/to/workspace > audit.json
+  HOW   · Walk file tree · pattern match · count occurrences · output structured JSON.
+          Each pillar emits signals consumed by score.py to determine L0-L4 maturity.
+  WHERE · Input: workspace path (positional arg). Output: JSON to stdout.
+  WHEN  · CLI usage: python3 audit.py /path/to/workspace > audit.json
 
 USAGE:
   python3 audit.py /Users/me/my-workspace > audit.json
   python3 audit.py . --verbose > audit.json
 
 ARCHITECTURE:
-  Each pillar has a `scan_pillar_N()` function returning a dict of raw signals.
-  The combined output is then consumed by score.py to produce 0-10 per pillar.
-
-This script is intentionally heuristic · production usage should validate
-qualitatively · scoring rubric is in METHODOLOGY.md.
+  12 pillars in 4 clusters:
+    Cluster A · Cognition: P1 Memory · P4 Auto-Improvement · P9 Metacognition
+    Cluster B · Action: P2 Skills · P5 Multi-Agent DPI · P10 Reliability (NEW)
+    Cluster C · Trust: P3 Governance · P6 Observability · P7 Credentials · P11 HITL (NEW)
+    Cluster D · Operations: P8 Portability · P12 Cost/Performance (NEW)
 
 ================================================================================
 """
@@ -55,7 +56,6 @@ IGNORE_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv", ".next", 
 
 
 def safe_read(path: Path, max_bytes: int = 200_000) -> str:
-    """Read a file, returning empty string on error or if too large."""
     try:
         if path.stat().st_size > max_bytes:
             return ""
@@ -65,7 +65,6 @@ def safe_read(path: Path, max_bytes: int = 200_000) -> str:
 
 
 def walk_files(root: Path, extensions: set[str] | None = None):
-    """Walk filesystem, yielding files. Skip IGNORE_DIRS and binary files."""
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in IGNORE_DIRS and not d.startswith(".") or d in {".claude", ".github"}]
         for fname in filenames:
@@ -76,12 +75,11 @@ def walk_files(root: Path, extensions: set[str] | None = None):
 
 
 def find_files_by_pattern(root: Path, pattern: str) -> list[Path]:
-    """Find files matching a name pattern (glob-like)."""
     return list(root.rglob(pattern))
 
 
 # ==============================================================================
-# Pillar 1 · Context Hierarchy & Memory
+# Pillar 1 · Context Hierarchy & Memory (Cluster A · Cognition)
 # ==============================================================================
 
 def scan_pillar_1_memory(root: Path) -> dict:
@@ -112,7 +110,6 @@ def scan_pillar_1_memory(root: Path) -> dict:
         for f in files:
             signals["memory_index_files"].append(str(f))
 
-    # Look at common memory file patterns
     for memfile in find_files_by_pattern(root, "*.md"):
         content = safe_read(memfile)
         if not content:
@@ -126,7 +123,7 @@ def scan_pillar_1_memory(root: Path) -> dict:
             signals["retrieval_policy_doc"] = True
         if "decay policy" in low or "staleness" in low or "forgetting policy" in low:
             signals["decay_policy_doc"] = True
-        if "brain mcp" in low or "memory mcp" in low or "memory server" in low:
+        if "brain mcp" in low or "memory mcp" in low or "memory server" in low or "memory.*mcp" in low:
             signals["mcp_query_layer"] = True
         if "kv-cache" in low or "kv cache" in low or "cache prefix" in low:
             signals["kv_cache_awareness"] = True
@@ -135,7 +132,7 @@ def scan_pillar_1_memory(root: Path) -> dict:
 
 
 # ==============================================================================
-# Pillar 2 · Skill / Tool Architecture
+# Pillar 2 · Skill / Tool Architecture (Cluster B · Action)
 # ==============================================================================
 
 def scan_pillar_2_skills(root: Path) -> dict:
@@ -168,12 +165,10 @@ def scan_pillar_2_skills(root: Path) -> dict:
             if "trigger" in content.lower()[:1000]:
                 signals["auto_trigger_mechanism"] = True
 
-    # Look for staleness detection tools
     for f in find_files_by_pattern(root, "*staleness*.py") + find_files_by_pattern(root, "*hermes*.py"):
         signals["staleness_detector_found"] = True
         break
 
-    # Tools folder · try common naming conventions
     for tools_dir_name in ("tools", "scripts", "lib", "src/tools", "src/scripts"):
         for tools_dir in [d for d in root.rglob(tools_dir_name) if d.is_dir() and not any(part in IGNORE_DIRS for part in d.parts)]:
             for tool_file in tools_dir.rglob("*.py"):
@@ -182,7 +177,7 @@ def scan_pillar_2_skills(root: Path) -> dict:
                     signals["llm_tools_count"] += 1
                 else:
                     signals["deterministic_tools_count"] += 1
-            for tool_file in tools_dir.rglob("*.sh"):
+            for _ in tools_dir.rglob("*.sh"):
                 signals["deterministic_tools_count"] += 1
 
     for fname in ("ROSTER.md", "INDEX.md"):
@@ -192,14 +187,14 @@ def scan_pillar_2_skills(root: Path) -> dict:
                 signals["skill_roster_doc"] = True
                 break
 
-    for f in find_files_by_pattern(root, "CHANGELOG*.md"):
+    for _ in find_files_by_pattern(root, "CHANGELOG*.md"):
         signals["skill_changelog"] += 1
 
     return signals
 
 
 # ==============================================================================
-# Pillar 3 · Governance & Compliance
+# Pillar 3 · Governance & Compliance (Cluster C · Trust)
 # ==============================================================================
 
 def scan_pillar_3_governance(root: Path) -> dict:
@@ -222,7 +217,6 @@ def scan_pillar_3_governance(root: Path) -> dict:
             content = safe_read(f)
             if not content:
                 continue
-            # Count HARD RULES (numbered patterns, "HARD RULE", "HR" prefixes)
             hr_matches = re.findall(r"(?:HARD RULE|HR\s*#?\s*\d+|HR\d+|^\d+\.\s+[A-Z])", content, re.MULTILINE)
             signals["hard_rules_count"] = max(signals["hard_rules_count"], len(hr_matches))
             low = content.lower()
@@ -236,15 +230,12 @@ def scan_pillar_3_governance(root: Path) -> dict:
                 signals["destructive_action_gate"] = True
             if re.search(r"v\d+\.\d+|version:\s*\d|iter-\d+", content):
                 signals["rules_versioning"] = True
-            # Evidence-linked rules: count rules with explicit incident/paper reference
             signals["evidence_linked_rules"] += len(re.findall(r"(?:incident|arxiv|origine:|backing:|reason:|why:)", low))
 
-    # Rules directory · try common naming conventions
     for d in [".claude/rules", "rules", "policies", ".agent/rules", "agent/rules"]:
         if (root / d).exists() and (root / d).is_dir():
             signals["rules_dir_found"] = True
             break
-    # Also check nested .claude/rules
     for p in root.rglob(".claude/rules"):
         if p.is_dir():
             signals["rules_dir_found"] = True
@@ -254,7 +245,7 @@ def scan_pillar_3_governance(root: Path) -> dict:
 
 
 # ==============================================================================
-# Pillar 4 · Auto-Improvement Loop
+# Pillar 4 · Auto-Improvement Loop (Cluster A · Cognition)
 # ==============================================================================
 
 def scan_pillar_4_auto_improvement(root: Path) -> dict:
@@ -284,7 +275,6 @@ def scan_pillar_4_auto_improvement(root: Path) -> dict:
         if "sonnet" in content or "haiku" in content:
             signals["cheaper_model_used"] = True
 
-    # Cronologia or session preservation evidence
     for d_name in ("cronologia", "session-log", "sessions", "history"):
         if any(root.rglob(d_name)):
             signals["session_capture_evidence"] = True
@@ -299,11 +289,10 @@ def scan_pillar_4_auto_improvement(root: Path) -> dict:
 
     for f in find_files_by_pattern(root, "*review*.md") + find_files_by_pattern(root, "*propose*.md"):
         content = safe_read(f).lower()
-        if "two-stage" in content or "two stage" in content or "approve" in content and "apply" in content:
+        if "two-stage" in content or "two stage" in content or ("approve" in content and "apply" in content):
             signals["two_stage_review"] = True
             break
 
-    # Apply log
     for f in find_files_by_pattern(root, "APPLY*.md") + find_files_by_pattern(root, "applied*.md") + find_files_by_pattern(root, "CHANGELOG*.md"):
         signals["apply_log_exists"] = True
         break
@@ -312,7 +301,7 @@ def scan_pillar_4_auto_improvement(root: Path) -> dict:
 
 
 # ==============================================================================
-# Pillar 5 · Multi-Agent Discipline (DPI)
+# Pillar 5 · Multi-Agent Discipline (DPI) (Cluster B · Action)
 # ==============================================================================
 
 def scan_pillar_5_multi_agent(root: Path) -> dict:
@@ -347,7 +336,7 @@ def scan_pillar_5_multi_agent(root: Path) -> dict:
 
 
 # ==============================================================================
-# Pillar 6 · Observability & Recovery
+# Pillar 6 · Observability & Recovery (Cluster C · Trust)
 # ==============================================================================
 
 def scan_pillar_6_observability(root: Path) -> dict:
@@ -361,6 +350,8 @@ def scan_pillar_6_observability(root: Path) -> dict:
         "stderr_separated_from_stdout": False,
         "log_rotation_policy": False,
         "recovery_procedure_doc": False,
+        "mast_taxonomy_referenced": False,
+        "otel_genai_referenced": False,
     }
 
     log_dirs = list(root.rglob("_logs")) + list(root.rglob("logs"))
@@ -379,10 +370,9 @@ def scan_pillar_6_observability(root: Path) -> dict:
         signals["drift_detector"] = True
         break
 
-    # State machine evidence
     for f in find_files_by_pattern(root, "*.md"):
         content = safe_read(f).lower()
-        if any(seq in content for seq in ["inbox", "planning", "active", "review", "closing"]) and "kanban" in content.lower():
+        if any(seq in content for seq in ["inbox", "planning", "active", "review", "closing"]) and "kanban" in content:
             signals["task_lifecycle_state_machine"] = True
         if "stuck" in content and "task" in content:
             signals["stuck_task_detection"] = True
@@ -390,8 +380,11 @@ def scan_pillar_6_observability(root: Path) -> dict:
             signals["log_rotation_policy"] = True
         if "recovery" in content and "procedure" in content:
             signals["recovery_procedure_doc"] = True
+        if "mast" in content or "2503.13657" in content:
+            signals["mast_taxonomy_referenced"] = True
+        if "opentelemetry" in content or "otel" in content or "genai semantic" in content:
+            signals["otel_genai_referenced"] = True
 
-    # Check .out.log / .err.log convention in plist files
     for f in find_files_by_pattern(root, "*.plist"):
         content = safe_read(f)
         if ".out.log" in content and ".err.log" in content:
@@ -402,7 +395,7 @@ def scan_pillar_6_observability(root: Path) -> dict:
 
 
 # ==============================================================================
-# Pillar 7 · Credentials & Security
+# Pillar 7 · Credentials & Security (Cluster C · Trust)
 # ==============================================================================
 
 def scan_pillar_7_credentials(root: Path) -> dict:
@@ -413,16 +406,15 @@ def scan_pillar_7_credentials(root: Path) -> dict:
         "env_in_gitignore": False,
         "credentials_doc": False,
         "secret_rotation_doc": False,
+        "owasp_llm_referenced": False,
     }
 
-    # Check .gitignore
     gitignore = root / ".gitignore"
     if gitignore.exists():
         content = safe_read(gitignore)
         if re.search(r"^\s*\.env\b", content, re.MULTILINE) or "*.env" in content:
             signals["env_in_gitignore"] = True
 
-    # Look for vault integration evidence
     for f in find_files_by_pattern(root, ".envrc*") + find_files_by_pattern(root, "*.envrc"):
         content = safe_read(f)
         if "op://" in content or "vault read" in content or "doppler" in content.lower():
@@ -430,18 +422,15 @@ def scan_pillar_7_credentials(root: Path) -> dict:
             signals["runtime_resolution_pattern"] = True
             break
 
-    # Scan for plaintext secrets in committed files
     secret_count = 0
     for fp in walk_files(root, extensions={".md", ".py", ".js", ".ts", ".sh", ".json", ".yml", ".yaml", ".env", ".txt"}):
-        # Skip files that are gitignored env templates that contain only op:// refs
         if fp.name == ".envrc.template":
             continue
         content = safe_read(fp, max_bytes=100_000)
         for pattern in SECRET_PATTERNS:
             matches = pattern.findall(content)
             if matches:
-                # Reduce noise: only flag if it looks like an actual key (not pattern docs)
-                for match in matches[:3]:  # cap per-file
+                for match in matches[:3]:
                     secret_count += 1
                     signals["plaintext_secrets_found"].append({"file": str(fp.relative_to(root)) if fp.is_relative_to(root) else str(fp), "snippet_prefix": match[:20] + "..."})
                     if secret_count >= 20:
@@ -451,19 +440,26 @@ def scan_pillar_7_credentials(root: Path) -> dict:
         if secret_count >= 20:
             break
 
-    # Credentials documentation
     for f in find_files_by_pattern(root, "API-MASTER*") + find_files_by_pattern(root, "credentials*.md") + find_files_by_pattern(root, "*api-master*"):
         signals["credentials_doc"] = True
         content = safe_read(f).lower()
         if "rotation" in content or "rotate" in content:
             signals["secret_rotation_doc"] = True
+        if "owasp" in content or "llm02" in content or "llm06" in content or "llm07" in content:
+            signals["owasp_llm_referenced"] = True
         break
+
+    for f in find_files_by_pattern(root, "*.md"):
+        content = safe_read(f).lower()
+        if "owasp llm top 10" in content or "llm06 excessive agency" in content or "llm07 system prompt leakage" in content:
+            signals["owasp_llm_referenced"] = True
+            break
 
     return signals
 
 
 # ==============================================================================
-# Pillar 8 · Portability & Re-deployability
+# Pillar 8 · Portability & Re-deployability (Cluster D · Operations)
 # ==============================================================================
 
 def scan_pillar_8_portability(root: Path) -> dict:
@@ -492,7 +488,6 @@ def scan_pillar_8_portability(root: Path) -> dict:
                     signals["templates_dir"] = True
                 break
 
-    # Client isolation evidence: multiple subfolders under clients/ or per-client dirs · try common naming conventions
     for d_name in ("clients", "customers", "engagements", "tenants", "accounts"):
         for d in root.rglob(d_name):
             if d.is_dir() and not any(part in IGNORE_DIRS for part in d.parts):
@@ -503,7 +498,6 @@ def scan_pillar_8_portability(root: Path) -> dict:
                     signals["multiple_deployments_evidence"] = True
                 break
 
-    # Vault per-engagement signal (look for namespace patterns in .envrc.template)
     for f in find_files_by_pattern(root, "*.envrc*"):
         content = safe_read(f)
         if re.search(r"op://[^/]+/[^/]+/", content):
@@ -512,12 +506,10 @@ def scan_pillar_8_portability(root: Path) -> dict:
                 signals["vault_per_engagement"] = True
             break
 
-    # Handoff artifact format
     for f in find_files_by_pattern(root, "HANDOFF*.md") + find_files_by_pattern(root, "handoff*.md") + find_files_by_pattern(root, "SESSION-HANDOFF*"):
         signals["handoff_artifact_format"] = True
         break
 
-    # Hardcoded paths heuristic (search /Users/ pattern in scripts)
     hardcoded_count = 0
     for fp in walk_files(root, extensions={".py", ".sh", ".js", ".ts"}):
         content = safe_read(fp, max_bytes=50_000)
@@ -530,7 +522,7 @@ def scan_pillar_8_portability(root: Path) -> dict:
 
 
 # ==============================================================================
-# Pillar 9 · Metacognition & Self-Assessment
+# Pillar 9 · Metacognition & Self-Assessment (Cluster A · Cognition)
 # ==============================================================================
 
 def scan_pillar_9_metacognition(root: Path) -> dict:
@@ -552,24 +544,21 @@ def scan_pillar_9_metacognition(root: Path) -> dict:
     for f in find_files_by_pattern(root, "*metacog*.py") + find_files_by_pattern(root, "*self-assess*.py"):
         signals["metacog_tool_found"] = True
         content = safe_read(f).lower()
-        if "verbalized" in content and "claude" in content or "llm" in content:
+        if "verbalized" in content and ("claude" in content or "llm" in content):
             signals["verbalized_confidence_mechanism"] = True
         if "lambda" in content and ("c_v" in content or "verbalized" in content) and ("c_p" in content or "profile" in content):
             signals["composite_formula_documented"] = True
-        if "conflict" in content or "delta" in content and "abs" in content:
+        if "conflict" in content or ("delta" in content and "abs" in content):
             signals["conflict_detection"] = True
         if "delegation_threshold" in content or "theta" in content or "decision" in content:
             signals["decision_gate_documented"] = True
-        if "ema" in content or "p_new" in content and "p_old" in content or "learning_rate" in content:
+        if "ema" in content or ("p_new" in content and "p_old" in content) or "learning_rate" in content:
             signals["ema_update_mechanism"] = True
         break
 
     for f in find_files_by_pattern(root, "*capability*profile*") + find_files_by_pattern(root, "*capability_profile*"):
         signals["capability_profile_found"] = True
         content = safe_read(f).lower()
-        if "reasoning" in content and "retrieval" in content and "coding" in content:
-            # Vector of dimensions present
-            pass
         if "ema" in content or "alpha" in content:
             signals["ema_update_mechanism"] = signals["ema_update_mechanism"] or True
         if "ece" in content or "calibration" in content:
@@ -594,6 +583,124 @@ def scan_pillar_9_metacognition(root: Path) -> dict:
 
 
 # ==============================================================================
+# Pillar 10 · Reliability & Determinism (Cluster B · Action) · NEW v0.3
+# ==============================================================================
+
+def scan_pillar_10_reliability(root: Path) -> dict:
+    signals: dict[str, Any] = {
+        "pass_at_k_measurement": False,
+        "retry_logic_documented": False,
+        "idempotency_doc": False,
+        "mast_taxonomy_coverage": False,
+        "replay_harness": False,
+        "circuit_breaker_pattern": False,
+        "determinism_doc": False,
+    }
+
+    for f in find_files_by_pattern(root, "*.md") + find_files_by_pattern(root, "*.py"):
+        content = safe_read(f).lower()
+        if not content:
+            continue
+        if "pass@k" in content or "pass_at_k" in content or "pass-at-k" in content:
+            signals["pass_at_k_measurement"] = True
+        if "retry" in content and ("backoff" in content or "exponential" in content):
+            signals["retry_logic_documented"] = True
+        if "idempotent" in content or "idempotency" in content or "idempotency key" in content:
+            signals["idempotency_doc"] = True
+        if "mast" in content and ("failure mode" in content or "14 modes" in content or "2503.13657" in content):
+            signals["mast_taxonomy_coverage"] = True
+        if "replay harness" in content or "replay log" in content or "replay session" in content:
+            signals["replay_harness"] = True
+        if "circuit breaker" in content or "circuit-breaker" in content:
+            signals["circuit_breaker_pattern"] = True
+        if "determinism" in content or "deterministic" in content or "non-deterministic" in content or "reproducibility" in content:
+            signals["determinism_doc"] = True
+
+    return signals
+
+
+# ==============================================================================
+# Pillar 11 · Human-in-the-Loop (Cluster C · Trust) · NEW v0.3
+# ==============================================================================
+
+def scan_pillar_11_hitl(root: Path) -> dict:
+    signals: dict[str, Any] = {
+        "approval_gate_documented": False,
+        "escalation_criteria_doc": False,
+        "feedback_collection_structured": False,
+        "approval_friction_measured": False,
+        "bypass_detection": False,
+        "hitl_policy_doc": False,
+        "nist_ai_rmf_referenced": False,
+    }
+
+    for f in find_files_by_pattern(root, "*.md"):
+        content = safe_read(f).lower()
+        if not content:
+            continue
+        if "approval gate" in content or "approval flow" in content or "approval required" in content:
+            signals["approval_gate_documented"] = True
+        if "escalation" in content and ("criteri" in content or "policy" in content or "trigger" in content):
+            signals["escalation_criteria_doc"] = True
+        if "feedback collection" in content or "feedback loop" in content or "feedback signal" in content:
+            signals["feedback_collection_structured"] = True
+        if "approval friction" in content or "time to approve" in content or "approval rate" in content:
+            signals["approval_friction_measured"] = True
+        if "bypass" in content and ("detect" in content or "log" in content or "audit" in content):
+            signals["bypass_detection"] = True
+        if "human in the loop" in content or "human-in-the-loop" in content or "hitl" in content:
+            signals["hitl_policy_doc"] = True
+        if "nist ai rmf" in content or "nist.ai.100" in content:
+            signals["nist_ai_rmf_referenced"] = True
+
+    return signals
+
+
+# ==============================================================================
+# Pillar 12 · Cost & Performance Efficiency (Cluster D · Operations) · NEW v0.3
+# ==============================================================================
+
+def scan_pillar_12_cost_performance(root: Path) -> dict:
+    signals: dict[str, Any] = {
+        "cost_tracking_doc": False,
+        "latency_measurement_doc": False,
+        "cache_hit_rate_measured": False,
+        "model_routing_policy": False,
+        "subscription_vs_api_doc": False,
+        "cost_per_outcome_doc": False,
+        "cheaper_model_in_cron": False,
+        "clear_paper_cited": False,
+    }
+
+    for f in find_files_by_pattern(root, "*.plist") + find_files_by_pattern(root, "*.py"):
+        content = safe_read(f).lower()
+        if "sonnet" in content or "haiku" in content:
+            signals["cheaper_model_in_cron"] = True
+            break
+
+    for f in find_files_by_pattern(root, "*.md") + find_files_by_pattern(root, "*.py"):
+        content = safe_read(f).lower()
+        if not content:
+            continue
+        if "cost per session" in content or "cost per outcome" in content or "cost-per-outcome" in content or "token economics" in content:
+            signals["cost_tracking_doc"] = True
+        if "time-to-first-token" in content or "ttft" in content or "latency p" in content or "p50" in content or "p95" in content:
+            signals["latency_measurement_doc"] = True
+        if "cache hit rate" in content or "cache hit" in content or "cache miss" in content:
+            signals["cache_hit_rate_measured"] = True
+        if "model routing" in content or "route to" in content and ("cheaper" in content or "sonnet" in content or "haiku" in content):
+            signals["model_routing_policy"] = True
+        if "subscription" in content and ("api" in content or "vs api" in content):
+            signals["subscription_vs_api_doc"] = True
+        if "cost per outcome" in content or "cost-per-outcome" in content or "cost per business event" in content:
+            signals["cost_per_outcome_doc"] = True
+        if "clear framework" in content or "2511.14136" in content:
+            signals["clear_paper_cited"] = True
+
+    return signals
+
+
+# ==============================================================================
 # Main
 # ==============================================================================
 
@@ -609,7 +716,7 @@ def run_audit(workspace_path: Path, verbose: bool = False) -> dict:
 
     audit = {
         "tool": "workspace-agentic-benchmark/audit.py",
-        "version": "0.2.0",
+        "version": "0.3.0",
         "audited_at": datetime.now().isoformat(),
         "workspace": str(workspace),
         "pillars": {},
@@ -625,6 +732,9 @@ def run_audit(workspace_path: Path, verbose: bool = False) -> dict:
         ("7_credentials_security", scan_pillar_7_credentials),
         ("8_portability", scan_pillar_8_portability),
         ("9_metacognition", scan_pillar_9_metacognition),
+        ("10_reliability", scan_pillar_10_reliability),
+        ("11_human_in_the_loop", scan_pillar_11_hitl),
+        ("12_cost_performance", scan_pillar_12_cost_performance),
     ]
 
     for name, scanner in pillar_scanners:
@@ -639,7 +749,7 @@ def run_audit(workspace_path: Path, verbose: bool = False) -> dict:
 
 
 def main():
-    p = argparse.ArgumentParser(description="Audit a workspace against the 8-pillar agentic benchmark.")
+    p = argparse.ArgumentParser(description="Audit a workspace against the 12-pillar agentic benchmark (v0.3).")
     p.add_argument("workspace", help="Path to workspace root directory.")
     p.add_argument("--verbose", "-v", action="store_true", help="Verbose progress to stderr.")
     p.add_argument("--output", "-o", help="Output JSON path (default: stdout).")

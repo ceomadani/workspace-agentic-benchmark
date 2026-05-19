@@ -1,7 +1,8 @@
 # Pillar 4 · Auto-Improvement Loop
 
+> **Cluster A · Cognition**
 > **First principle**: *The workspace must learn from its own session history · automatically · on a schedule.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -26,15 +27,15 @@ Workspaces decay. Without an auto-improvement loop, agent quality drifts down ov
 
 ---
 
-## Scoring rubric
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | Full Dreams pipeline · Reflexion nightly · A-MAC scoring · 2-stage review · apply log · feedback loop · cost-aware |
-| **7-8** | Session reflection cron · proposal system · partial scoring · ad-hoc apply |
-| **5-6** | Manual reflection occasionally · no proposal system |
-| **3-4** | Sessions saved but never reflected on |
-| **0-2** | No session capture · no improvement loop |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | No session capture · no improvement loop · workspace decays silently. |
+| **L1 Initial** | 20 | Sessions saved but never reflected on · operator manually edits config when annoyed. |
+| **L2 Managed** | 50 | Manual reflection occasionally (weekly or monthly) · no formal proposal system · no scoring rubric. |
+| **L3 Defined** | 75 | Reflection cron (daily / nightly · e.g., Reflexion 23:30) · proposal system · multi-factor scoring (e.g., A-MAC 5-6 factor) · cost-aware (cheaper model like Sonnet/Haiku for routine reflection). |
+| **L4 Optimizing** | 100 | Full pipeline (CAPTURE → EXTRACT → PROPOSE → REVIEW 2-stage → APPLY → FEEDBACK) · apply log with rollback path · improvement outcomes measured · skill staleness cron paired (Hermes-style). |
 
 ---
 

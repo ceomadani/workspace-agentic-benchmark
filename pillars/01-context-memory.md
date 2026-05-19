@@ -1,7 +1,8 @@
 # Pillar 1 · Context Hierarchy & Memory
 
+> **Cluster A · Cognition**
 > **First principle**: *Information flows into context only when needed, only the parts needed.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -38,15 +39,15 @@ Each criterion: pass (1.0) · partial (0.5) · fail (0.0). Total capped at 10.
 
 ---
 
-## Scoring rubric (band thresholds)
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | All tiers present · explicit retrieval policy · auto-decay · query layer (MCP/DB) · structured frontmatter · cache-aware |
-| **7-8** | 4+ tiers · retrieval policy documented · index file loads · some auto-decay |
-| **5-6** | 2-3 tiers · ad-hoc retrieval · manual decay · flat index |
-| **3-4** | Single memory file · no policy · no decay |
-| **0-2** | No memory layer · context dump every session |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | No memory layer · context dump every session · no index file. |
+| **L1 Initial** | 20 | Single memory file (e.g., `notes.md`) updated ad-hoc · no retrieval policy · no decay. |
+| **L2 Managed** | 50 | 2-3 tiers separated · ad-hoc retrieval · index file loads · manual decay. Structured frontmatter on some entries. |
+| **L3 Defined** | 75 | 4+ tiers explicit · retrieval policy documented · automated decay or staleness flagging · query layer (MCP / vector DB / grep wrapper) · KV-cache awareness in prompt prefix. |
+| **L4 Optimizing** | 100 | All 5 tiers (semantic · episodic · procedural · personalized · env-dynamics) · cross-tier interaction tested (promotion / demotion / conflict resolution) · ECE-style precision/recall on memory retrieval tracked · cache hit rate ≥ 80% on stable prefix. |
 
 ---
 

@@ -1,7 +1,8 @@
 # Pillar 7 · Credentials & Security
 
+> **Cluster C · Trust**
 > **First principle**: *Zero plaintext credentials. Ever. Including "placeholder" patterns.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -26,15 +27,15 @@ Plaintext credentials in agent workspaces are the #1 production security inciden
 
 ---
 
-## Scoring rubric
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | Zero plaintext · vault integrated · runtime resolution · approval gates · rotation documented · per-env separation |
-| **7-8** | Most credentials in vault · few plaintext stragglers · approval gates partial |
-| **5-6** | Mix of vault + plaintext · `.env` gitignored but old leaks in history |
-| **3-4** | Credentials in `.env` files · no vault · some committed |
-| **0-2** | Credentials in markdown / scripts / commit messages · no rotation |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | Credentials in markdown · scripts · commit messages · no rotation · plaintext everywhere. |
+| **L1 Initial** | 20 | Credentials in `.env` files · `.env` not gitignored or recently leaked · no vault. |
+| **L2 Managed** | 50 | Mix of vault + plaintext · `.env` gitignored · old leaks may remain in git history · partial rotation. |
+| **L3 Defined** | 75 | Zero plaintext in current repo · secret manager integrated (1Password / Vault / Doppler / AWS SM) · runtime resolution via `op://` or equivalent · `.envrc.template` checked in · pre-commit hook blocks plaintext patterns. |
+| **L4 Optimizing** | 100 | All OWASP LLM Top 10 2025 vectors mitigated (LLM02 Sensitive Information Disclosure · LLM06 Excessive Agency · LLM07 System Prompt Leakage · LLM09 Misinformation · LLM10 Unbounded Consumption) · rotation cadence enforced (quarterly) · per-env separation tested · audit log reviewed monthly. |
 
 ---
 

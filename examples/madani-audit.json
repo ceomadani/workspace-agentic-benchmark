@@ -1,7 +1,7 @@
 {
   "tool": "workspace-agentic-benchmark/audit.py",
-  "version": "0.2.0",
-  "audited_at": "2026-05-19T23:13:00.608194",
+  "version": "0.3.0",
+  "audited_at": "2026-05-19T23:39:47.506668",
   "workspace": "/Users/nourmatine/madani",
   "pillars": {
     "1_context_memory": {
@@ -198,7 +198,9 @@
       "stuck_task_detection": true,
       "stderr_separated_from_stdout": true,
       "log_rotation_policy": true,
-      "recovery_procedure_doc": true
+      "recovery_procedure_doc": true,
+      "mast_taxonomy_referenced": true,
+      "otel_genai_referenced": true
     },
     "7_credentials_security": {
       "plaintext_secrets_found": [
@@ -287,7 +289,8 @@
       "runtime_resolution_pattern": true,
       "env_in_gitignore": true,
       "credentials_doc": true,
-      "secret_rotation_doc": false
+      "secret_rotation_doc": false,
+      "owasp_llm_referenced": false
     },
     "8_portability": {
       "bootstrap_doc": [
@@ -317,6 +320,34 @@
       "dpi_integration_documented": true,
       "policy_doc_found": true,
       "metacog_paper_cited": true
+    },
+    "10_reliability": {
+      "pass_at_k_measurement": false,
+      "retry_logic_documented": true,
+      "idempotency_doc": true,
+      "mast_taxonomy_coverage": true,
+      "replay_harness": true,
+      "circuit_breaker_pattern": true,
+      "determinism_doc": true
+    },
+    "11_human_in_the_loop": {
+      "approval_gate_documented": true,
+      "escalation_criteria_doc": true,
+      "feedback_collection_structured": true,
+      "approval_friction_measured": false,
+      "bypass_detection": true,
+      "hitl_policy_doc": true,
+      "nist_ai_rmf_referenced": false
+    },
+    "12_cost_performance": {
+      "cost_tracking_doc": false,
+      "latency_measurement_doc": true,
+      "cache_hit_rate_measured": true,
+      "model_routing_policy": true,
+      "subscription_vs_api_doc": true,
+      "cost_per_outcome_doc": false,
+      "cheaper_model_in_cron": true,
+      "clear_paper_cited": false
     }
   }
 }

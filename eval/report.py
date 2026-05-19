@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
 ================================================================================
-report.py · Workspace Agentic Benchmark · report generator
+report.py · Workspace Agentic Benchmark v0.3 · report generator
 ================================================================================
 
-LEGGENDA 4W:
-  COSA  · Generate human-readable markdown + HTML report from score.json.
-  COME  · Render executive summary, radar-style breakdown, per-pillar details,
-          and concrete improvement recommendations.
-  DOVE  · Input: score.json (from score.py). Output: markdown to stdout
+LEGEND 4W:
+  WHAT  · Generate human-readable markdown + HTML report from score.json (v0.3).
+  HOW   · Render executive summary · cluster breakdown · per-pillar L0-L4 detail ·
+          improvement ladder (next-level actions).
+  WHERE · Input: score.json (from score.py). Output: markdown to stdout
           (or specified path), HTML if --html flag.
-  QUANDO · CLI usage: python3 report.py score.json --output report.md
+  WHEN  · CLI usage: python3 report.py score.json --output report.md
           python3 report.py score.json --html --output report.html
 
 ================================================================================
@@ -25,26 +25,27 @@ from pathlib import Path
 
 
 GRADE_DESCRIPTIONS = {
-    "A": "**Production-grade** · forward-deployable · ready for FDE engagements.",
-    "B": "**Solid** · needs hardening in 1-2 pillars before production at scale.",
-    "C": "**Early-stage** · multiple gaps · infrastructure work needed before agent work.",
-    "D": "**Prototype** · not production-ready · fundamental gaps across pillars.",
+    "A": "**Production-grade** · forward-deployable · FDE-engagement ready.",
+    "B": "**Solid** · 1-2 pillars need hardening before scale.",
+    "C": "**Early-stage** · multiple gaps · workspace work needed alongside agent work.",
+    "D": "**Prototype** · not production-ready · infrastructure-first work required.",
+    "F": "**Failing** · workspace not fit for purpose.",
 }
 
+GRADE_COLORS = {"A": "#10b981", "B": "#3b82f6", "C": "#f59e0b", "D": "#ef4444", "F": "#7c2d12"}
 
-def _bar(score: float, max_score: float = 10, width: int = 20) -> str:
-    filled = int((score / max_score) * width)
-    return "█" * filled + "░" * (width - filled)
+LEVEL_BAR = {0: "░░░░░░░░░░░░░░░░░░░░", 1: "████░░░░░░░░░░░░░░░░", 2: "██████████░░░░░░░░░░", 3: "███████████████░░░░░", 4: "████████████████████"}
 
 
 def render_markdown(score: dict) -> str:
-    total = score.get("total", 0)
-    grade = score.get("grade", "D")
+    composite = score.get("composite", 0)
+    grade = score.get("grade", "F")
     pillars = score.get("pillars", {})
     workspace = score.get("workspace", "?")
+    cluster_avgs = score.get("cluster_averages", {})
 
     lines = [
-        "# Workspace Agentic Benchmark · Report",
+        "# Workspace Agentic Benchmark · Report (v0.3)",
         "",
         f"**Workspace**: `{workspace}`",
         f"**Scored at**: {score.get('scored_at', '?')}",
@@ -53,20 +54,40 @@ def render_markdown(score: dict) -> str:
         "",
         "## Executive Summary",
         "",
-        f"**Total**: **{total:.1f} / 80** · Grade **{grade}**",
+        f"**Composite score**: **{composite:.1f} / 100** · Grade **{grade}**",
         "",
         GRADE_DESCRIPTIONS.get(grade, ""),
         "",
+    ]
+
+    if cluster_avgs:
+        lines.extend([
+            "### Cluster averages",
+            "",
+            "| Cluster | Average score |",
+            "|---------|--------------:|",
+        ])
+        for cluster_name in ["A · Cognition", "B · Action", "C · Trust", "D · Operations"]:
+            if cluster_name in cluster_avgs:
+                lines.append(f"| {cluster_name} | {cluster_avgs[cluster_name]:.1f} / 100 |")
+        lines.append("")
+
+    lines.extend([
         "### Pillar overview",
         "",
-        "| Pillar | Score | Bar |",
-        "|--------|-------|-----|",
-    ]
+        "| # | Pillar | Cluster | Level | Score | Maturity |",
+        "|---|--------|---------|-------|------:|----------|",
+    ])
 
     for key, data in pillars.items():
         title = data.get("title", key)
+        cluster = data.get("cluster", "?")
+        level = data.get("level", 0)
+        level_name = data.get("level_name", "?")
         s = data.get("score", 0)
-        lines.append(f"| {title} | {s:.1f} / 10 | `{_bar(s)}` |")
+        bar = LEVEL_BAR.get(level, LEVEL_BAR[0])
+        pillar_num = key.split("_")[0]
+        lines.append(f"| P{pillar_num.zfill(2)} | {title} | {cluster} | **{level_name}** | {s} | `{bar}` |")
 
     lines.extend([
         "",
@@ -78,49 +99,58 @@ def render_markdown(score: dict) -> str:
 
     for key, data in pillars.items():
         title = data.get("title", key)
+        cluster = data.get("cluster", "?")
+        level = data.get("level", 0)
+        level_name = data.get("level_name", "?")
         s = data.get("score", 0)
+        passed = data.get("criteria_passed", 0)
+        total = data.get("criteria_total", 10)
+
         lines.extend([
             f"### {title}",
             "",
-            f"**Score**: {s:.1f} / 10 · `{_bar(s)}`",
+            f"**Cluster**: {cluster}",
+            f"**Maturity**: {level_name} · `{LEVEL_BAR.get(level, LEVEL_BAR[0])}` · {s}/100",
+            f"**Criteria passed**: {passed}/{total}",
             "",
         ])
-        if "error" in data:
-            lines.extend([f"_Error during scoring_: `{data['error']}`", ""])
-            continue
-        lines.append("| Criterion | Pass |")
-        lines.append("|-----------|------|")
-        for c in data.get("criteria", []):
-            mark = "✅" if c["score"] >= 1.0 else ("🟡" if c["score"] >= 0.5 else "❌")
-            lines.append(f"| `{c['name']}` | {mark} ({c['score']:.1f}) |")
-        lines.append("")
 
-        # Recommendations
-        failed = [c for c in data.get("criteria", []) if c["score"] < 0.5]
-        if failed:
-            lines.append("**To improve**:")
-            for c in failed[:3]:
-                lines.append(f"- Address `{c['name']}` · see `pillars/0{key[0]}-*.md` for the rubric.")
-            lines.append("")
+        # Next-level guidance
+        if level < 4:
+            next_level = level + 1
+            next_name = {1: "L1 Initial", 2: "L2 Managed", 3: "L3 Defined", 4: "L4 Optimizing"}.get(next_level, "?")
+            lines.extend([
+                f"**To advance to {next_name}**: see `pillars/{key.split('_')[0].zfill(2)}-*.md` for the criteria checklist and improvement ladder.",
+                "",
+            ])
+        else:
+            lines.extend([
+                "**Status**: At L4 Optimizing · maintain cybernetic feedback loop · monitor for regression.",
+                "",
+            ])
 
     lines.extend([
         "---",
         "",
-        "## Next steps · ordered by impact",
+        "## Improvement priorities · ordered by gap to next level",
         "",
     ])
 
-    # Rank pillars by gap from max
-    ranked = sorted(pillars.items(), key=lambda kv: kv[1].get("score", 0))
-    for key, data in ranked[:3]:
-        gap = 10 - data.get("score", 0)
-        lines.append(f"- **{data.get('title', key)}** · gap {gap:.1f} pts · see `pillars/0{key[0]}-*.md` for the improvement ladder.")
+    # Rank pillars by lowest level (most improvement potential)
+    ranked = sorted(pillars.items(), key=lambda kv: kv[1].get("level", 0))
+    for key, data in ranked[:5]:
+        title = data.get("title", key)
+        cluster = data.get("cluster", "?")
+        level = data.get("level", 0)
+        if level < 4:
+            next_level_name = {1: "L1", 2: "L2", 3: "L3", 4: "L4"}.get(level + 1, "?")
+            lines.append(f"- **{title}** ({cluster}) · currently {LEVEL_BAR.get(level, '')} · advance to **{next_level_name}** for the largest impact.")
 
     lines.extend([
         "",
         "---",
         "",
-        f"_Generated by workspace-agentic-benchmark/report.py v0.1.0 · {datetime.now().isoformat()}_",
+        f"_Generated by workspace-agentic-benchmark/report.py v0.3.0 · {datetime.now().isoformat()}_",
         "",
     ])
 
@@ -129,10 +159,9 @@ def render_markdown(score: dict) -> str:
 
 def render_html(score: dict) -> str:
     md = render_markdown(score)
-    grade = score.get("grade", "D")
-    grade_color = {"A": "#10b981", "B": "#3b82f6", "C": "#f59e0b", "D": "#ef4444"}.get(grade, "#6b7280")
-
-    body_html = md.replace("\n", "<br/>\n")
+    grade = score.get("grade", "F")
+    composite = score.get("composite", 0)
+    grade_color = GRADE_COLORS.get(grade, "#6b7280")
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -141,7 +170,7 @@ def render_html(score: dict) -> str:
 <title>Workspace Agentic Benchmark · Report</title>
 <style>
   body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-         max-width: 960px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6;
+         max-width: 1040px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6;
          color: #1a1a1a; background: #fafafa; }}
   h1 {{ color: {grade_color}; border-bottom: 3px solid {grade_color}; padding-bottom: .5rem; }}
   h2 {{ color: #333; margin-top: 2.5rem; }}
@@ -156,6 +185,7 @@ def render_html(score: dict) -> str:
 </style>
 </head>
 <body>
+<div class="grade-badge">{grade} · {composite:.1f}/100</div>
 <pre style="white-space: pre-wrap; font-family: -apple-system, sans-serif;">{md}</pre>
 </body>
 </html>
@@ -163,7 +193,7 @@ def render_html(score: dict) -> str:
 
 
 def main():
-    p = argparse.ArgumentParser(description="Generate a report from score.json.")
+    p = argparse.ArgumentParser(description="Generate a v0.3 report from score.json (L0-L4 + composite).")
     p.add_argument("score_json", help="Path to score.json (output of score.py).")
     p.add_argument("--html", action="store_true", help="Render as HTML instead of markdown.")
     p.add_argument("--output", "-o", help="Output path (default: stdout).")

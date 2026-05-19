@@ -1,7 +1,8 @@
 # Pillar 6 · Observability & Recovery
 
+> **Cluster C · Trust**
 > **First principle**: *Failure is the default. Detection must be automatic and fast.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -26,15 +27,15 @@ Agents fail silently. Without centralized logs, liveness checks, and drift detec
 
 ---
 
-## Scoring rubric
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | Centralized logs · liveness watchdog · aggregate report · drift detector · 6-state lifecycle · rotation · documented recovery |
-| **7-8** | Logs centralized · most checks present · ad-hoc recovery |
-| **5-6** | Scattered logs · partial health visibility |
-| **3-4** | Logs exist but nobody reads them · no health summary |
-| **0-2** | No logs · "we'll notice if it breaks" |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | No logs · "we'll notice if it breaks" · failures go undetected until user complaint. |
+| **L1 Initial** | 20 | Logs exist but nobody reads them · no health summary · scattered locations. |
+| **L2 Managed** | 50 | Scattered logs · partial health visibility · ad-hoc recovery procedures in operator's head. |
+| **L3 Defined** | 75 | Centralized logs (`_logs/`) · liveness watchdog · daily aggregate report · drift detector · explicit state machine (e.g., 6-state task lifecycle) · log rotation · recovery procedures documented. |
+| **L4 Optimizing** | 100 | OpenTelemetry GenAI semantic conventions adopted · MTTD measured on synthetic failures · MAST 14 failure modes mapped to detection signals · stuck-task auto-resolve · cron success rate ≥ 99%. |
 
 ---
 

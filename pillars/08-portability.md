@@ -1,7 +1,8 @@
 # Pillar 8 · Portability & Re-deployability
 
+> **Cluster D · Operations**
 > **First principle**: *A workspace must be re-deployable on a new engagement in days, not months. FDE-grade.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -28,15 +29,15 @@ This pillar is **unique to this benchmark** — no public benchmark currently me
 
 ---
 
-## Scoring rubric
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | Bootstrap doc · client-agnostic skills · vault isolation · cross-engagement memory separation · timed redeployment · scaffold · repeatable |
-| **7-8** | Bootstrap exists · most skills generalizable · vault isolation · handoff doc |
-| **5-6** | Partial documentation · ad-hoc replication · single client used |
-| **3-4** | Manual everything · everything entangled with single project |
-| **0-2** | Workspace is a snowflake · cannot be replicated · personal-only |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | Workspace is a snowflake · cannot be replicated · single-machine · personal-only. |
+| **L1 Initial** | 20 | Manual everything · everything entangled with single project · hardcoded paths. |
+| **L2 Managed** | 50 | Partial documentation · ad-hoc replication · single client used · skills not yet generalized. |
+| **L3 Defined** | 75 | Bootstrap doc exists · most skills generalizable (client-specific isolated) · vault isolation per engagement · handoff artifact format · low hardcoded paths. |
+| **L4 Optimizing** | 100 | Time-to-bootstrap measured (target ≤ N days · empirical baseline) · scaffold + template for new engagement · cross-engagement memory isolation tested · workspace runs on 2+ machines/engagements concurrently with no state leakage. |
 
 ---
 

@@ -1,0 +1,18 @@
+{
+  "_comment": "Default workspace-agentic-benchmark v0.3 weights · equal 1/12 per pillar. Override for domain-specific evaluation (e.g., financial services may up-weight Pillars 3, 7, 11).",
+  "_version": "0.3.0",
+  "weights": {
+    "1_context_memory": 0.0833,
+    "2_skill_tool": 0.0833,
+    "3_governance": 0.0833,
+    "4_auto_improvement": 0.0833,
+    "5_multi_agent_dpi": 0.0833,
+    "6_observability": 0.0833,
+    "7_credentials_security": 0.0833,
+    "8_portability": 0.0833,
+    "9_metacognition": 0.0833,
+    "10_reliability": 0.0833,
+    "11_human_in_the_loop": 0.0833,
+    "12_cost_performance": 0.0833
+  }
+}

@@ -1,7 +1,8 @@
 # Pillar 3 · Governance & Compliance
 
+> **Cluster C · Trust**
 > **First principle**: *Every irreversible or externally-visible action must pass an explicit gate. No silent execution.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -26,15 +27,15 @@ Agents have no inherent moral or operational reasoning · they need explicit gat
 
 ---
 
-## Scoring rubric
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | Constitution · numbered HARD RULES · pre-output check · approval gates · compliance judge · cross-linked evidence · layered |
-| **7-8** | Constitution · HARD RULES · most gates · ad-hoc compliance check |
-| **5-6** | Some rules documented · partial gates · no compliance judge |
-| **3-4** | Few scattered rules · most actions auto-execute |
-| **0-2** | No constitution · no gates · agent acts on every request |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | No constitution · no gates · agent acts on every request unconditionally. |
+| **L1 Initial** | 20 | Few scattered rules in operator's head · most actions auto-execute · no enforcement. |
+| **L2 Managed** | 50 | Constitution document exists · HARD RULES enumerated · approval gates for some external actions · ad-hoc compliance check. |
+| **L3 Defined** | 75 | Numbered HARD RULES · pre-output check (e.g., 5-criteria PASS/REFINE/BLOCK) · approval gates for all irreversible actions · evidence-linked rules · layered (global + per-project). |
+| **L4 Optimizing** | 100 | Compliance judge sub-agent or middleware enforces gates · violations logged + analyzed · rule changes versioned with changelog · constitution coverage tested against historical incidents. |
 
 ---
 

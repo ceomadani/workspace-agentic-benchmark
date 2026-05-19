@@ -1,7 +1,8 @@
 # Pillar 2 · Skill / Tool Architecture
 
+> **Cluster B · Action**
 > **First principle**: *A skill is a contract with the agent · contracts must be discoverable, fresh, and minimal.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -26,15 +27,15 @@ As skill counts grow past 20, discovery degrades. Stale skills fire on wrong tri
 
 ---
 
-## Scoring rubric
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | Auto-trigger · staleness cron · versioned · curated roster · determinism preferred · cross-linked |
-| **7-8** | Dedicated location · frontmatter · most auto-trigger · some staleness check |
-| **5-6** | Some structure · partial frontmatter · no staleness check |
-| **3-4** | Scripts scattered · no frontmatter · manual invoke only |
-| **0-2** | No skill layer · ad-hoc shell aliases |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | No skill layer · ad-hoc shell aliases · no organization. |
+| **L1 Initial** | 20 | Scripts scattered in `scripts/` · no frontmatter · manual invocation only. |
+| **L2 Managed** | 50 | Dedicated location (e.g., `skills/`) · some frontmatter · partial auto-trigger · no staleness check. |
+| **L3 Defined** | 75 | All skills have frontmatter (name · description · triggers) · auto-trigger via description matching · staleness cron daily · ROSTER curated · ≥30% deterministic tools. |
+| **L4 Optimizing** | 100 | Skill staleness measured weekly (% unused in last N days) · auto-generated skills from successful patterns (Voyager-style) · versioned per-skill changelog · skill dependency graph audited. |
 
 ---
 

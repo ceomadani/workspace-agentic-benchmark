@@ -1,7 +1,8 @@
 # Pillar 5 · Multi-Agent Discipline (DPI)
 
+> **Cluster B · Action**
 > **First principle**: *Default to single-thread. Multi-agent is an exception with explicit justification.*
-> **Max score**: 10 points.
+> **Weight**: 1/12 (equal-weighted baseline · v0.3 default)
 
 ---
 
@@ -31,15 +32,15 @@ Without DPI discipline, workspaces over-spawn sub-agents and pay context handoff
 
 ---
 
-## Scoring rubric
+## L0-L4 Maturity Rubric
 
-| Score | Profile |
-|-------|---------|
-| **9-10** | Single-thread default · policy doc · pre-spawn gate · Explore-only allowed · evidence-cited · budget-guarded · logged |
-| **7-8** | Default documented · policy mostly enforced · some anti-patterns known |
-| **5-6** | Multi-agent used selectively · no formal policy |
-| **3-4** | Multi-agent used often · no constraints documented |
-| **0-2** | Multi-agent by default · sub-agent recursion allowed |
+| Level | Score | Profile |
+|-------|------:|---------|
+| **L0 Absent** | 0 | Multi-agent by default · sub-agent recursion allowed · no constraints. |
+| **L1 Initial** | 20 | Multi-agent used often without measurement · no documented policy. |
+| **L2 Managed** | 50 | Multi-agent used selectively · informal awareness of context cost · no formal policy file. |
+| **L3 Defined** | 75 | Single-thread documented as default · `multi-agent-policy.md` enforces pre-spawn gate · Explore-only pre-authorized · evidence cited (arXiv 2604.02460 + Cognition steel-man) · 4+ anti-patterns documented. |
+| **L4 Optimizing** | 100 | Sub-agent invocations logged + audited · DPI condition evidence operationalized via metacognitive confidence trigger (P9 integration) · context handoff cost measured + budgeted · multi-agent ROI ratio tracked vs single-thread baseline. |
 
 ---
 

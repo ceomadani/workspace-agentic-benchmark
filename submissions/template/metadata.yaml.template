@@ -1,0 +1,40 @@
+# Template · copy to submissions/{your-workspace-slug}/metadata.yaml
+# Fill all required fields · remove this comment header before submission
+
+workspace_name: "Your Workspace Name"
+slug: "your-workspace-slug"  # lowercase · dash-separated · used as folder name
+
+domain: "saas"  # one of: financial-services · healthcare · ecommerce · saas · public-sector · personal · research · other
+sub_domain: ""  # optional · narrower domain (e.g., "B2B SaaS lead generation")
+
+stack:
+  - "Claude Code"        # primary agentic harness
+  - "Anthropic API"      # or OpenAI · Google · Vercel AI · etc.
+  - "Custom Python"      # tools / scripts language
+  - "n8n"                # automation
+  - ""                   # add more as needed
+
+size:
+  total_files: 0
+  total_loc: 0
+  age_months: 0
+  team_size: 1  # solo operator · 2-10 · 11-50 · 51+
+
+submitted_by: "Your Name · your.email@example.com"
+submitted_at: "YYYY-MM-DD"
+
+benchmark_version: "0.3.0"  # version of workspace-agentic-benchmark used
+
+public: true  # false = on file only · no leaderboard entry
+
+confidentiality:
+  redacted_paths: false  # true if /Users/... or similar redacted in submission files
+  redacted_customers: false  # true if customer/client names replaced
+  redacted_credentials: true  # MUST be true · never submit real credentials
+
+# Optional fields
+notes: |
+  Brief context about your workspace.
+  What constraints shape it? What would you score differently and why?
+
+next_review_date: ""  # optional · when you plan to re-submit
