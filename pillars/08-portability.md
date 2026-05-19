@@ -61,20 +61,20 @@ This pillar is **unique to this benchmark** — no public benchmark currently me
 
 ---
 
-## Examples
+## Profiles
 
-**Good (8/10 · Madani · still maturing in this dimension)**:
-- 8 client subaccounts in GHL with separate location IDs (vault isolation good)
-- Skills mostly client-agnostic in `10_SKILLS/` · client-specific in `08_CLIENTI/<client>/`
-- Bootstrap doc partial · `ONBOARDING.md` exists but not yet timed
-- Single-machine binding remains (paths `/Users/nourmatine/` hardcoded)
-- No formal scaffold for new client onboarding yet
+**Production-grade (8-10)**:
+- Multiple client / engagement subdirectories with explicit isolation (separate IDs · separate vault namespaces)
+- Skills mostly client-agnostic in a shared location · client-specific in per-client subdirectories
+- Bootstrap doc exists (`ONBOARDING.md`) · ideally time-to-redeploy measured on a clean VM
+- Path abstraction via env vars (no hardcoded `/Users/yourname/...` in scripts)
+- Scaffold / template for new client onboarding
 
-**Bad (1/10 · prototype)**:
-- One person's Mac · scripts in `~/Desktop/work/`
-- API keys for 3 clients in same `.env` file
-- No bootstrap procedure · undocumented in head
-- Skills assume specific spreadsheet from client X · breaks on client Y
+**Prototype-stage (0-2)**:
+- One person's machine · scripts in `~/Desktop/work/`
+- API keys for multiple clients in same `.env` file
+- No bootstrap procedure · undocumented (lives in operator's head)
+- Skills assume specific data shape from client X · break on client Y
 
 ---
 

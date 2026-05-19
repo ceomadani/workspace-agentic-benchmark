@@ -34,7 +34,7 @@ A pillar measures **a property** (e.g., "memory tier separation is enforced"), n
 **Evidence**:
 - arXiv 2604.02460 · DPI (Data Processing Inequality) · context utilization is the choke point.
 - Cognition "Don't Build Multi-Agents" · context handoff loss compounds across agents.
-- ECHO (iter-35 Madani · environment-dynamics tier added) · agents need to model env state separately from semantic facts.
+- ECHO pattern (Shrivastava & Papailiopoulos 2026) · environment-dynamics as a distinct memory tier · agents need to model env state separately from semantic facts.
 
 **Anti-pattern**: single-file context dump · no forgetting policy · no retrieval scoring.
 
@@ -64,7 +64,7 @@ A pillar measures **a property** (e.g., "memory tier separation is enforced"), n
 **Evidence**:
 - Anthropic Constitutional AI (arXiv 2212.08073) · explicit principles outperform implicit alignment.
 - Production incident pattern · ~80% of agent-caused harm comes from missing approval gates on external actions (Slack send · email · git push).
-- Madani HR15 PRE-OUTPUT compliance check (5-criteria) · empirical reduction of drift.
+- Pre-output compliance check pattern (5-criteria PASS/REFINE/BLOCK gate) · empirical reduction of drift in production deployments.
 
 **Anti-pattern**: no constitution · no HARD RULES list · no pre-output check · automatic external actions.
 
@@ -80,7 +80,7 @@ A pillar measures **a property** (e.g., "memory tier separation is enforced"), n
 - Reflexion (arXiv 2303.11366) · verbal reinforcement learning via session reflection.
 - Voyager (arXiv 2305.16291) · skill library auto-grown from agent experience.
 - Anthropic Managed Agents "Dreams" API · nightly compaction + improvement proposal.
-- Madani A-MAC 6-factor scoring (iter-37) · automated assessment of proposed improvements.
+- A-MAC pattern (6-factor proposal scoring) · automated multi-dimensional assessment of proposed workspace improvements.
 
 **Anti-pattern**: improvements happen only when user notices · no cron-driven reflection · no scoring of proposed changes.
 
@@ -111,7 +111,7 @@ A pillar measures **a property** (e.g., "memory tier separation is enforced"), n
 
 **Evidence**:
 - Anthropic Effective Harnesses · aggregate-report pattern for health visibility.
-- M08 6-state lifecycle (Madani iter-30+) · explicit state machine catches zombie tasks.
+- 6-state task lifecycle pattern (inbox → planning → active → review → closing → result) · explicit state machine catches zombie tasks.
 - Production reliability · MTTD reduction correlates with user trust more than MTBF.
 
 **Anti-pattern**: scattered logs · no health summary · no zombie detector · "we'll notice if it breaks".
@@ -143,7 +143,7 @@ Each pillar scored 0-10 against a checklist of 10 binary criteria. Each criterio
 - **C** (39-57) · early-stage · multiple gaps
 - **D** (0-38) · prototype · not production-ready
 
-**Why these thresholds**: derived from Madani internal milestones (iter-20: C · iter-30: B · iter-37+: A) and empirical observation of FDE engagements where workspaces below the C threshold require infrastructure-first work before agent work. Thresholds remain proportional to the original 8-pillar scheme (A: ≥85% · B: ≥64% · C: ≥43%).
+**Why these thresholds**: derived from empirical observation of FDE engagements where workspaces below the C threshold require infrastructure-first work before agent work. Thresholds remain proportional (A: ≥85% · B: ≥64% · C: ≥43%) following common quality-gate conventions (e.g., AWS Well-Architected · OWASP risk tiers).
 
 ### Pillar 8 added · evidence
 
@@ -180,7 +180,7 @@ These are downstream metrics. This benchmark measures the upstream conditions th
 
 ## Limitations · honest disclosure
 
-1. **Bias toward our reference architecture**: pillars 4 and 5 reflect Madani's choices (Dreams · Reflexion · DPI guard). Other valid architectures may score lower despite being effective. We welcome PRs documenting alternative valid architectures.
+1. **Bias toward reference architecture patterns**: pillars 4 and 5 are informed by specific patterns (Dreams · Reflexion · DPI guard). Other valid architectures may score lower despite being effective. We welcome PRs documenting alternative valid architectures, particularly from teams using different stacks (LangChain · LangGraph · CrewAI · AutoGen · custom).
 
 2. **Snapshot, not trajectory**: scores reflect current state · not improvement velocity. A score going from D → B in 3 months matters more than a static A. We recommend running the benchmark monthly and tracking deltas.
 

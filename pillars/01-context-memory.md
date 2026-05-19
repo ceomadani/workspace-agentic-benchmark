@@ -38,7 +38,7 @@ Each criterion: pass (1.0) · partial (0.5) · fail (0.0). Total capped at 10.
 
 ---
 
-## Scoring rubric
+## Scoring rubric (band thresholds)
 
 | Score | Profile |
 |-------|---------|
@@ -71,20 +71,21 @@ Each criterion: pass (1.0) · partial (0.5) · fail (0.0). Total capped at 10.
 
 ---
 
-## Examples
+## Profiles
 
-**Good (9.5/10 · Madani)**:
-- 5 tiers explicitly separated in `12_HARNESS/memory-engine/{semantic,episodic,procedural,personalized,env-dynamics}/`
-- `MEMORY.md` auto-loaded
-- Reflexion cron writes to episodic nightly
-- Brain MCP query layer over all tiers
-- Frontmatter standard with `last_updated`
-- Cross-links via `[[wiki-style]]`
+**Production-grade (9-10)**:
+- 5 tiers explicitly separated as `memory/{semantic,episodic,procedural,personalized,env-dynamics}/` or equivalent
+- Index file (e.g., `MEMORY.md`) auto-loaded on session start
+- Scheduled reflection job (cron/hook) writes to episodic tier nightly
+- Query layer exposing retrieval as a tool (MCP server · vector DB · or grep wrapper)
+- Standard frontmatter on every entry (`name` · `type` · `last_updated` · `source`)
+- Cross-links between entries (`[[wiki-style]]` or graph references)
 
-**Bad (2/10 · prototype)**:
+**Prototype-stage (1-2)**:
 - One `notes.md` updated occasionally
 - Loaded fully in context every session
-- No retrieval, no decay, no structure
+- No retrieval policy, no decay, no structure
+- New entries appended without dedup or curation
 
 ---
 

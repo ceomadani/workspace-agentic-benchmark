@@ -80,10 +80,10 @@ Stanford 2604.02460 says "default single-thread unless evidence of context degra
 
 ## Examples
 
-**Good (10/10 · hypothetical reference)**:
-- MCU tool runs `metacog-self-assess.py assess "<task>"` pre-significant tasks
+**Production-grade (9-10)**:
+- MCU tool (e.g., `metacog.py assess "<task>"`) pre-significant tasks
 - Capability profile vector P = [p_reasoning · p_retrieval · p_coding · ...] in procedural memory tier
-- Composite `c = 0.6·c^v + 0.4·c^p` with documented λ
+- Composite `c = λ·c^v + (1-λ)·c^p` with documented λ (typically 0.6)
 - Conflict detection `δ > 0.3` triggers threshold tightening
 - EMA update post-task `α=0.1` · 10-task memory horizon
 - ECE measured monthly · target ≤ 0.10

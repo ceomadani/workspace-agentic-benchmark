@@ -61,21 +61,21 @@ Without DPI discipline, workspaces over-spawn sub-agents and pay context handoff
 
 ---
 
-## Examples
+## Profiles
 
-**Good (10/10 · Madani)**:
-- `multi-agent-policy.md` in `.claude/rules/` · explicit policy
-- DPI baseline: 1 thread default · multi-agent requires 3 conditions
-- Explore-only sub-agent pre-authorized for read-only audits
-- Pre-spawn checklist (4 binary checks)
-- Anti-pattern list with 4 entries
-- Evidence: arXiv 2604.02460 + Cognition cited
+**Production-grade (9-10)**:
+- `multi-agent-policy.md` (or equivalent) in rules directory · explicit policy
+- Single-thread baseline: 1 thread default · multi-agent requires 3 explicit conditions met
+- Read-only / explore-only sub-agent pre-authorized for context-protected exploration
+- Pre-spawn checklist (4+ binary checks documented)
+- Anti-pattern list enumerated (4+ entries)
+- Evidence cited (e.g., arXiv 2604.02460 Stanford DPI + Cognition "Don't Build Multi-Agents")
 
-**Bad (1/10 · prototype)**:
+**Prototype-stage (0-2)**:
 - Every task auto-spawns 3-5 sub-agents
 - No documented policy
-- Sub-agents themselves spawn sub-agents
-- No budget tracking · cost runaway
+- Sub-agents themselves spawn sub-agents (recursion)
+- No budget tracking · cost runaway · no spawn audit log
 
 ---
 

@@ -58,21 +58,21 @@ Agents have no inherent moral or operational reasoning · they need explicit gat
 
 ---
 
-## Examples
+## Profiles
 
-**Good (10/10 · Madani)**:
-- `CONSTITUTION.md` v1.7 with 15 HARD RULES numbered
-- HR15 PRE-OUTPUT compliance check (5-criteria · PASS/REFINE/BLOCK)
-- `compliance-judge` sub-agent dedicated
-- HR11: only Nour pushes to main (others must PR)
-- HR1: no external messages without explicit approval
-- Rules cross-link to documented incidents
+**Production-grade (9-10)**:
+- `CONSTITUTION.md` (or equivalent) with numbered HARD RULES enumerated
+- Pre-output compliance check (e.g., 5-criteria PASS / REFINE / BLOCK gate)
+- Dedicated compliance-judge sub-agent or validation script
+- Explicit gates: only owner pushes to main · external messages require approval · destructive ops gated
+- Rules cross-link to documented incidents or research evidence
+- Versioned constitution with changelog
 
-**Bad (2/10 · prototype)**:
-- No CLAUDE.md
-- Agent sends Slack messages automatically
-- No pre-output check · 30% of emissions get redacted by user
-- No git push gate
+**Prototype-stage (1-2)**:
+- No `CLAUDE.md` / `AGENT.md` / equivalent
+- Agent sends external messages (Slack · email) automatically
+- No pre-output check · high redaction rate from user
+- No git push gate · no approval flow for irreversible actions
 
 ---
 

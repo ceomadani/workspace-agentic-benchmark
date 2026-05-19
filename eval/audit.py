@@ -173,8 +173,8 @@ def scan_pillar_2_skills(root: Path) -> dict:
         signals["staleness_detector_found"] = True
         break
 
-    # Tools folder
-    for tools_dir_name in ("tools", "11_tools", "scripts"):
+    # Tools folder · try common naming conventions
+    for tools_dir_name in ("tools", "scripts", "lib", "src/tools", "src/scripts"):
         for tools_dir in [d for d in root.rglob(tools_dir_name) if d.is_dir() and not any(part in IGNORE_DIRS for part in d.parts)]:
             for tool_file in tools_dir.rglob("*.py"):
                 content = safe_read(tool_file)
@@ -239,8 +239,8 @@ def scan_pillar_3_governance(root: Path) -> dict:
             # Evidence-linked rules: count rules with explicit incident/paper reference
             signals["evidence_linked_rules"] += len(re.findall(r"(?:incident|arxiv|origine:|backing:|reason:|why:)", low))
 
-    # Rules directory
-    for d in [".claude/rules", "rules", "00_HARD_RULES"]:
+    # Rules directory · try common naming conventions
+    for d in [".claude/rules", "rules", "policies", ".agent/rules", "agent/rules"]:
         if (root / d).exists() and (root / d).is_dir():
             signals["rules_dir_found"] = True
             break
@@ -492,8 +492,8 @@ def scan_pillar_8_portability(root: Path) -> dict:
                     signals["templates_dir"] = True
                 break
 
-    # Client isolation evidence: multiple subfolders under clients/ or per-client dirs
-    for d_name in ("clients", "08_CLIENTI", "customers", "engagements"):
+    # Client isolation evidence: multiple subfolders under clients/ or per-client dirs · try common naming conventions
+    for d_name in ("clients", "customers", "engagements", "tenants", "accounts"):
         for d in root.rglob(d_name):
             if d.is_dir() and not any(part in IGNORE_DIRS for part in d.parts):
                 subdirs = [s for s in d.iterdir() if s.is_dir() and not s.name.startswith(".")]

@@ -58,20 +58,21 @@ Agents fail silently. Without centralized logs, liveness checks, and drift detec
 
 ---
 
-## Examples
+## Profiles
 
-**Good (9/10 · Madani)**:
-- All cron logs in `12_HARNESS/operativo/_logs/`
-- Liveness watchdog hourly (`liveness-watchdog.py --scan`)
-- Aggregate report daily 09:00 CEST
-- M08 6-state lifecycle (inbox / planning / active / review / closing / result)
-- `*.out.log` + `*.err.log` separated
-- Recovery procedures in `_launchd-templates/README.md`
+**Production-grade (8-10)**:
+- All cron logs in a centralized `_logs/` directory
+- Liveness watchdog hourly (scan for stuck / zombie tasks)
+- Aggregate health report daily (e.g., 09:00 local · summary across all systems)
+- Explicit task lifecycle state machine (e.g., 6-state: inbox → planning → active → review → closing → result)
+- `*.out.log` + `*.err.log` separated for noise vs error distinction
+- Recovery procedures documented in templates / runbooks
 
-**Bad (2/10 · prototype)**:
-- One Python script that writes to stdout · nothing captured
+**Prototype-stage (0-2)**:
+- One script writing to stdout · nothing captured
 - No cron · everything on-demand
 - When something fails, user finds out via complaint from downstream consumer
+- No state machine · tasks stuck in undefined limbo
 
 ---
 

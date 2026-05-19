@@ -1,10 +1,10 @@
 {
   "tool": "workspace-agentic-benchmark/score.py",
   "version": "0.2.0",
-  "scored_at": "2026-05-19T22:57:12.809581",
+  "scored_at": "2026-05-19T23:14:46.355557",
   "workspace": "/Users/nourmatine/madani",
-  "audit_at": "2026-05-19T22:55:35.274514",
-  "total": 79.5,
+  "audit_at": "2026-05-19T23:13:00.608194",
+  "total": 76.5,
   "max": 90,
   "grade": "A",
   "pillars": {
@@ -345,7 +345,7 @@
         },
         {
           "name": "skills_client_agnostic_or_tagged",
-          "score": 1.0
+          "score": 0.0
         },
         {
           "name": "credentials_per_engagement_isolated",
@@ -357,7 +357,7 @@
         },
         {
           "name": "state_externalized",
-          "score": 1.0
+          "score": 0.0
         },
         {
           "name": "template_scaffold_exists",
@@ -377,10 +377,10 @@
         },
         {
           "name": "multiple_deployments_evidence",
-          "score": 1.0
+          "score": 0.0
         }
       ],
-      "score": 9.0,
+      "score": 6.0,
       "max": 10,
       "title": "Portability & Re-deployability"
     },

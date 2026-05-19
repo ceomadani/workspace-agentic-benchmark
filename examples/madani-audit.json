@@ -1,7 +1,7 @@
 {
   "tool": "workspace-agentic-benchmark/audit.py",
   "version": "0.2.0",
-  "audited_at": "2026-05-19T22:55:35.274514",
+  "audited_at": "2026-05-19T23:13:00.608194",
   "workspace": "/Users/nourmatine/madani",
   "pillars": {
     "1_context_memory": {
@@ -108,8 +108,8 @@
       "skill_index_files": [],
       "auto_trigger_mechanism": true,
       "staleness_detector_found": true,
-      "deterministic_tools_count": 861,
-      "llm_tools_count": 15,
+      "deterministic_tools_count": 10003,
+      "llm_tools_count": 39,
       "skill_roster_doc": true,
       "skill_changelog": 494
     },
@@ -297,12 +297,12 @@
       ],
       "templates_dir": true,
       "scaffold_dir": false,
-      "client_isolation_evidence": true,
+      "client_isolation_evidence": false,
       "vault_per_engagement": true,
       "handoff_artifact_format": true,
       "hardcoded_paths_count": 202,
       "time_to_bootstrap_measured": false,
-      "multiple_deployments_evidence": true
+      "multiple_deployments_evidence": false
     },
     "9_metacognition": {
       "metacog_tool_found": true,

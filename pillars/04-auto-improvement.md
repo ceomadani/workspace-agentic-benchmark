@@ -59,21 +59,21 @@ Workspaces decay. Without an auto-improvement loop, agent quality drifts down ov
 
 ---
 
-## Examples
+## Profiles
 
-**Good (9/10 · Madani)**:
-- Dreams pipeline 6-stage (CAPTURE → EXTRACT → PROPOSE → REVIEW 2-stage → APPLY → FEEDBACK)
-- Reflexion cron daily 23:30 CEST · Sonnet · NO API key (subscription claude CLI)
-- A-MAC 6-factor scoring of proposals
-- Hermes auto-stale curator (daily 02:30 CEST · pre-Dreams)
-- All session JSONL preserved · multi-layer redundancy (JSONL + md-summary + raw-jsonl backup)
-- Episodic memory tier grows from Reflexion
+**Production-grade (9-10)**:
+- Multi-stage pipeline (CAPTURE → EXTRACT → PROPOSE → REVIEW → APPLY → FEEDBACK) implemented as cron
+- Reflexion-style nightly job (e.g., daily 23:30 · cheaper model like Sonnet/Haiku · subscription-based when possible)
+- Multi-factor scoring of proposed improvements (e.g., A-MAC 5-6 factor rubric)
+- Skill staleness curator (parallel cron · pre-improvement-loop)
+- Full session capture preserved (JSONL + readable summary + backup copy · multi-layer redundancy)
+- Episodic memory tier grows from reflection cron · append-only
 
-**Bad (2/10 · prototype)**:
+**Prototype-stage (1-2)**:
 - Sessions auto-compacted and discarded
-- No reflection
-- User manually edits CLAUDE.md when something annoys them
-- No tracking of what changes were made or why
+- No reflection mechanism
+- User manually edits config when something annoys them
+- No tracking of what changes were made or why · no rollback path
 
 ---
 

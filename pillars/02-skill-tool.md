@@ -58,20 +58,21 @@ As skill counts grow past 20, discovery degrades. Stale skills fire on wrong tri
 
 ---
 
-## Examples
+## Profiles
 
-**Good (8.5/10 · Madani)**:
-- 42 skills in `10_SKILLS/` and `~/.claude/skills/`
-- 27 marked active · 15 archived/experimental
-- Hermes auto-stale cron flags unused (daily 02:30 CEST)
-- Each skill folder has SKILL.md + ROSTER reference
-- ~30% deterministic (no LLM call): `make_teleprompter.py` · `compliance-check.py` · etc.
+**Production-grade (8-10)**:
+- Skills in dedicated location (`skills/` or `.claude/skills/` or `agents/skills/`)
+- Active vs deprecated tier explicit (curated roster file)
+- Auto-staleness cron (e.g., daily scan flags unused skills)
+- Each skill is a folder with `SKILL.md` + assets + frontmatter (`name` · `description` · `triggers`)
+- ≥30% deterministic tools (no LLM call) · prefer shell + Python over LLM where possible
+- Skills cross-referenced (related skills linked)
 
-**Bad (3/10 · prototype)**:
-- `scripts/` folder with 12 random Python files
-- No frontmatter · no descriptions
-- All require manual invoke by name
-- No staleness check · half don't run anymore
+**Prototype-stage (1-3)**:
+- `scripts/` folder with random files · no frontmatter · no descriptions
+- All require manual invocation by name
+- No staleness check · half of them no longer run
+- No distinction between active and deprecated
 
 ---
 

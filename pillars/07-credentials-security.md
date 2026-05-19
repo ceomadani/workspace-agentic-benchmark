@@ -61,21 +61,21 @@ Plaintext credentials in agent workspaces are the #1 production security inciden
 
 ---
 
-## Examples
+## Profiles
 
-**Good (10/10 · Madani)**:
-- `.envrc.template` checked in · `.envrc` resolved at runtime via 1Password CLI
-- 23 services mapped · `op://Madani/<Service>/<field>` references
-- Zero plaintext in repo (audited via grep + git history scan)
-- direnv hook auto-loads on `cd ~/madani`
-- HR13 in CONSTITUTION · enforced via pre-commit hook
-- Audit trail in 1Password access log
+**Production-grade (9-10)**:
+- `.envrc.template` checked in · `.envrc` resolved at runtime via secret manager CLI (1Password / Vault / Doppler / AWS SM)
+- All services mapped to runtime references (`op://...` · `vault://...` · `aws-sm://...`)
+- Zero plaintext in repo (audited via grep + git-history scan with TruffleHog / gitleaks)
+- direnv hook auto-loads on entering workspace directory
+- Plaintext-prohibition rule in constitution · enforced via pre-commit hook
+- Audit trail of credential access (vault access log enabled)
 
-**Bad (1/10 · prototype)**:
+**Prototype-stage (0-2)**:
 - `.env` committed in initial commit
-- API keys in `notes.md`
-- Single OpenAI key used for personal dev + production calls
-- Tokens in URLs in test scripts
+- API keys in markdown docs (e.g., `notes.md`)
+- Single key used across personal dev + production
+- Tokens in URL query strings (`?key=...` · logged in plaintext)
 
 ---
 

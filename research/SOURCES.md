@@ -95,7 +95,7 @@ What this benchmark adds (8 pillars vs. landscape):
 | **3 · Governance** | MAST (post-hoc only) | Prospective: rule cascade coherence · HARD RULES · PRE-OUTPUT compliance judge |
 | **4 · Auto-improve** | DGM · Reflexion · EvoSkill | Cron-scheduled loops with quality gates · pattern-transfer REGISTRY |
 | **5 · DPI** | Stanford 2604.02460 (theory only) | Operational DPI guard with 3-condition gate + spawn auditing |
-| **6 · Observability** | OTEL GenAI · AgentTrace | Workspace-level: query layer (Brain MCP-style) · session handoff · cronologia |
+| **6 · Observability** | OTEL GenAI · AgentTrace | Workspace-level: query layer (MCP-based) · session handoff format · centralized session history |
 | **7 · Credentials** | RAS-Eval · ASB · SEC-bench | Workspace property: zero plaintext · op:// resolution · vault topology |
 | **8 · Portability** | (no public benchmark) ⭐ | **Unique** · FDE re-deployability · cross-engagement isolation |
 | **9 · Metacognition** | MetaCogAgent (2605.17292) is the source · NO public benchmark measures it ⭐ | **Unique** · prospective metacognition · MCU runner · capability profile · EMA cybernetic loop · operationalizes DPI 3rd condition |
@@ -119,7 +119,7 @@ What this benchmark adds (8 pillars vs. landscape):
 ## Risks · honest disclosure
 
 1. **Stanford 2604.02460 cited cautiously.** Empirical scope is 3 model families on multi-hop reasoning only · do not overclaim generality.
-2. **Pattern REGISTRY provenance.** Some entries (Crafft · Dreams · ECHO) reflect Madani-internal naming · public-literature equivalents should be cited where possible. Future revisions will document explicit provenance.
+2. **Pattern naming provenance.** Some pattern names referenced in this benchmark (e.g., Crafft, Dreams, ECHO) may be informal or research-internal labels. Where canonical published equivalents exist (e.g., Reflexion = arXiv 2303.11366, Voyager = arXiv 2305.16291), we cite them directly. Future revisions will track explicit provenance and remove informal labels where ambiguous.
 3. **Goodhart's law risk.** Once published, people will optimize for the score. Pre-register multiple rubric variants and rotate. Prefer measurement of *outcomes* (MTTD, time-to-first-impact) over *checkbox presence*.
 4. **Model-agnostic scoring.** Audit should not assume Claude-specific behaviors · validate on at least 2 model families before publishing official scores.
 5. **OpenTelemetry adoption preferred.** Don't reinvent observability conventions · adopt OTEL GenAI semantic conventions for pillar 6.

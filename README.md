@@ -67,7 +67,7 @@ Read [METHODOLOGY.md](METHODOLOGY.md) for the first-principles derivation of eac
 
 ## Reference example
 
-[`examples/madani-reference.md`](examples/madani-reference.md) · the Madani workspace (50M EUR portfolio · iter-38 · production grade) as a gold-standard reference. Use it as a high-score case study to compare against your own.
+[`examples/madani-reference.md`](examples/madani-reference.md) · a real production-grade workspace audited against this framework. Use it as a high-score case study to compare against your own. We welcome PRs adding additional reference examples — different stacks, different domains, different scores.
 
 ---
 
