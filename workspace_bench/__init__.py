@@ -8,7 +8,7 @@ model + weighted composite 0-100 scoring.
 https://github.com/ceomadani/workspace-agentic-benchmark
 """
 
-__version__ = "0.3.1"
+__version__ = "0.3.2"
 __author__ = "Nour Matine · Madani Lab"
 __license__ = "MIT"
 __url__ = "https://github.com/ceomadani/workspace-agentic-benchmark"

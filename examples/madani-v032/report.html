@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workspace Agentic Benchmark · Report · B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0a0d0a;
+    --bg-elev: #0f1410;
+    --bg-card: #131815;
+    --border: rgba(168, 192, 168, 0.18);
+    --border-strong: rgba(168, 192, 168, 0.35);
+    --fg: #E8EBE8;
+    --fg-dim: rgba(232, 235, 232, 0.70);
+    --fg-faint: rgba(232, 235, 232, 0.45);
+    --accent: #A8C0A8;
+    --accent-bright: #C8DDC8;
+    --font-serif: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); margin: 0; padding: 0; line-height: 1.6; font-size: 15px; }
+.container { max-width: 1120px; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
+
+/* Branded header */
+.brand-header { display: flex; align-items: center; gap: 1rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+.brand-logo { display: flex; align-items: center; }
+.brand-text { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; }
+.brand-text b { color: var(--accent-bright); font-weight: 600; }
+.brand-meta { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--fg-faint); letter-spacing: 0.08em; }
+
+h1 { font-family: var(--font-serif); font-size: clamp(2.4rem, 5vw, 3.4rem); line-height: 1.05; margin: 1.5rem 0 0.5rem; color: #F5F7F5; }
+h1 em { font-style: italic; color: var(--accent-bright); }
+.subtitle { font-family: var(--font-serif); font-style: italic; font-size: 1.05rem; color: var(--fg-dim); margin: 0 0 2rem; }
+h2 { font-family: var(--font-serif); font-size: 1.5rem; color: #F5F7F5; margin: 3rem 0 0.5rem; }
+h3 { font-family: var(--font-serif); font-size: 1.15rem; color: var(--accent-bright); margin: 1.75rem 0 0.5rem; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+.meta { font-family: var(--font-mono); font-size: 12px; color: var(--fg-faint); margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+.meta span { margin-right: 1.5rem; display: inline-block; }
+.meta b { color: var(--fg-dim); font-weight: normal; }
+
+/* Composite hero */
+.composite-card { background: var(--bg-elev); border: 1px solid var(--border-strong); border-radius: 8px; padding: 2.5rem; margin: 2rem 0 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+.composite-score { text-align: center; }
+.composite-value { font-family: var(--font-serif); font-size: 4.5rem; line-height: 1; font-weight: 400; margin: 0; }
+.composite-max { font-family: var(--font-mono); font-size: 0.85rem; color: var(--fg-faint); letter-spacing: 0.1em; margin-top: 0.5rem; }
+.grade-badge { display: inline-block; padding: 0.6rem 1.5rem; border-radius: 8px; font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+.grade-description { font-family: var(--font-serif); font-style: italic; color: var(--fg-dim); margin: 0; font-size: 0.95rem; }
+
+/* Cluster cards */
+.cluster-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0 2rem; }
+.cluster-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; }
+.cluster-card .label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+.cluster-card .value { font-family: var(--font-serif); font-size: 2rem; line-height: 1; margin: 0.75rem 0; color: #F5F7F5; }
+.cluster-card .progress { height: 6px; background: rgba(168, 192, 168, 0.08); border-radius: 3px; overflow: hidden; }
+.cluster-card .progress-fill { height: 100%; border-radius: 3px; }
+.cluster-card .desc { font-family: var(--font-serif); font-style: italic; font-size: 0.85rem; color: var(--fg-faint); margin: 0.5rem 0 0; line-height: 1.4; }
+
+/* Pillar table */
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-family: var(--font-mono); font-size: 13px; }
+th { text-align: left; padding: 0.75rem 0.75rem; border-bottom: 2px solid var(--accent); color: var(--accent); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; font-size: 11px; }
+td { padding: 0.85rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:hover td { background: rgba(168, 192, 168, 0.04); }
+td.pillar-name { font-family: var(--font-serif); font-size: 1rem; color: var(--accent-bright); }
+.new-badge { display: inline-block; margin-left: 0.5rem; padding: 1px 6px; border: 1px solid var(--accent); border-radius: 3px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; color: var(--accent-bright); text-transform: uppercase; }
+.level-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-weight: 600; color: #fff; font-family: var(--font-mono); font-size: 12px; }
+.maturity-bar { display: inline-flex; gap: 2px; align-items: center; }
+.maturity-cell { width: 18px; height: 14px; border-radius: 2px; }
+.cluster-tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.04em; color: #fff; }
+
+/* TREES (the heart of v0.3.2) */
+.tree { font-family: var(--font-mono); font-size: 13px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin: 1rem 0 2rem; overflow-x: auto; }
+.tree-root { color: var(--accent-bright); font-family: var(--font-serif); font-size: 1.05rem; font-style: italic; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px dashed var(--border); }
+.tree-node { display: flex; align-items: baseline; gap: 0.5rem; padding: 4px 0; }
+.tree-prefix { color: rgba(168, 192, 168, 0.35); white-space: pre; font-family: var(--font-mono); }
+.tree-label { color: var(--fg-dim); }
+.tree-meta { color: var(--fg-faint); font-size: 0.85em; margin-left: 0.5rem; }
+.tree-tag { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; letter-spacing: 0.06em; color: #fff; margin-right: 0.4rem; }
+.tree-section { margin-bottom: 2rem; }
+.tree-pillar-link { color: var(--accent-bright); text-decoration: none; }
+.tree-pillar-link:hover { text-decoration: underline; }
+
+/* Pattern catalog */
+.pattern-section { margin: 2rem 0; }
+.pattern-row { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: baseline; padding: 0.6rem 0; border-bottom: 1px dashed rgba(168,192,168,0.10); }
+.pattern-name { font-family: var(--font-serif); font-size: 1rem; color: var(--accent-bright); }
+.pattern-source { font-family: var(--font-mono); font-size: 11px; color: var(--fg-faint); }
+.pattern-abstract { font-family: var(--font-serif); font-style: italic; font-size: 0.9rem; color: var(--fg-dim); margin-top: 4px; }
+.pattern-pillars { font-family: var(--font-mono); font-size: 10px; color: var(--accent); white-space: nowrap; }
+
+/* Information theory */
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin: 1rem 0 2rem; }
+.info-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; }
+.info-card .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.info-card .value { font-family: var(--font-serif); font-size: 2rem; line-height: 1; margin: 0.5rem 0; color: #F5F7F5; }
+.info-card .interpretation { font-family: var(--font-serif); font-style: italic; font-size: 0.8rem; color: var(--fg-faint); margin: 0; line-height: 1.4; }
+
+/* Priorities */
+.priority-list { counter-reset: priority; list-style: none; padding: 0; }
+.priority-item { counter-increment: priority; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 6px; padding: 1.25rem 1.5rem; margin: 0 0 1rem; position: relative; }
+.priority-item::before { content: counter(priority); position: absolute; top: 1.25rem; right: 1.5rem; font-family: var(--font-serif); font-size: 2rem; color: var(--accent); line-height: 1; }
+.priority-pillar { font-family: var(--font-serif); font-size: 1.1rem; color: var(--accent-bright); margin: 0 0 0.5rem; padding-right: 3rem; }
+.priority-transition { font-family: var(--font-mono); font-size: 0.9rem; color: var(--fg-dim); margin: 0 0 0.5rem; }
+.priority-principle { font-family: var(--font-serif); font-style: italic; color: var(--fg-dim); font-size: 0.95rem; margin: 0; line-height: 1.55; }
+
+/* Legend */
+.legend { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; margin: 1rem 0; }
+.legend-row { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0; }
+.legend-code { font-family: var(--font-mono); font-weight: 700; min-width: 32px; }
+.legend-name { font-family: var(--font-mono); color: var(--fg-dim); min-width: 110px; }
+.legend-desc { font-family: var(--font-serif); color: var(--fg-dim); font-size: 0.95rem; }
+
+footer { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-faint); }
+
+@media print {
+    body { background: white; color: #1a1a1a; }
+    .container { max-width: none; padding: 1rem; }
+    .composite-card, .cluster-card, .priority-item, .legend, .tree, .info-card { background: #f8f8f5; border-color: #ddd; }
+    h1, h2, h3 { color: #1a1a1a; }
+    a { color: #1a1a1a; text-decoration: underline; }
+}
+@media (max-width: 720px) {
+    .composite-card { grid-template-columns: 1fr; text-align: center; }
+    .container { padding: 1.5rem 1rem 4rem; }
+    table { font-size: 11px; }
+    th, td { padding: 0.5rem 0.4rem; }
+    .pattern-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+    <header class="brand-header">
+        <div class="brand-logo"><svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Madani Lab">
+  <rect x="3" y="3" width="36" height="36" rx="6" stroke="#A8C0A8" stroke-width="1.5" fill="none"/>
+  <path d="M11 30 L11 12 L21 22 L31 12 L31 30" stroke="#C8DDC8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="21" cy="26" r="1.8" fill="#A8C0A8"/>
+</svg></div>
+        <div class="brand-text">Madani <b>Lab</b><br><span style="color:var(--fg-faint);font-size:9px;letter-spacing:0.14em;">LINGUA DEL REPORT: Italiano (it)</span></div>
+        <div class="brand-meta">workspace-bench · v0.3.1</div>
+    </header>
+
+    <h1>Workspace Agentic Benchmark<br><em>Report</em></h1>
+    <p class="subtitle">Un audit ai principi primi su 12 pillar in 4 cluster · modello di maturità L0-L4</p>
+
+    <div class="meta">
+        <span><b>Workspace</b> /Users/nourmatine/madani</span>
+        <span><b>Valutato il</b> 2026-05-20T00:22:28.765963</span>
+        <span><b>Strumento</b> workspace-bench v0.3.1</span>
+        <span><b>Lingua rilevata</b> Italiano (it)</span>
+    </div>
+
+    <div class="eyebrow">Sintesi esecutiva</div>
+    <div class="composite-card">
+        <div class="composite-score">
+            <div class="composite-value" style="color:#3b82f6;">81.25</div>
+            <div class="composite-max">/ 100 composito</div>
+        </div>
+        <div>
+            <span class="grade-badge" style="background:#3b82f6;">B</span>
+            <p class="grade-description">Solid · 1-2 pillars need hardening before scale</p>
+        </div>
+    </div>
+
+    <div class="eyebrow">Medie per cluster</div>
+    <h2 style="margin-top:0.5rem;">Quattro dimensioni di maturità del workspace</h2>
+    <div class="cluster-grid">
+        
+        <div class="cluster-card">
+            <div class="label" style="color:#a855f7">A · Cognition</div>
+            <div class="value">83.3<span style="font-size:0.5em;color:rgba(232,235,232,0.4);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:83.33%;background:#a855f7"></div></div>
+            <p class="desc">the agent's mind · memory · learning · self-assessment</p>
+        </div>
+        <div class="cluster-card">
+            <div class="label" style="color:#3b82f6">B · Action</div>
+            <div class="value">91.7<span style="font-size:0.5em;color:rgba(232,235,232,0.4);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:91.67%;background:#3b82f6"></div></div>
+            <p class="desc">how it executes · skills · multi-agent discipline · reliability</p>
+        </div>
+        <div class="cluster-card">
+            <div class="label" style="color:#f59e0b">C · Trust</div>
+            <div class="value">81.2<span style="font-size:0.5em;color:rgba(232,235,232,0.4);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:81.25%;background:#f59e0b"></div></div>
+            <p class="desc">safety and governance · gates · observability · security · human-in-the-loop</p>
+        </div>
+        <div class="cluster-card">
+            <div class="label" style="color:#10b981">D · Operations</div>
+            <div class="value">62.5<span style="font-size:0.5em;color:rgba(232,235,232,0.4);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:62.5%;background:#10b981"></div></div>
+            <p class="desc">production readiness · portability · cost economics</p>
+        </div>
+    </div>
+
+    <div class="eyebrow" style="margin-top:3rem;">12 pillar</div>
+    <h2 style="margin-top:0.5rem;">Dettaglio per pillar · maturità</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pillar</th>
+                <th>Cluster</th>
+                <th>Livello di maturità</th>
+                <th style="text-align:right">Punteggio</th>
+                <th style="text-align:right">Criteri</th>
+                <th>L0&nbsp;→&nbsp;L4</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P01</td>
+            <td class="pillar-name">Context Hierarchy & Memory</td>
+            <td><span class="cluster-tag" style="background:#a855f7">A</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">8/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P02</td>
+            <td class="pillar-name">Skill / Tool Architecture</td>
+            <td><span class="cluster-tag" style="background:#3b82f6">B</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">10/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P03</td>
+            <td class="pillar-name">Governance & Compliance</td>
+            <td><span class="cluster-tag" style="background:#f59e0b">C</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">9/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P04</td>
+            <td class="pillar-name">Auto-Improvement Loop</td>
+            <td><span class="cluster-tag" style="background:#a855f7">A</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">9/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P05</td>
+            <td class="pillar-name">Multi-Agent Discipline (DPI)</td>
+            <td><span class="cluster-tag" style="background:#3b82f6">B</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">10/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P06</td>
+            <td class="pillar-name">Observability & Recovery</td>
+            <td><span class="cluster-tag" style="background:#f59e0b">C</span></td>
+            <td><span class="level-badge" style="background:#10b981">L4</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Optimizing</span></td>
+            <td style="text-align:right;"><b style="color:#10b981;font-size:1.05rem">100</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">9/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P07</td>
+            <td class="pillar-name">Credentials & Security</td>
+            <td><span class="cluster-tag" style="background:#f59e0b">C</span></td>
+            <td><span class="level-badge" style="background:#f59e0b">L2</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Managed</span> <span title="needs improvement">⚠</span></td>
+            <td style="text-align:right;"><b style="color:#f59e0b;font-size:1.05rem">50</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">4/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P08</td>
+            <td class="pillar-name">Portability & Re-deployability</td>
+            <td><span class="cluster-tag" style="background:#10b981">D</span></td>
+            <td><span class="level-badge" style="background:#f59e0b">L2</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Managed</span> <span title="needs improvement">⚠</span></td>
+            <td style="text-align:right;"><b style="color:#f59e0b;font-size:1.05rem">50</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">5/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P09</td>
+            <td class="pillar-name">Metacognition & Self-Assessment</td>
+            <td><span class="cluster-tag" style="background:#a855f7">A</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">9/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P10</td>
+            <td class="pillar-name">Reliability & Determinism<span class="new-badge">⭐</span></td>
+            <td><span class="cluster-tag" style="background:#3b82f6">B</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">8/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P11</td>
+            <td class="pillar-name">Human-in-the-Loop<span class="new-badge">⭐</span></td>
+            <td><span class="cluster-tag" style="background:#f59e0b">C</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">8/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        <tr>
+            <td style="color:rgba(232,235,232,0.4);">P12</td>
+            <td class="pillar-name">Cost & Performance Efficiency<span class="new-badge">⭐</span></td>
+            <td><span class="cluster-tag" style="background:#10b981">D</span></td>
+            <td><span class="level-badge" style="background:#3b82f6">L3</span>&nbsp;<span style="color:rgba(232,235,232,0.55);">Defined</span></td>
+            <td style="text-align:right;"><b style="color:#3b82f6;font-size:1.05rem">75</b><span style="color:rgba(232,235,232,0.3);"> / 100</span></td>
+            <td style="text-align:right;color:rgba(232,235,232,0.5);">6/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="eyebrow" style="margin-top:3rem;">Albero delle evidenze</div>
+    <h2 style="margin-top:0.5rem;">Dettaglio per pillar · maturità · trees</h2>
+    <div class="tree-section"><div class="tree"><div class="tree-root">▸ Cluster A · Cognition <span style="color:#a855f7;font-size:0.85em;">— the agent's mind · memory · learning · self-assessment</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label">P01 · Context Hierarchy & Memory</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#3b82f6">L3</span>
+                    75/100 · 8/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Information flows into context only when needed, only the parts needed.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label">P04 · Auto-Improvement Loop</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#10b981">L4</span>
+                    100/100 · 9/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">│   └─</span>
+                <span>The workspace learns from its own session history · automatically · on a schedule.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label">P09 · Metacognition & Self-Assessment</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#3b82f6">L3</span>
+                    75/100 · 9/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">    └─</span>
+                <span>An agent must know what it doesn't know · before acting · not after failing.</span>
+            </div></div></div><div class="tree-section"><div class="tree"><div class="tree-root">▸ Cluster B · Action <span style="color:#3b82f6;font-size:0.85em;">— how it executes · skills · multi-agent discipline · reliability</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label">P02 · Skill / Tool Architecture</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#10b981">L4</span>
+                    100/100 · 10/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">│   └─</span>
+                <span>A skill is a contract with the agent. Contracts must be discoverable, fresh, and minimal.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label">P05 · Multi-Agent Discipline (DPI)</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#10b981">L4</span>
+                    100/100 · 10/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Default to single-thread. Multi-agent is an exception with explicit justification.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label">P10 · Reliability & Determinism <span class="new-badge">⭐</span></span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#3b82f6">L3</span>
+                    75/100 · 8/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">    └─</span>
+                <span>An agent that succeeds once in eight tries is not a system — it is a coin flip.</span>
+            </div></div></div><div class="tree-section"><div class="tree"><div class="tree-root">▸ Cluster C · Trust <span style="color:#f59e0b;font-size:0.85em;">— safety and governance · gates · observability · security · human-in-the-loop</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label">P03 · Governance & Compliance</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#10b981">L4</span>
+                    100/100 · 9/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Every irreversible action must pass an explicit gate. No silent execution.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label">P06 · Observability & Recovery</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#10b981">L4</span>
+                    100/100 · 9/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Failure is the default. Detection must be automatic and fast.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label">P07 · Credentials & Security</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#f59e0b">L2</span>
+                    50/100 · 4/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Zero plaintext credentials. Ever. Including placeholder patterns.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label">P11 · Human-in-the-Loop <span class="new-badge">⭐</span></span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#3b82f6">L3</span>
+                    75/100 · 8/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">    └─</span>
+                <span>The most consequential decisions must pass through a human gate.</span>
+            </div></div></div><div class="tree-section"><div class="tree"><div class="tree-root">▸ Cluster D · Operations <span style="color:#10b981;font-size:0.85em;">— production readiness · portability · cost economics</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label">P08 · Portability & Re-deployability</span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#f59e0b">L2</span>
+                    50/100 · 5/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Re-deployable on new engagement in days, not months. FDE-grade.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label">P12 · Cost & Performance Efficiency <span class="new-badge">⭐</span></span>
+                <span class="tree-meta">
+                    <span class="level-badge" style="background:#3b82f6">L3</span>
+                    75/100 · 6/10 criteri
+                </span>
+            </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
+                <span class="tree-prefix">    └─</span>
+                <span>Token economics decide deployment viability · harness, not model.</span>
+            </div></div></div>
+
+    
+        <div class="eyebrow" style="margin-top:3.5rem;">Layer di teoria dell'informazione</div>
+        <h2 style="margin-top:0.5rem;">Rapporto segnale-rumore · entropia · densità informativa · qualità vs quantità</h2>
+        
+    <p class="subtitle" style="margin-bottom:1rem;">Rapporto segnale-rumore · entropia · densità informativa · qualità vs quantità</p>
+    <div class="info-grid"><div class="info-card" style="border-left:3px solid #a855f7;">
+            <div class="label" style="color:#a855f7">α · Qualità × Quantità</div>
+            <div class="value">63.68</div>
+            <p class="interpretation">solid · room to push on the weaker dimension</p>
+        </div><div class="info-card" style="border-left:3px solid #3b82f6;">
+            <div class="label" style="color:#3b82f6">Rapporto segnale-rumore</div>
+            <div class="value">12.7 dB</div>
+            <p class="interpretation">excellent · signal dominates noise</p>
+        </div><div class="info-card" style="border-left:3px solid #f59e0b;">
+            <div class="label" style="color:#f59e0b">Entropia del workspace</div>
+            <div class="value">1.873 bits</div>
+            <p class="interpretation">diverse file ecosystem · multi-modal capability</p>
+        </div><div class="info-card" style="border-left:3px solid #10b981;">
+            <div class="label" style="color:#10b981">Densità informativa</div>
+            <div class="value">100%</div>
+            <p class="interpretation"></p>
+        </div><div class="info-card" style="border-left:3px solid #06b6d4;">
+            <div class="label" style="color:#06b6d4">Indice di qualità</div>
+            <div class="value">56.0</div>
+            <p class="interpretation">balanced quantity and quality</p>
+        </div><div class="info-card" style="border-left:3px solid #ec4899;">
+            <div class="label" style="color:#ec4899">Indice di quantità</div>
+            <div class="value">72.41</div>
+            <p class="interpretation"></p>
+        </div></div>
+    <div class="tree-section"><div class="tree"><div class="tree-root">▸ Information theory components · raw counts</div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Files total</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">16227</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Docs (md/rst/txt)</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">8624</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Code files</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">1504</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Config files</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">1276</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Assets</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">3308</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Files with frontmatter</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">692</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Frontmatter rate</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">8.02%</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Wiki-style cross-links</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">1199</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">arXiv citations</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">288</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Markdown links</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">9273</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Stale files (>6 months)</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">2.7%</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Empty / near-empty</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">1.09%</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Citation density</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">22.17%</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">└─ </span>
+            <span class="tree-label">Structure ratio</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">1.89%</span>
+        </div></div></div>
+    
+        
+
+    <div class="eyebrow" style="margin-top:3.5rem;">Priorità di miglioramento</div>
+    <h2 style="margin-top:0.5rem;">Ordinate per gap al livello successivo</h2>
+    <ol class="priority-list">
+            <li class="priority-item" style="border-left-color:#f59e0b">
+                <h3 class="priority-pillar">P07 · Credentials & Security</h3>
+                <p class="priority-transition">
+                    <span style="color:#f59e0b">L2</span> →
+                    <span style="color:#3b82f6">L3</span>
+                    &nbsp;·&nbsp; +50 punti su questo pillar
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster C · Trust</span>
+                </p>
+                <p class="priority-principle">Zero plaintext credentials. Ever. Including placeholder patterns.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#10b981">
+                <h3 class="priority-pillar">P08 · Portability & Re-deployability</h3>
+                <p class="priority-transition">
+                    <span style="color:#f59e0b">L2</span> →
+                    <span style="color:#3b82f6">L3</span>
+                    &nbsp;·&nbsp; +50 punti su questo pillar
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster D · Operations</span>
+                </p>
+                <p class="priority-principle">Re-deployable on new engagement in days, not months. FDE-grade.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#a855f7">
+                <h3 class="priority-pillar">P01 · Context Hierarchy & Memory</h3>
+                <p class="priority-transition">
+                    <span style="color:#3b82f6">L3</span> →
+                    <span style="color:#10b981">L4</span>
+                    &nbsp;·&nbsp; +25 punti su questo pillar
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster A · Cognition</span>
+                </p>
+                <p class="priority-principle">Information flows into context only when needed, only the parts needed.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#a855f7">
+                <h3 class="priority-pillar">P09 · Metacognition & Self-Assessment</h3>
+                <p class="priority-transition">
+                    <span style="color:#3b82f6">L3</span> →
+                    <span style="color:#10b981">L4</span>
+                    &nbsp;·&nbsp; +25 punti su questo pillar
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster A · Cognition</span>
+                </p>
+                <p class="priority-principle">An agent must know what it doesn't know · before acting · not after failing.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#3b82f6">
+                <h3 class="priority-pillar">P10 · Reliability & Determinism</h3>
+                <p class="priority-transition">
+                    <span style="color:#3b82f6">L3</span> →
+                    <span style="color:#10b981">L4</span>
+                    &nbsp;·&nbsp; +25 punti su questo pillar
+                    &nbsp;·&nbsp; <span style="color:rgba(232,235,232,0.4)">Cluster B · Action</span>
+                </p>
+                <p class="priority-principle">An agent that succeeds once in eight tries is not a system — it is a coin flip.</p>
+            </li></ol>
+
+    <div class="eyebrow" style="margin-top:3.5rem;">Catalogo dei pattern adapter</div>
+    <h2 style="margin-top:0.5rem;">Catalogo dei pattern adapter</h2>
+    <p class="subtitle" style="margin-bottom:1.5rem;">Ricerca esterna e pattern di produzione che informano ogni pillar</p><p style="font-family:var(--font-mono);font-size:12px;color:var(--accent);margin-bottom:1rem;letter-spacing:0.08em;text-transform:uppercase;">57 pattern catalogati · adattati attraverso i 12 pillar</p><div class="tree-section"><div class="tree"><div class="tree-root">▸ Foundational · agentic architecture <span style="color:#a855f7;font-size:0.85em;">— 15 patterns</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Reflexion (Shinn et al.)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P01 P04</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2303.11366 · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Language agents with verbal reinforcement learning · episodic memory buffer.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Voyager (Wang et al. · NVIDIA)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P02 P04</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2305.16291 · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Open-ended embodied agent with skill library + auto-curriculum.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">MetaCogAgent (Wang, Shu)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P05 P09</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2605.17292 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Metacognitive multi-agent LLM framework with MCU · 82.4% acc · ECE 0.087.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Stanford DPI (Tran, Kiela)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P05</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2604.02460 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Single-agent LLMs outperform multi-agent under fixed token budgets.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Darwin Gödel Machine (Sakana + Clune)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P04</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2505.22954 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Self-improving agents · SWE-bench 20→50% via evolutionary archive.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">CoALA (Sumers et al.)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P01</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2309.02427 · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Cognitive Architectures for Language Agents · semantic/episodic/procedural taxonomy.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">MemGPT (Packer et al.)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P01</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2310.08560 · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Virtual context management for LLMs · OS-style page-swap memory.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Tree of Thoughts (Yao et al.)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P09</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2305.10601 · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Deliberate problem-solving through tree-structured exploration.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">ECHO (Shrivastava, Papailiopoulos)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P01 P04</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">research:2026 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Environment dynamics as auxiliary supervision signal in agent RL.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">EvoSkill</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P02 P04</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2603.02766 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Auto skill discovery via failure analysis · Claude Code 60.6 → 67.9%.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">SkillFlow</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P02</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2604.17308 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Lifelong skill discovery and evolution benchmark.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Anatomy of Agentic Memory</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P01</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2602.19320 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Taxonomy and empirical analysis of memory eval gaps.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Procedural Memory Retrieval Benchmark</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P01 P02</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2511.21730 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Isolates procedural recall from execution capability.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Active Context Compression</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P01 P12</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2601.07190 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Autonomous memory management in LLM agents.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Constitutional AI (Anthropic)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#a855f7">foundational</span>
+                    <span class="pattern-pillars">P03</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">    ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2212.08073 · 2022</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">    └─</span>
+                <span>Explicit principles outperform implicit alignment.</span>
+            </div></div></div><div class="tree-section"><div class="tree"><div class="tree-root">▸ Production · failure analysis · operations <span style="color:#3b82f6;font-size:0.85em;">— 12 patterns</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">MAST (UC Berkeley Sky Lab)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P05 P06 P10 P11</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2503.13657 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Why Do Multi-Agent LLM Systems Fail? · 14 failure modes · NeurIPS 2025 spotlight.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">CLEAR Framework</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P10 P12</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2511.14136 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Cost-controlled enterprise agent evaluation · CNA + pass@k.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">AgentCompass</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P06</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2509.14647 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Production agentic workflow eval · hierarchical error taxonomy + dual memory.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">AgentTrace</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P06</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2602.10133 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Structured logging: cognitive/operational/contextual surfaces · OTEL-native.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">AgenTracer</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P06 P10</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2509.03312 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Attribution of failure in multi-agent traces.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Agentic Harness Engineering</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P04 P06</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2604.25850 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Observability-driven automatic evolution of coding-agent harnesses.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Trainee-Bench (Agent's First Day)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P08</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2601.08173 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Context-aware scheduling · prudent info acquisition · continuous evolution.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">PaperClip / Sentra Company Brain</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P01 P04</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">research:2026 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Memoria persistente come architettura, non add-on · $5M seed.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Manus Context Engineering</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P01 P12</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">blog:2025 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>KV-cache hit rate is the single most important production metric.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Hermes-agent (NousResearch)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P01 P02</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">github:NousResearch/hermes-agent · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Agent-curated memory · autonomous skill creation · FTS5 search.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">OpenCode (anomalyco)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P02 P03</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">github:anomalyco/opencode · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>build/plan/research mode toggle · provider-agnostic · client/server.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">WalkingLabs Harness Engineering</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#3b82f6">production</span>
+                    <span class="pattern-pillars">P04 P06</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">    ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">blog:2026 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">    └─</span>
+                <span>Observability-driven harness evolution patterns.</span>
+            </div></div></div><div class="tree-section"><div class="tree"><div class="tree-root">▸ Governance · safety · security <span style="color:#f59e0b;font-size:0.85em;">— 10 patterns</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">OWASP LLM Top 10 (2025)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P07 P11</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">owasp:llm-top-10-2025 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>LLM02 Sensitive Info · LLM06 Excessive Agency · LLM07 System Prompt Leakage.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">NIST AI RMF 1.0</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P03 P11</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">nist:ai-100-1 · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>4 functions: Govern · Map · Measure · Manage. Process framework.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">AAGATE</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P03 P11</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2510.25863 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>NIST AI RMF-aligned governance platform for agentic AI.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Agent Security Bench (ASB)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P07</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2410.02644 · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>10 scenarios × 400 tools × 27 attack/defense × 7 metrics.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">RAS-Eval</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P07</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2506.15253 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>80 cases × 3802 attacks · 11 CWE categories · env-var secret handling.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">SEC-bench</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P07</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2506.11791 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Containerized security tasks for agents.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Cognition · Don't Build Multi-Agents</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P05</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">blog:cognition.ai/2024 · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Context sharing between agents is the bottleneck · steel-man.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Cynefin Framework (Snowden)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P03 P11</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">research:1999 · 1999</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Sense-making framework: Clear · Complicated · Complex · Chaotic.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">MITRE ATLAS</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P07</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">mitre:atlas · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Adversarial threat landscape for AI systems · tactics + techniques.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">ISO/IEC 42001 AI Management System</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#f59e0b">governance</span>
+                    <span class="pattern-pillars">P03</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">    ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">iso:42001 · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">    └─</span>
+                <span>Management system standard for AI · audit-able governance.</span>
+            </div></div></div><div class="tree-section"><div class="tree"><div class="tree-root">▸ Doctrine · forward deploy · practitioner <span style="color:#10b981;font-size:0.85em;">— 10 patterns</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Anthropic Effective Harnesses</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P04 P06 P08</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">anthropic:effective-harnesses · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Engineering doctrine · progress files · session protocols · external memory.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Anthropic Demystifying Evals</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P10</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">anthropic:demystifying-evals · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>pass@k as core metric · operational eval practice.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Anthropic Cache Diagnostics</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P01 P12</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">anthropic:cache-diagnostics-2026 · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Diagnose cache miss via API · 4 cache_miss_reason types · beta.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Focused Labs · Harness Not Model</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P12</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">focused:harness-not-model · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Agent benchmark scores measure the harness, not the model.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Palantir FDE Model</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P08</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">palantir:ai-fde · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Forward Deployed Engineer · embedded · customer-KPI-driven.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">MindStudio FDE Analysis</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P08</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">mindstudio:fde · 2026</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Anthropic + OpenAI copying Palantir FDE model · industry trend.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">OpenTelemetry GenAI Conventions</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P06</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">otel:genai-2025 · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Semantic conventions for AI agent observability traces.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Anthropic Skills Documentation</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P02</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">anthropic:skills-docs · 2025</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Auto-trigger via description matching · skill folder convention.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Google SRE Book</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P06 P10</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">google:sre-book · 2016</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Idempotency · retry budgets · circuit breakers · MTTD > MTBF.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">MLPerf Submission Rules</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#10b981">doctrine</span>
+                    <span class="pattern-pillars">P08</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">    ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">mlcommons:submission · 2018</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">    └─</span>
+                <span>Formal submission process · compliance tests · review committee.</span>
+            </div></div></div><div class="tree-section"><div class="tree"><div class="tree-root">▸ Industry · benchmarks · tooling <span style="color:#06b6d4;font-size:0.85em;">— 10 patterns</span></div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">SWE-bench / Verified / Pro</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P10</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2310.06770 · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Resolve real GitHub issues · patch generation · pass/fail per issue.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">TAU-bench (Sierra)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P10</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2406.12045 · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Tool-Agent-User multi-turn · pass^k reliability · policy adherence.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">AgentBench (Tsinghua)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P02</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2308.03688 · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>8 environments multi-task evaluation.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">GAIA (Meta + HF)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P09</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2311.12983 · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>General assistant · reasoning + multimodal + tool use · 466 Qs.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">OSWorld (XLang)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P02</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2404.07972 · 2024</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>369 real computer tasks · GUI+keyboard+mouse · NeurIPS 2024.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">HELM (Stanford CRFM)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P10 P12</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">arXiv:2211.09110 · 2022</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>7 metrics × 16 scenarios · holistic LLM eval.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">Chatbot Arena (LMSYS)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P10</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">lmsys:arena · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Bradley-Terry MLE → Elo presentation · 1M+ human votes.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">AWS Well-Architected</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P03 P08</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">aws:well-architected · 2015</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>6 pillars · question-based · risk rating per question.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">├─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">CMMI Maturity Levels</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P04 P08</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">│   ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">cmmi:levels · 2002</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">│   └─</span>
+                <span>Maturity Level L1-L5 (staged) · ISO 15504 adjacent.</span>
+            </div><div class="tree-node">
+                <span class="tree-prefix">└─ </span>
+                <span class="tree-label" style="color:var(--accent-bright);">LangSmith Eval (LangChain)</span>
+                <span class="tree-meta" style="margin-left:auto;">
+                    <span class="tree-tag" style="background:#06b6d4">industry</span>
+                    <span class="pattern-pillars">P06 P10</span>
+                </span>
+            </div><div class="tree-node" style="font-size:0.85em;">
+                <span class="tree-prefix">    ├─</span>
+                <span style="color:var(--fg-faint);font-family:var(--font-mono);">langchain:smith · 2023</span>
+            </div><div class="tree-node" style="font-size:0.88em;font-style:italic;color:var(--fg-dim);">
+                <span class="tree-prefix">    └─</span>
+                <span>Trajectory · tool calls · LLM-judge · pairwise · online/offline.</span>
+            </div></div></div><h3>Pattern coverage per pillar</h3><div class="tree-section"><div class="tree"><div class="tree-root">▸ How many catalog patterns inform each pillar</div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P01 · Context Hierarchy & Memory</span>
+            <span class="tree-meta" style="margin-left:auto;color:#a855f7;">11 patterns <span style="color:#a855f7;font-family:var(--font-mono);font-size:11px;">███████████░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P02 · Skill / Tool Architecture</span>
+            <span class="tree-meta" style="margin-left:auto;color:#3b82f6;">9 patterns <span style="color:#3b82f6;font-family:var(--font-mono);font-size:11px;">█████████░░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P03 · Governance & Compliance</span>
+            <span class="tree-meta" style="margin-left:auto;color:#f59e0b;">7 patterns <span style="color:#f59e0b;font-family:var(--font-mono);font-size:11px;">███████░░░░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P04 · Auto-Improvement Loop</span>
+            <span class="tree-meta" style="margin-left:auto;color:#a855f7;">10 patterns <span style="color:#a855f7;font-family:var(--font-mono);font-size:11px;">██████████░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P05 · Multi-Agent Discipline (DPI)</span>
+            <span class="tree-meta" style="margin-left:auto;color:#3b82f6;">4 patterns <span style="color:#3b82f6;font-family:var(--font-mono);font-size:11px;">████░░░░░░░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P06 · Observability & Recovery</span>
+            <span class="tree-meta" style="margin-left:auto;color:#f59e0b;">10 patterns <span style="color:#f59e0b;font-family:var(--font-mono);font-size:11px;">██████████░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P07 · Credentials & Security</span>
+            <span class="tree-meta" style="margin-left:auto;color:#f59e0b;">5 patterns <span style="color:#f59e0b;font-family:var(--font-mono);font-size:11px;">█████░░░░░░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P08 · Portability & Re-deployability</span>
+            <span class="tree-meta" style="margin-left:auto;color:#10b981;">7 patterns <span style="color:#10b981;font-family:var(--font-mono);font-size:11px;">███████░░░░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P09 · Metacognition & Self-Assessment</span>
+            <span class="tree-meta" style="margin-left:auto;color:#a855f7;">3 patterns <span style="color:#a855f7;font-family:var(--font-mono);font-size:11px;">███░░░░░░░░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P10 · Reliability & Determinism</span>
+            <span class="tree-meta" style="margin-left:auto;color:#3b82f6;">10 patterns <span style="color:#3b82f6;font-family:var(--font-mono);font-size:11px;">██████████░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">P11 · Human-in-the-Loop</span>
+            <span class="tree-meta" style="margin-left:auto;color:#f59e0b;">5 patterns <span style="color:#f59e0b;font-family:var(--font-mono);font-size:11px;">█████░░░░░░░░░░░░░░░</span></span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">└─ </span>
+            <span class="tree-label">P12 · Cost & Performance Efficiency</span>
+            <span class="tree-meta" style="margin-left:auto;color:#10b981;">6 patterns <span style="color:#10b981;font-family:var(--font-mono);font-size:11px;">██████░░░░░░░░░░░░░░</span></span>
+        </div></div></div>
+
+    <div class="eyebrow" style="margin-top:3.5rem;">Modello di maturità L0-L4</div>
+    <h2 style="margin-top:0.5rem;">Ispirato a CMMI · usato da AWS Well-Architected · NIST AI RMF · OWASP</h2>
+    <div class="legend">
+        <div class="legend-row">
+            <span class="legend-code" style="color:#6b7280">L0</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span>
+            <span class="legend-name">Absent</span>
+            <span class="legend-desc">Pillar doesn't exist in workspace</span>
+        </div>
+        <div class="legend-row">
+            <span class="legend-code" style="color:#ef4444">L1</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:#ef4444"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span>
+            <span class="legend-name">Initial</span>
+            <span class="legend-desc">Ad-hoc · undocumented · operator's head only</span>
+        </div>
+        <div class="legend-row">
+            <span class="legend-code" style="color:#f59e0b">L2</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:#f59e0b"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span>
+            <span class="legend-name">Managed</span>
+            <span class="legend-desc">Documented · manually executed</span>
+        </div>
+        <div class="legend-row">
+            <span class="legend-code" style="color:#3b82f6">L3</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:#3b82f6"></span><span class="maturity-cell" style="background:rgba(168,192,168,0.12)"></span></span>
+            <span class="legend-name">Defined</span>
+            <span class="legend-desc">Enforced via tools/hooks · automated</span>
+        </div>
+        <div class="legend-row">
+            <span class="legend-code" style="color:#10b981">L4</span>
+            <span class="maturity-bar"><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span><span class="maturity-cell" style="background:#10b981"></span></span>
+            <span class="legend-name">Optimizing</span>
+            <span class="legend-desc">Auto-improves · measured · cybernetic feedback loop</span>
+        </div></div>
+
+    <footer>
+        Generato da workspace-bench v0.3.1 · 2026-05-20 00:22:30<br>
+        github.com/ceomadani/workspace-agentic-benchmark · MIT license · Madani Lab
+    </footer>
+</div>
+</body>
+</html>

@@ -6,6 +6,55 @@ Format inspired by [Keep a Changelog](https://keepachangelog.com/). Versioning f
 
 ---
 
+## [0.3.2] · 2026-05-20
+
+### Added · onboarding · i18n · information theory · 50+ patterns · tree-heavy HTML
+
+- **`workspace-bench init`** · interactive onboarding wizard
+  - Rich-prompts UI · single-folder or multi-folder workspace
+  - Auto-detect language from workspace files (en/it/fr/es/de/pt)
+  - Auto-detect stack (Python · Node.js · Next.js · TypeScript · Rust · Go · Ruby · PHP · Java · Docker · Terraform · GitHub Actions · Claude Code · Cursor · n8n · Supabase · Vercel · ...)
+  - Save `.workspace-bench.yaml` config that `workspace-bench run` auto-loads
+- **`workspace_bench/i18n.py`** · multi-language support
+  - 6 languages: en · it · fr · es · de · pt
+  - Function-word marker detection from sampled markdown
+  - Translation tables · falls back to English for missing keys
+- **`workspace_bench/info_theory.py`** · information theory layer
+  - α = √(quantity × quality) · geometric-mean composite
+  - Signal-to-noise ratio (linear + dB)
+  - Shannon entropy of file-type distribution
+  - Information density (avg structured content per file)
+  - Stale-rate · empty-rate · citation density · structure ratio
+  - Interpretive labels (high/healthy/marginal/poor · balanced/quantity-heavy/quality-heavy)
+- **`workspace_bench/patterns.py`** · 50+ pattern adapter catalog
+  - 5 categories: foundational · production · governance · doctrine · industry
+  - Each pattern mapped to pillars it informs (1-12)
+  - Coverage matrix · how many patterns inform each pillar
+  - Sources include Reflexion · Voyager · MetaCogAgent · MAST · CLEAR · DGM · MemGPT · CoALA · NIST AI RMF · AAGATE · OWASP · CMMI · Anthropic Effective Harnesses · Manus · PaperClip · Hermes-agent · OpenCode · etc.
+- **HTML report v3 · tree-heavy · Madani branded · localized**
+  - Inline SVG Madani Lab logo header
+  - Multi-language full content (executive summary · cluster averages · pillar table · trees · improvement priorities · pattern catalog · info-theory · legend)
+  - 5+ tree visualizations: pillar trees per cluster · pattern catalog trees per category · pattern coverage tree · info-theory components tree
+  - Information theory section with α · SNR · entropy · density · quality vs quantity cards
+  - 108KB self-contained (up from 30KB in v0.3.1) · same print-friendly + responsive
+
+### Changed
+
+- `cli.py` · new `init` subcommand · `run` auto-loads `.workspace-bench.yaml` · `report` accepts `--language` and auto-detects
+- `run` pipeline now computes information theory metrics during audit
+- HTML report renders in detected language by default
+
+### Files
+
+- `workspace_bench/onboarding.py` (NEW · 240 lines)
+- `workspace_bench/i18n.py` (NEW · 280 lines)
+- `workspace_bench/info_theory.py` (NEW · 220 lines)
+- `workspace_bench/patterns.py` (NEW · 360 lines · 50+ patterns)
+- `workspace_bench/html_report.py` (REWRITE · 470 lines · trees · branded · localized)
+- `workspace_bench/cli.py` (UPDATE · 240 lines · init + i18n + info-theory integration)
+
+---
+
 ## [0.3.1] · 2026-05-20
 
 ### Added · sophisticated CLI experience
