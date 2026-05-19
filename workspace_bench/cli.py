@@ -29,6 +29,8 @@ from .ui import (
 from .html_report import render_html
 from .i18n import detect_language, language_name
 from .info_theory import compute_info_theory
+from .info_theory_advanced import compute_advanced_metrics
+from .compare import compare_scores, save_to_history, load_history, composite_trend, sparkline
 from .onboarding import run_init as run_init_wizard, read_config, CONFIG_FILENAME
 
 
@@ -239,10 +241,13 @@ def cmd_run(workspace: Path | None, output_dir: Path | None, language: str | Non
     score = score_audit(audit, weight_dict)
     score_path.write_text(json.dumps(score, indent=2, ensure_ascii=False), encoding="utf-8")
 
-    # 4. Info theory + language detection
+    # 4. Info theory (base + advanced) + language detection
     console.print()
     console.print("[dim]  Computing information theory metrics...[/dim]")
     info = compute_info_theory(workspace)
+    console.print("[dim]  Computing knowledge graph + advanced metrics...[/dim]")
+    advanced = compute_advanced_metrics(workspace)
+    info["advanced"] = advanced
     if language is None:
         language, _ = detect_language(workspace)
     console.print(f"[dim]  Language detected:[/dim] [cyan]{language_name(language)}[/cyan] ({language})")
@@ -265,8 +270,167 @@ def cmd_run(workspace: Path | None, output_dir: Path | None, language: str | Non
     html = render_html(score, info_theory=info, language=language, workspace_name=workspace_name)
     report_path.write_text(html, encoding="utf-8")
 
-    # 7. Output files panel
+    # 7. Save to history (.workspace-bench/history/)
+    history_dir = workspace / ".workspace-bench" / "history"
+    try:
+        save_to_history(audit, score, history_dir)
+        console.print(f"[dim]  Snapshot saved to history:[/dim] [cyan]{history_dir}[/cyan]")
+    except Exception as e:
+        console.print(f"[yellow]  ! Could not save history snapshot: {e}[/yellow]")
+    console.print()
+
+    # 8. Output files panel
     console.print(output_files_card(audit_path, score_path, report_path))
+    console.print()
+
+
+@cli.command("compare", help="Compare two audits · trend diff · what improved/regressed between two scores")
+@click.argument("before_score_json", type=click.Path(exists=True, dir_okay=False, path_type=Path))
+@click.argument("after_score_json", type=click.Path(exists=True, dir_okay=False, path_type=Path))
+@click.option("--output", "-o", type=click.Path(path_type=Path), help="Output JSON path (default: stdout)")
+@click.option("--no-color", is_flag=True, help="Disable color output")
+def cmd_compare(before_score_json: Path, after_score_json: Path, output: Path | None, no_color: bool):
+    from rich.panel import Panel
+    from rich.text import Text
+    from rich.table import Table
+    from rich.box import HEAVY, ROUNDED, SIMPLE_HEAD
+    console = make_console(no_color=no_color)
+    before = json.loads(before_score_json.read_text(encoding="utf-8"))
+    after = json.loads(after_score_json.read_text(encoding="utf-8"))
+    diff = compare_scores(before, after)
+
+    composite_delta = diff.get("composite_delta", 0)
+    arrow = "↑" if composite_delta > 0 else ("↓" if composite_delta < 0 else "→")
+    color = "bright_green" if composite_delta > 0 else ("bright_red" if composite_delta < 0 else "yellow")
+
+    hero = Text()
+    hero.append("\n  Composite trend  ", style="dim")
+    hero.append(f"{diff['before']['composite']:.2f}", style="cyan")
+    hero.append(" → ", style="dim")
+    hero.append(f"{diff['after']['composite']:.2f}", style=f"bold {color}")
+    hero.append(f"  {arrow}{abs(composite_delta):+.2f}", style=f"bold {color}")
+    hero.append("\n  Grade            ", style="dim")
+    hero.append(diff["grade_change"], style="bold")
+    hero.append("\n\n  Pillar movements  ", style="dim")
+    hero.append(f"+{diff['improvements_count']}", style="bright_green")
+    hero.append("  /  ", style="dim")
+    hero.append(f"-{diff['regressions_count']}", style="bright_red")
+    hero.append("  /  ", style="dim")
+    hero.append(f"={diff['flat_count']}", style="dim")
+    hero.append("\n")
+    console.print()
+    console.print(Panel(hero, title="[bold cyan]┃ COMPARE", title_align="left", border_style=color, box=HEAVY, padding=(0, 1)))
+    console.print()
+
+    # Per-pillar table
+    t = Table(title="[bold]Pillar diffs[/bold]", box=SIMPLE_HEAD, show_header=True, header_style="bold cyan", border_style="dim")
+    t.add_column("#", style="dim", width=4)
+    t.add_column("Pillar", style="white", min_width=36)
+    t.add_column("Before", justify="right")
+    t.add_column("After", justify="right")
+    t.add_column("Δ", justify="right")
+    for d in diff["pillar_diffs"]:
+        delta = d["score_delta"]
+        if delta > 0:
+            sym = f"[bright_green]+{delta}[/bright_green]"
+        elif delta < 0:
+            sym = f"[bright_red]{delta}[/bright_red]"
+        else:
+            sym = "[dim]·[/dim]"
+        t.add_row(
+            f"P{d['n']:02d}",
+            d["title"],
+            f"[dim]{d['before_score']}[/dim]",
+            f"[bold]{d['after_score']}[/bold]",
+            sym,
+        )
+    console.print(t)
+    console.print()
+
+    if output:
+        output.write_text(json.dumps(diff, indent=2, ensure_ascii=False), encoding="utf-8")
+        console.print(f"[dim]Wrote diff to[/dim] [cyan]{output}[/cyan]")
+
+
+@cli.command("history", help="Show audit history trend · composite over time · sparkline")
+@click.argument("workspace", type=click.Path(exists=True, file_okay=False, dir_okay=True, path_type=Path), required=False)
+@click.option("--no-color", is_flag=True, help="Disable color output")
+def cmd_history(workspace: Path | None, no_color: bool):
+    from rich.panel import Panel
+    from rich.text import Text
+    from rich.table import Table
+    from rich.box import HEAVY, ROUNDED, SIMPLE_HEAD
+    console = make_console(no_color=no_color)
+
+    if workspace is None:
+        # Try to read from config
+        config_path = Path.cwd() / CONFIG_FILENAME
+        config = read_config(config_path) if config_path.exists() else {}
+        wp = config.get("workspace")
+        if isinstance(wp, list):
+            wp = wp[0]
+        if wp:
+            workspace = Path(str(wp))
+        else:
+            console.print("[red]✗ No workspace specified. Provide path or run init.[/red]")
+            sys.exit(1)
+
+    history_dir = workspace / ".workspace-bench" / "history"
+    history = load_history(history_dir)
+
+    if not history:
+        console.print(f"[yellow]  No history found at {history_dir}.  Run `workspace-bench run` first.[/yellow]")
+        return
+
+    trend = composite_trend(history)
+    composites = [p[1] for p in trend["points"]]
+    spark = sparkline(composites, width=40)
+
+    body = Text()
+    body.append("\n  Workspace  ", style="dim")
+    body.append(str(workspace), style="cyan")
+    body.append(f"\n  Samples    ", style="dim")
+    body.append(f"{trend['samples']}", style="cyan")
+    body.append("\n  First      ", style="dim")
+    body.append(f"{trend['first']}", style="cyan")
+    body.append("\n  Current    ", style="dim")
+    body.append(f"{trend['current']}", style="bright_cyan")
+    body.append("\n  Min / Max  ", style="dim")
+    body.append(f"{trend['min']} / {trend['max']}", style="cyan")
+    body.append("\n  Delta      ", style="dim")
+    delta = trend["delta_from_first"]
+    color = "bright_green" if delta > 0 else ("bright_red" if delta < 0 else "dim")
+    sign = "+" if delta > 0 else ""
+    body.append(f"{sign}{delta}", style=f"bold {color}")
+    body.append("\n\n  Trend      ", style="dim")
+    body.append(spark, style="cyan")
+    body.append("\n")
+    console.print()
+    console.print(Panel(body, title="[bold cyan]┃ HISTORY", title_align="left", border_style="cyan", box=HEAVY, padding=(0, 1)))
+    console.print()
+
+    # Table of snapshots
+    t = Table(title="[bold]Snapshots[/bold]", box=SIMPLE_HEAD, show_header=True, header_style="bold cyan", border_style="dim")
+    t.add_column("Timestamp", style="white")
+    t.add_column("Composite", justify="right")
+    t.add_column("Grade", justify="center")
+    t.add_column("Cluster A", justify="right")
+    t.add_column("Cluster B", justify="right")
+    t.add_column("Cluster C", justify="right")
+    t.add_column("Cluster D", justify="right")
+    for entry in history[-10:]:
+        ts = entry.get("timestamp", "?")[:19].replace("T", " ")
+        ca = entry.get("cluster_averages", {})
+        t.add_row(
+            ts,
+            f"[bold]{entry.get('composite', 0):.1f}[/bold]",
+            entry.get("grade", "?"),
+            f"{ca.get('A', 0):.0f}",
+            f"{ca.get('B', 0):.0f}",
+            f"{ca.get('C', 0):.0f}",
+            f"{ca.get('D', 0):.0f}",
+        )
+    console.print(t)
     console.print()
 
 

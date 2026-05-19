@@ -1,0 +1,198 @@
+{
+  "tool": "workspace-bench",
+  "version": "0.3.3",
+  "scored_at": "2026-05-20T00:57:51.161739",
+  "workspace": "/Users/nourmatine/madani",
+  "audit_at": "2026-05-20T00:55:44.864864",
+  "composite": 81.25,
+  "max": 100,
+  "grade": "B",
+  "grade_description": "Solid · 1-2 pillars need hardening before scale",
+  "cluster_averages": {
+    "A": {
+      "name": "Cognition",
+      "average": 83.33
+    },
+    "B": {
+      "name": "Action",
+      "average": 91.67
+    },
+    "C": {
+      "name": "Trust",
+      "average": 81.25
+    },
+    "D": {
+      "name": "Operations",
+      "average": 62.5
+    }
+  },
+  "pillars": {
+    "1_context_memory": {
+      "level": 3,
+      "level_name": "L3 Defined",
+      "score": 75,
+      "criteria_passed": 8,
+      "criteria_total": 10,
+      "title": "Context Hierarchy & Memory",
+      "cluster": "A · Cognition",
+      "cluster_letter": "A",
+      "n": 1,
+      "weight": 0.0833
+    },
+    "2_skill_tool": {
+      "level": 4,
+      "level_name": "L4 Optimizing",
+      "score": 100,
+      "criteria_passed": 10,
+      "criteria_total": 10,
+      "title": "Skill / Tool Architecture",
+      "cluster": "B · Action",
+      "cluster_letter": "B",
+      "n": 2,
+      "weight": 0.0833
+    },
+    "3_governance": {
+      "level": 4,
+      "level_name": "L4 Optimizing",
+      "score": 100,
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "title": "Governance & Compliance",
+      "cluster": "C · Trust",
+      "cluster_letter": "C",
+      "n": 3,
+      "weight": 0.0833
+    },
+    "4_auto_improvement": {
+      "level": 4,
+      "level_name": "L4 Optimizing",
+      "score": 100,
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "title": "Auto-Improvement Loop",
+      "cluster": "A · Cognition",
+      "cluster_letter": "A",
+      "n": 4,
+      "weight": 0.0833
+    },
+    "5_multi_agent_dpi": {
+      "level": 4,
+      "level_name": "L4 Optimizing",
+      "score": 100,
+      "criteria_passed": 10,
+      "criteria_total": 10,
+      "title": "Multi-Agent Discipline (DPI)",
+      "cluster": "B · Action",
+      "cluster_letter": "B",
+      "n": 5,
+      "weight": 0.0833
+    },
+    "6_observability": {
+      "level": 4,
+      "level_name": "L4 Optimizing",
+      "score": 100,
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "title": "Observability & Recovery",
+      "cluster": "C · Trust",
+      "cluster_letter": "C",
+      "n": 6,
+      "weight": 0.0833
+    },
+    "7_credentials_security": {
+      "level": 2,
+      "level_name": "L2 Managed",
+      "score": 50,
+      "criteria_passed": 4,
+      "criteria_total": 10,
+      "title": "Credentials & Security",
+      "cluster": "C · Trust",
+      "cluster_letter": "C",
+      "n": 7,
+      "weight": 0.0833
+    },
+    "8_portability": {
+      "level": 2,
+      "level_name": "L2 Managed",
+      "score": 50,
+      "criteria_passed": 5,
+      "criteria_total": 10,
+      "title": "Portability & Re-deployability",
+      "cluster": "D · Operations",
+      "cluster_letter": "D",
+      "n": 8,
+      "weight": 0.0833
+    },
+    "9_metacognition": {
+      "level": 3,
+      "level_name": "L3 Defined",
+      "score": 75,
+      "criteria_passed": 9,
+      "criteria_total": 10,
+      "title": "Metacognition & Self-Assessment",
+      "cluster": "A · Cognition",
+      "cluster_letter": "A",
+      "n": 9,
+      "weight": 0.0833
+    },
+    "10_reliability": {
+      "level": 3,
+      "level_name": "L3 Defined",
+      "score": 75,
+      "criteria_passed": 8,
+      "criteria_total": 10,
+      "title": "Reliability & Determinism",
+      "cluster": "B · Action",
+      "cluster_letter": "B",
+      "n": 10,
+      "weight": 0.0833
+    },
+    "11_human_in_the_loop": {
+      "level": 3,
+      "level_name": "L3 Defined",
+      "score": 75,
+      "criteria_passed": 8,
+      "criteria_total": 10,
+      "title": "Human-in-the-Loop",
+      "cluster": "C · Trust",
+      "cluster_letter": "C",
+      "n": 11,
+      "weight": 0.0833
+    },
+    "12_cost_performance": {
+      "level": 3,
+      "level_name": "L3 Defined",
+      "score": 75,
+      "criteria_passed": 6,
+      "criteria_total": 10,
+      "title": "Cost & Performance Efficiency",
+      "cluster": "D · Operations",
+      "cluster_letter": "D",
+      "n": 12,
+      "weight": 0.0833
+    }
+  },
+  "scoring_model": {
+    "level_mapping": {
+      "0": 0,
+      "1": 20,
+      "2": 50,
+      "3": 75,
+      "4": 100
+    },
+    "level_names": {
+      "0": "L0 Absent",
+      "1": "L1 Initial",
+      "2": "L2 Managed",
+      "3": "L3 Defined",
+      "4": "L4 Optimizing"
+    },
+    "thresholds": {
+      "A": 85,
+      "B": 70,
+      "C": 50,
+      "D": 30,
+      "F": 0
+    }
+  }
+}

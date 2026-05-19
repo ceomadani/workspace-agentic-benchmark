@@ -6,6 +6,42 @@ Format inspired by [Keep a Changelog](https://keepachangelog.com/). Versioning f
 
 ---
 
+## [0.3.3] · 2026-05-20
+
+### Added · compare + history + advanced info-theory + external validation + tests + CI
+
+- **`workspace-bench compare`** subcommand · diff two scores · per-pillar delta table · composite trend · grade-change detection
+- **`workspace-bench history`** subcommand · audit history per workspace · sparkline visualization · min/max/delta · last-10 snapshots table
+- **Automatic history tracking** · `run` now saves a timestamped snapshot to `.workspace-bench/history/` after each audit
+- **`workspace_bench/info_theory_advanced.py`** · counterintuitive but high-signal metrics:
+  - Knowledge graph centrality (top 10 most-referenced files)
+  - Lonely document detection (zero inbound + zero outbound links)
+  - Echo chamber signal (mutual link pairs)
+  - Stale ROI (stale + high centrality = high-value-to-update)
+  - Folder diversity index (Shannon entropy across top-level folders)
+  - Interpretation labels for each metric
+- **External validation** · audited `anthropics/anthropic-cookbook` (27.5/100 · Grade F · contextually appropriate · validates vendor-neutrality)
+  - `examples/external/anthropic-cookbook-{audit,score}.json` + reference doc
+- **Pytest smoke tests** · 12 tests covering audit, score, HTML render, compare, history, info-theory base + advanced
+- **`.github/workflows/ci.yml`** · CI for the repo itself (python 3.10/3.11/3.12 matrix) · runs tests + self-audit · uploads artifacts
+- **`.github/workflows/workspace-bench-example.yml`** · template users can copy to their own repos · auto-audit on push/PR · posts results as PR comment · optional grade threshold check
+- **Manifesto article** (WSB-00) in madani-website · ties together vision · audience · methodology · roadmap
+
+### Changed
+
+- `run` pipeline now computes advanced metrics in addition to base info-theory
+- CLI help includes all 6 subcommands (init · audit · score · report · run · compare · history)
+
+### Files
+
+- `workspace_bench/compare.py` (NEW · 130 lines)
+- `workspace_bench/info_theory_advanced.py` (NEW · 200 lines · knowledge graph metrics)
+- `tests/` (NEW · pytest fixtures + 12 smoke tests)
+- `.github/workflows/{ci,workspace-bench-example}.yml` (NEW)
+- `examples/external/anthropic-cookbook-*` (NEW · external reference)
+
+---
+
 ## [0.3.2] · 2026-05-20
 
 ### Added · onboarding · i18n · information theory · 50+ patterns · tree-heavy HTML

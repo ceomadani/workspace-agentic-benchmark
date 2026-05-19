@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install package + test deps
+        run: |
+          pip install -e .
+          pip install pytest
+
+      - name: Run pytest
+        run: pytest tests/ -v
+
+      - name: Smoke audit on this repo (self-audit)
+        run: |
+          workspace-bench audit . --output self-audit.json
+          workspace-bench score self-audit.json --output self-score.json --quiet
+          workspace-bench report self-score.json --output self-report.html
+          python -c "
+          import json
+          s = json.load(open('self-score.json'))
+          print(f'Self-audit composite: {s[\"composite\"]} / 100 · Grade {s[\"grade\"]}')"
+
+      - name: Upload self-audit artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: self-audit-py${{ matrix.python-version }}
+          path: |
+            self-audit.json
+            self-score.json
+            self-report.html
+          retention-days: 7
