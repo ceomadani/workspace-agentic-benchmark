@@ -76,12 +76,30 @@ EXTENSIONS = [
 # ─── Per-extension detectors ──────────────────────────────────────────
 
 def _safe_rglob(path: Path, pattern: str, max_results: int = 500) -> list:
-    """Glob with cap · skip node_modules/.git/_archive/_legacy/_DEPRECATED."""
-    SKIP_DIRS = {".git", "node_modules", "_archive", "_legacy", ".venv", "venv", "__pycache__", ".next", "dist", "build"}
+    """Glob with cap · skip common dependency/build/cache/version-control folders.
+
+    Vendor-neutral: skip only ECOSYSTEM-STANDARD folders, not workspace-specific naming.
+    """
+    # Ecosystem-standard skip dirs · same across any project
+    SKIP_DIRS = {
+        ".git", ".hg", ".svn",                  # VCS
+        "node_modules", ".npm",                 # JavaScript
+        ".venv", "venv", "__pycache__",         # Python
+        "vendor",                                # Go · PHP
+        "target", "build", "dist", "out",       # Build outputs
+        ".next", ".nuxt", ".cache",             # Frameworks
+        ".idea", ".vscode",                     # IDE
+    }
+    # Lower-case path fragments suggesting "not currently active code"
+    SEMANTIC_SKIP_FRAGMENTS = ("archive", "deprecated", "_old", "snapshot")
     results = []
     try:
         for p in path.rglob(pattern):
-            if any(part in SKIP_DIRS or part.startswith("_DEPRECATED") for part in p.parts):
+            parts = p.parts
+            if any(part in SKIP_DIRS for part in parts):
+                continue
+            path_lower = str(p).lower()
+            if any(frag in path_lower for frag in SEMANTIC_SKIP_FRAGMENTS):
                 continue
             results.append(p)
             if len(results) >= max_results:
@@ -140,19 +158,55 @@ def _detect_02_information_theory(ws: Path) -> dict:
 
 
 def _detect_03_causal_reasoning(ws: Path) -> dict:
-    """Causal reasoning support · rules have explicit Why · post-mortem with chain."""
+    """Causal reasoning support · rules have explicit Why · post-mortem with chain.
+
+    Detector v3 · vendor-neutral · language-agnostic:
+      - Exclude SEMANTIC categories (archive · deprecated · vendor packages) via path heuristic
+        rather than workspace-specific folder names.
+      - Why-pattern accepts EN ("Why" · "Rationale" · "Reason" · "Why it matters") + IT
+        ("Perché"). No workspace-specific terminology like custom frontmatter keys.
+    """
+    # Semantic exclusion patterns · apply to any workspace
+    EXCLUDE_FRAGMENTS_LOWER = (
+        "archive", "deprecated", "legacy", "_old/", "node_modules",
+        ".git/", "vendor/", "__pycache__", "snapshot",
+    )
+    # Generic skill-internal pattern: "<anywhere>/skill-name/rules/"
+    # (a single rules/ folder NESTED INSIDE a sub-package suggests skill/plugin scope,
+    # not workspace-wide governance) — heuristic: rules folder ≥3 levels deep
+    why_pattern = re.compile(
+        r"^##?\s*Why\b|\*\*Why\*\*|^##?\s*Why\s+it\s+matters\b|"
+        r"^##?\s*Rationale\b|^##?\s*Reason\b|"
+        r"^##?\s*Perché\b|\*\*Perché\*\*",
+        re.IGNORECASE | re.MULTILINE,
+    )
     rules_with_why = 0
     total_rules = 0
-    for md in _safe_rglob(ws, "*.md", 100):
+    for md in _safe_rglob(ws, "*.md", 300):
         path_str = str(md).lower()
-        if any(x in path_str for x in ["rules/", "rule-", "policy", "constitution"]):
-            total_rules += 1
-            try:
-                text = md.read_text(encoding="utf-8", errors="ignore")[:20000]
-                if re.search(r"##?\s*Why\b|\*\*Why\*\*|\*\*Perché\*\*|## Reason", text, re.IGNORECASE):
-                    rules_with_why += 1
-            except Exception:
-                continue
+        # Path-based category match
+        if not any(x in path_str for x in ["rules/", "rule-", "policy", "constitution"]):
+            continue
+        # Semantic exclusions
+        if any(frag in path_str for frag in EXCLUDE_FRAGMENTS_LOWER):
+            continue
+        # Heuristic: skip rules nested deep inside packages (skill-internal pattern)
+        # workspace-root rules are typically ≤3 levels deep relative to workspace
+        try:
+            depth = len(md.relative_to(ws).parts)
+        except Exception:
+            depth = 99
+        # rules/ folder nested deeper than 4 levels is typically a vendored skill/plugin internal rules
+        if depth > 4 and "rules/" in path_str and not path_str.endswith(("constitution.md", "policy.md")):
+            # exclude unless it's a top-level policy/constitution file
+            continue
+        total_rules += 1
+        try:
+            text = md.read_text(encoding="utf-8", errors="ignore")[:20000]
+            if why_pattern.search(text):
+                rules_with_why += 1
+        except Exception:
+            continue
     lessons_files = _safe_rglob(ws, "lessons*.md", 20) + _safe_rglob(ws, "*post-mortem*", 20)
     ratio = rules_with_why / total_rules if total_rules > 0 else 0
     status = "present" if (ratio >= 0.5 and lessons_files) else ("partial" if (rules_with_why > 0 or lessons_files) else "absent")
@@ -160,33 +214,71 @@ def _detect_03_causal_reasoning(ws: Path) -> dict:
         "status": status,
         "evidence": {
             "rules_with_why": rules_with_why,
-            "total_rules": total_rules,
+            "total_rules_scoped": total_rules,
+            "ratio": round(ratio, 2),
             "lessons_files_count": len(lessons_files),
         },
     }
 
 
 def _detect_04_adversarial_robustness(ws: Path) -> dict:
-    """Adversarial robustness · secret guard hook · provenance tagging · HITL gates."""
-    hook_files = _safe_rglob(ws, "pre-tool-use.sh", 5) + _safe_rglob(ws, "*hook*", 30)
+    """Adversarial robustness · secret guard hook · provenance tagging · HITL gates.
+
+    Vendor-neutral: scan hook files for secret patterns + dedicated security policy docs.
+    Priority-scan for adversarial/security/HITL-named docs · then fallback to broad markdown scan.
+    """
+    hook_files = (
+        _safe_rglob(ws, "pre-tool-use*", 5)
+        + _safe_rglob(ws, "*PreToolUse*", 5)
+        + _safe_rglob(ws, "*hook*.sh", 20)
+        + _safe_rglob(ws, "*hook*.js", 20)
+        + _safe_rglob(ws, "*hook*.py", 20)
+    )
     has_secret_guard = False
     has_hitl_doc = False
-    for f in hook_files[:10]:
+    for f in hook_files[:20]:
         try:
             text = f.read_text(encoding="utf-8", errors="ignore")[:10000]
-            if re.search(r"secret.{0,30}guard|sk[-_](live|ant|test)|EAAB|ghp_", text, re.IGNORECASE):
+            if re.search(r"secret.{0,30}guard|sk[-_](live|ant|test)|EAAB[a-zA-Z]|ghp_[a-zA-Z]", text, re.IGNORECASE):
                 has_secret_guard = True
                 break
         except Exception:
             continue
-    for md in _safe_rglob(ws, "*.md", 100):
+    # Priority-scan: docs named for adversarial/security/HITL topics
+    priority_md = (
+        _safe_rglob(ws, "*adversar*", 5)
+        + _safe_rglob(ws, "*hitl*", 5)
+        + _safe_rglob(ws, "*security*polic*", 10)
+        + _safe_rglob(ws, "*injection*", 5)
+        + _safe_rglob(ws, "*jailbreak*", 5)
+        + _safe_rglob(ws, "*threat*model*", 5)
+    )
+    hitl_pattern = re.compile(
+        r"prompt\s+injection|jailbreak|HITL[\s.,·-]{0,30}gate|"
+        r"external\s+comm.{0,30}approv|human[- ]in[- ]the[- ]loop|"
+        r"adversarial\s+robust|threat\s+model",
+        re.IGNORECASE,
+    )
+    for f in priority_md[:10]:
+        if not str(f).endswith(".md"):
+            continue
         try:
-            text = md.read_text(encoding="utf-8", errors="ignore")[:10000]
-            if re.search(r"prompt\s+injection|jailbreak|HITL.{0,30}gate|external\s+comm.{0,30}approv", text, re.IGNORECASE):
+            text = f.read_text(encoding="utf-8", errors="ignore")[:15000]
+            if hitl_pattern.search(text):
                 has_hitl_doc = True
                 break
         except Exception:
             continue
+    # Fallback: broad scan if not found via priority
+    if not has_hitl_doc:
+        for md in _safe_rglob(ws, "*.md", 200):
+            try:
+                text = md.read_text(encoding="utf-8", errors="ignore")[:5000]
+                if hitl_pattern.search(text):
+                    has_hitl_doc = True
+                    break
+            except Exception:
+                continue
     if has_secret_guard and has_hitl_doc:
         status = "present"
     elif has_secret_guard or has_hitl_doc:
@@ -197,9 +289,22 @@ def _detect_04_adversarial_robustness(ws: Path) -> dict:
 
 
 def _detect_05_compositionality(ws: Path) -> dict:
-    """Compositionality · skill frontmatter contracts · idempotency declarations."""
-    skill_dirs = list((ws / "10_SKILLS").iterdir()) if (ws / "10_SKILLS").is_dir() else []
-    skill_dirs += list((ws / "skills").iterdir()) if (ws / "skills").is_dir() else []
+    """Compositionality · skill frontmatter contracts · idempotency declarations.
+
+    Vendor-neutral: scan multiple common skill-folder conventions.
+    """
+    # Common skill folder conventions across ecosystems
+    SKILL_FOLDER_CANDIDATES = [
+        "skills", "10_SKILLS", ".claude/skills", "agents", "plugins", "modules",
+    ]
+    skill_dirs = []
+    for cand in SKILL_FOLDER_CANDIDATES:
+        candidate_path = ws / cand
+        if candidate_path.is_dir():
+            try:
+                skill_dirs += list(candidate_path.iterdir())
+            except Exception:
+                continue
     skills_with_contract = 0
     for sd in skill_dirs[:80]:
         if not sd.is_dir():
@@ -220,25 +325,43 @@ def _detect_05_compositionality(ws: Path) -> dict:
 
 
 def _detect_06_temporal_coherence(ws: Path) -> dict:
-    """Temporal coherence · absolute dates · reflexion cycles · session archives."""
-    has_reflexion = bool(_safe_rglob(ws, "*reflexion*", 10) + _safe_rglob(ws, "*reflect*", 10))
-    has_cronologia = (ws / "cronologia").is_dir() or bool(_safe_rglob(ws, "cronologia", 5))
-    has_session_archive = bool(_safe_rglob(ws, "*session*", 30))
-    # check date format in lessons
+    """Temporal coherence · absolute dates · reflection cycles · session archives.
+
+    Vendor-neutral: scan generic concepts (reflection · session archive · changelog · history).
+    """
+    # Concept-based scan · multiple naming conventions
+    has_reflection_cycle = bool(
+        _safe_rglob(ws, "*reflexion*", 10)
+        + _safe_rglob(ws, "*reflect*", 10)
+        + _safe_rglob(ws, "*retrospective*", 10)
+    )
+    # Session archive (any naming · cronologia/history/sessions/snapshots/archive-sessions)
+    has_session_archive = bool(
+        _safe_rglob(ws, "*session-archive*", 5)
+        + _safe_rglob(ws, "*sessions*", 30)
+        + _safe_rglob(ws, "history*", 10)
+        + _safe_rglob(ws, "cronologia*", 5)   # Italian convention · still permitted
+        + _safe_rglob(ws, "snapshot*", 10)
+    )
+    has_changelog = bool(_safe_rglob(ws, "CHANGELOG*", 10) + _safe_rglob(ws, "*changelog*", 10))
+    # Absolute dates in temporal-coherence-relevant files (lessons · changelog · decision logs)
     abs_date_pat = re.compile(r"\b20\d{2}-\d{2}-\d{2}\b")
-    rel_date_pat = re.compile(r"\b(yesterday|last week|ieri|domani|tomorrow|next week)\b", re.IGNORECASE)
+    rel_date_pat = re.compile(
+        r"\b(yesterday|last\s+week|tomorrow|next\s+week|ieri|domani|hier|demain)\b",
+        re.IGNORECASE,
+    )
     abs_count = 0
     rel_count = 0
-    for md in _safe_rglob(ws, "*.md", 50):
+    for md in _safe_rglob(ws, "*.md", 100):
         path_str = str(md).lower()
-        if "lessons" in path_str or "changelog" in path_str or "decision" in path_str:
+        if any(x in path_str for x in ["lessons", "changelog", "decision", "history", "retrospective"]):
             try:
                 text = md.read_text(encoding="utf-8", errors="ignore")[:10000]
                 abs_count += len(abs_date_pat.findall(text))
                 rel_count += len(rel_date_pat.findall(text))
             except Exception:
                 continue
-    signals = sum([has_reflexion, has_cronologia, has_session_archive, abs_count > 10])
+    signals = sum([has_reflection_cycle, has_session_archive, has_changelog, abs_count > 10])
     if signals >= 3:
         status = "present"
     elif signals >= 1:
@@ -248,9 +371,9 @@ def _detect_06_temporal_coherence(ws: Path) -> dict:
     return {
         "status": status,
         "evidence": {
-            "reflexion_runner": has_reflexion,
-            "cronologia_dir": has_cronologia,
+            "reflection_cycle": has_reflection_cycle,
             "session_archive": has_session_archive,
+            "changelog_files": has_changelog,
             "absolute_dates_count": abs_count,
             "relative_dates_count": rel_count,
         },
@@ -258,17 +381,27 @@ def _detect_06_temporal_coherence(ws: Path) -> dict:
 
 
 def _detect_07_embodied_awareness(ws: Path) -> dict:
-    """Embodied awareness · SessionStart hook · context injection at cold start."""
-    hooks = _safe_rglob(ws, "session-start*", 5) + _safe_rglob(ws, "*SessionStart*", 5)
+    """Embodied awareness · SessionStart hook · context injection at cold start.
+
+    Vendor-neutral: generic patterns for cwd/branch injection in any hook script.
+    """
+    hooks = _safe_rglob(ws, "session-start*", 5) + _safe_rglob(ws, "*SessionStart*", 5) + _safe_rglob(ws, "*startup*", 10)
     has_session_start_hook = bool(hooks)
     has_cwd_injection = False
     has_branch_injection = False
+    # Generic env-var pattern for workspace-root injection (any naming · *_ROOT or *_HOME or WORKSPACE)
+    workspace_var_pattern = re.compile(
+        r"\bpwd\b|\bcwd\b|working[- ]directory|"
+        r"\b[A-Z][A-Z_]{2,}_(ROOT|HOME|DIR|PATH|BASE)\b|"
+        r"\bWORKSPACE\b",
+        re.IGNORECASE,
+    )
     for f in hooks[:5]:
         try:
             text = f.read_text(encoding="utf-8", errors="ignore")[:10000]
-            if re.search(r"pwd|cwd|working[- ]directory|MADANI_ROOT", text, re.IGNORECASE):
+            if workspace_var_pattern.search(text):
                 has_cwd_injection = True
-            if re.search(r"git.{0,10}branch|branch.{0,10}--show-current", text, re.IGNORECASE):
+            if re.search(r"git.{0,10}branch|branch.{0,10}--show-current|HEAD\.ref|git\s+rev-parse", text, re.IGNORECASE):
                 has_branch_injection = True
         except Exception:
             continue
@@ -321,19 +454,33 @@ def _detect_08_knowledge_representation(ws: Path) -> dict:
 
 
 def _detect_09_resilience_partial_failure(ws: Path) -> dict:
-    """Resilience · liveness watchdog · health endpoints · recovery runbooks."""
-    has_liveness = bool(_safe_rglob(ws, "*liveness*", 10) + _safe_rglob(ws, "*watchdog*", 10))
-    has_features_json = bool(_safe_rglob(ws, "features.json", 5))
+    """Resilience · liveness watchdog · health endpoints · recovery runbooks.
+
+    Vendor-neutral: scan for concept-level signals (health monitoring · state snapshots · recovery docs).
+    """
+    has_liveness = bool(
+        _safe_rglob(ws, "*liveness*", 10)
+        + _safe_rglob(ws, "*watchdog*", 10)
+        + _safe_rglob(ws, "*health-check*", 10)
+        + _safe_rglob(ws, "*healthcheck*", 10)
+    )
+    # State snapshot files (any naming · features.json/health.json/status.json/state.json)
+    has_state_snapshot = bool(
+        _safe_rglob(ws, "features.json", 5)
+        + _safe_rglob(ws, "health*.json", 5)
+        + _safe_rglob(ws, "status.json", 5)
+        + _safe_rglob(ws, "state.json", 5)
+    )
     has_recovery_docs = False
     for md in _safe_rglob(ws, "*.md", 100):
         try:
             text = md.read_text(encoding="utf-8", errors="ignore")[:5000]
-            if re.search(r"rollback|recovery\s+procedure|runbook|MTTR|MTTD|graceful\s+degrad", text, re.IGNORECASE):
+            if re.search(r"rollback|recovery\s+procedure|runbook|MTTR|MTTD|graceful\s+degrad|fault\s+tolerance|circuit\s+break", text, re.IGNORECASE):
                 has_recovery_docs = True
                 break
         except Exception:
             continue
-    signals = sum([has_liveness, has_features_json, has_recovery_docs])
+    signals = sum([has_liveness, has_state_snapshot, has_recovery_docs])
     if signals >= 3:
         status = "present"
     elif signals >= 1:
@@ -344,7 +491,7 @@ def _detect_09_resilience_partial_failure(ws: Path) -> dict:
         "status": status,
         "evidence": {
             "liveness_watchdog": has_liveness,
-            "features_json": has_features_json,
+            "state_snapshot_file": has_state_snapshot,
             "recovery_docs": has_recovery_docs,
         },
     }
@@ -393,20 +540,30 @@ def _detect_10_index_density(ws: Path) -> dict:
 
 
 def _detect_11_meta_measurement(ws: Path) -> dict:
-    """Meta-measurement · audit liveness · score decay · cross-pillar consistency awareness."""
-    has_compliance_log = bool(_safe_rglob(ws, "*compliance*log*", 10))
-    has_compliance_check = bool(_safe_rglob(ws, "compliance-check.py", 5) + _safe_rglob(ws, "*compliance*check*", 10))
+    """Meta-measurement · audit liveness · score decay · cross-pillar consistency awareness.
+
+    Vendor-neutral: scan for concept signals (compliance/audit logs · meta-measurement docs · benchmark history).
+    """
+    has_compliance_log = bool(
+        _safe_rglob(ws, "*compliance*log*", 10)
+        + _safe_rglob(ws, "*audit*log*", 10)
+    )
+    has_compliance_tool = bool(
+        _safe_rglob(ws, "*compliance*check*", 10)
+        + _safe_rglob(ws, "*compliance*verify*", 10)
+        + _safe_rglob(ws, "*audit-tool*", 10)
+    )
     has_workspace_bench = (ws / ".workspace-bench").is_dir() or (ws / "bench-output").is_dir()
     has_anti_gaming_doc = False
     for md in _safe_rglob(ws, "*.md", 200):
         try:
             text = md.read_text(encoding="utf-8", errors="ignore")[:5000]
-            if re.search(r"goodhart|gaming|anti[- ]gaming|score\s+decay", text, re.IGNORECASE):
+            if re.search(r"goodhart|gaming|anti[- ]gaming|score\s+decay|metric\s+gaming|measurement\s+target", text, re.IGNORECASE):
                 has_anti_gaming_doc = True
                 break
         except Exception:
             continue
-    signals = sum([has_compliance_log, has_compliance_check, has_workspace_bench, has_anti_gaming_doc])
+    signals = sum([has_compliance_log, has_compliance_tool, has_workspace_bench, has_anti_gaming_doc])
     if signals >= 3:
         status = "present"
     elif signals >= 1:
@@ -417,7 +574,7 @@ def _detect_11_meta_measurement(ws: Path) -> dict:
         "status": status,
         "evidence": {
             "compliance_log_dir": has_compliance_log,
-            "compliance_check_tool": has_compliance_check,
+            "compliance_check_tool": has_compliance_tool,
             "workspace_bench_history": has_workspace_bench,
             "anti_gaming_doc": has_anti_gaming_doc,
         },
