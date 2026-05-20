@@ -9,7 +9,7 @@ https://github.com/ceomadani/workspace-agentic-benchmark
 """
 
 __version__ = "0.3.4"
-__author__ = "Nour Matine · Madani Lab"
+__author__ = "Nour Matine"
 __license__ = "MIT"
 __url__ = "https://github.com/ceomadani/workspace-agentic-benchmark"
 
