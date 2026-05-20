@@ -1,0 +1,53 @@
+# Profile · Enterprise Multi-Tenant
+# Use case: enterprise platform · 10+ engineers · multiple customer tenants · compliance/audit requirements
+#
+# All clusters weighted high · governance + observability become primary
+
+profile_id: enterprise-multi-tenant
+description: >
+  Enterprise agentic platform · serves multiple customer tenants ·
+  formal compliance (SOC2 · GDPR · HIPAA-equivalent) · audit trails required ·
+  large engineering org with formal RACI.
+
+weights:
+  # Cluster A · Cognition
+  P01_context_memory:           1.2    # tenant isolation in memory
+  P02_skill_tool:               1.2    # extensive skill library
+  P09_metacognition:            1.2
+
+  # Cluster B · Action
+  P04_auto_improvement:         1.0
+  P05_multi_agent_dpi:          1.0
+  P10_reliability:              1.5    # SLA contractual
+
+  # Cluster C · Trust · MAXIMUM
+  P03_governance:               2.0    # compliance is existential
+  P06_observability:            2.0    # audit trail
+  P07_credentials_security:     2.0    # multi-tenant secrets isolation
+  P11_human_in_the_loop:        1.5
+
+  # Cluster D · Operations
+  P08_portability:              1.5    # tenant deployment replication
+  P12_cost_performance:         1.5    # billing accuracy
+
+extensions_required:
+  - "01-architecture-capability-decoupling"
+  - "03-causal-reasoning"           # audit traceability requires explicit causation
+  - "04-adversarial-robustness"     # multi-tenant attack surface
+  - "05-compositionality"
+  - "06-temporal-coherence"         # long compliance lookback windows
+  - "09-resilience-partial-failure" # SLA
+  - "10-index-density"
+  - "11-meta-measurement"           # external audit · gaming-resistant
+
+extensions_optional:
+  - "02-information-theory"
+  - "07-embodied-awareness"
+  - "08-knowledge-representation"
+
+notes: |
+  Enterprise profile · all clusters important · Trust cluster doubled
+  because compliance failure is existential.
+  Extensions: 8 of 11 are required (vs 3 for solo profile).
+  Composite score is harder to achieve · honestly representing the
+  higher operational complexity.

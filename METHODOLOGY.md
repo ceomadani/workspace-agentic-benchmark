@@ -6,8 +6,8 @@
 
 ## Design principles
 
-**1. Workspace > Agent.**
-A weak model in a great workspace beats a strong model in a chaotic workspace. We measure the infrastructure, not the model. Anthropic harness research (Nov 2025 + Mar 2026) demonstrated 87.2 → 91.1% benchmark improvement from harness swap alone.
+**1. Architecture-Capability Decoupling** *(iter-2 formalization)*
+The output quality of an agent equals workspace alpha multiplied by model capability: `output = α(workspace) × capability(LLM)`. The workspace term `α` is itself the geometric mean of file-quality and file-quantity, multiplied by index density: `α = √(quality × quantity) × density_indices`. Hypothesis: well-designed workspace × weak LLM outperforms poor workspace × strong LLM. The benchmark exists to measure `α` independently of model choice. See [`extensions/01-architecture-capability-decoupling.md`](extensions/01-architecture-capability-decoupling.md) for the full derivation and operational consequences.
 
 **2. Evidence-based.**
 Every pillar traces to peer-reviewed research, production case studies, or measurable production outcomes. No "best practices" without source citation.

@@ -1,0 +1,57 @@
+# Profile · Solo Operator · Private Repo
+# Use case: single developer · personal workspace · subscription-auth (not API token)
+# Example: Madani workspace by Nour Matine
+#
+# Optimization priorities differ from team/saas profile:
+# - Portability irrelevant (no team to share with)
+# - Cost gate irrelevant (subscription auth · not pay-per-token)
+# - Credentials gitignored is enough (no team leak vectors)
+# - Memory + Reliability + Metacognition heavily weighted (solo operator multiplier)
+
+profile_id: solo-operator-private-repo
+description: >
+  Solo developer working in private repo with Claude Code subscription auth.
+  Workspace serves one user · no production multi-tenant requirements ·
+  no team deployment portability requirements · no API token cost gating.
+
+weights:
+  # Cluster A · Cognition · CRITICAL for solo (you're the only one debugging)
+  P01_context_memory:           1.5
+  P02_skill_tool:               1.0
+  P09_metacognition:            1.5
+
+  # Cluster B · Action · HIGH
+  P04_auto_improvement:         1.2
+  P05_multi_agent_dpi:          1.0
+  P10_reliability:              1.5    # solo means failures fall entirely on you
+
+  # Cluster C · Trust · MEDIUM (mostly self-trust)
+  P03_governance:               1.0
+  P06_observability:            1.2
+  P07_credentials_security:     0.5    # gitignored .env is sufficient · no team leak vectors
+  P11_human_in_the_loop:        1.0
+
+  # Cluster D · Operations · LOW
+  P08_portability:              0.0    # zero relevance · no other deployment
+  P12_cost_performance:         0.0    # subscription auth · no token economics
+
+extensions_required:
+  - "10-index-density"            # essential · solo means you must navigate fast
+  - "06-temporal-coherence"       # essential · long-running solo workspace · drift kills
+  - "01-architecture-capability-decoupling"  # philosophical alignment
+
+extensions_optional:
+  - "02-information-theory"
+  - "03-causal-reasoning"
+  - "04-adversarial-robustness"   # lower threat · private repo
+  - "05-compositionality"
+  - "07-embodied-awareness"
+  - "08-knowledge-representation"
+  - "09-resilience-partial-failure"
+  - "11-meta-measurement"
+
+notes: |
+  This profile is intentionally focused on the agent's effective output quality
+  for a single user · not on team coordination · not on production SLO ·
+  not on multi-tenant security. The α formula is dominated by Memory + Indices
+  + Metacognition · those three pillars together account for >50% of composite.

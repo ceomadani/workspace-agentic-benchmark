@@ -1,0 +1,54 @@
+# Profile · Team · SaaS Production
+# Use case: 3+ developer team · production deployment · external customers · API token cost-relevant
+#
+# Optimization priorities flip from solo:
+# - Credentials critical (team leak vectors · multi-environment)
+# - Portability critical (new dev onboarding · prod replication)
+# - Cost gate critical (API token economics at scale)
+# - HITL critical (multi-stakeholder approval flows)
+
+profile_id: team-saas-production
+description: >
+  Production SaaS workspace · 3+ engineers · external paying users ·
+  API token consumption · multi-environment (dev/staging/prod).
+
+weights:
+  # Cluster A · Cognition · BALANCED
+  P01_context_memory:           1.0
+  P02_skill_tool:               1.2    # skill reuse multiplies across team
+  P09_metacognition:            1.0
+
+  # Cluster B · Action · HIGH
+  P04_auto_improvement:         1.0
+  P05_multi_agent_dpi:          1.0
+  P10_reliability:              1.5    # production SLO
+
+  # Cluster C · Trust · CRITICAL
+  P03_governance:               1.5    # team needs explicit policy
+  P06_observability:            1.5    # production debugging
+  P07_credentials_security:     1.5    # team leak vectors
+  P11_human_in_the_loop:        1.5    # multi-stakeholder approval
+
+  # Cluster D · Operations · CRITICAL
+  P08_portability:              1.5    # onboarding new devs · multi-env
+  P12_cost_performance:         1.2    # token economics
+
+extensions_required:
+  - "01-architecture-capability-decoupling"
+  - "04-adversarial-robustness"   # multi-tenant threat surface
+  - "05-compositionality"         # team modules must compose
+  - "09-resilience-partial-failure"  # SLO
+  - "10-index-density"
+  - "11-meta-measurement"         # team-shared scoring needs anti-gaming
+
+extensions_optional:
+  - "02-information-theory"
+  - "03-causal-reasoning"
+  - "06-temporal-coherence"
+  - "07-embodied-awareness"
+  - "08-knowledge-representation"
+
+notes: |
+  Production team profile · weights skew toward Trust + Operations.
+  P10 Reliability and P07 Credentials become non-negotiable (L3 minimum).
+  Cost gate becomes operationally relevant (token spend can be 5-figure monthly).
