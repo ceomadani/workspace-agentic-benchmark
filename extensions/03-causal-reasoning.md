@@ -31,7 +31,7 @@ LLMs default to observation. A workspace that wants intervention/counterfactual 
 
 A weak model with explicit causal structure performs counterfactual reasoning **better than** a strong model with implicit structure. The workspace bridges the model's pattern-matching default into actual cause-effect manipulation.
 
-Example: Madani workspace has 38+ post-mortems with explicit "trigger → cause → fix" chains in `lessons-learned.md`. An agent asked "what could have prevented X" can do counterfactual retrieval; without these files, it would hallucinate.
+Example pattern: a mature workspace maintains a `lessons-learned.md` (or equivalent) with explicit "trigger → cause → fix → systemic-pattern" chains for every notable failure. An agent asked "what could have prevented X" can do counterfactual retrieval against these structured entries; without them, the agent has to hallucinate from prose.
 
 ---
 

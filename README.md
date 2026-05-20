@@ -125,9 +125,14 @@ Read [METHODOLOGY.md](METHODOLOGY.md) for the first-principles derivation of eac
 
 ---
 
-## Reference example
+## Reference examples
 
-[`examples/madani-reference.md`](examples/madani-reference.md) · a real production-grade workspace audited against this framework. Use it as a high-score case study to compare against your own. We welcome PRs adding additional reference examples — different stacks, different domains, different scores.
+[`examples/`](examples/) ships with real audits from production workspaces — see [`examples/README.md`](examples/README.md) for the catalog. The included case studies span:
+
+- A high-score solo-operator workspace (composite 85.75 · grade A) · in `madani-reference.md` + time-series `madani-v0XX/` showing iter-1 → iter-2 evolution
+- External audits of public agentic stacks (OpenAI Agents · LangChain · CrewAI · AutoGen · Anthropic Cookbook · Anthropic Claude SDK) in `examples/external/` for cross-stack comparison
+
+These are reference points to calibrate L3/L4 expectations. **Do NOT copy them to your workspace** — your audit produces its own files when you run `workspace-bench`. PRs adding additional case studies welcome.
 
 ---
 

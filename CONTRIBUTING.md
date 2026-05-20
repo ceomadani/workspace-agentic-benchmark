@@ -48,16 +48,17 @@ If you've found a workspace dimension this benchmark misses, or a rubric that do
 
 ### 3. Audit script + evidence improvements
 
-`eval/audit.py` is deterministic but heuristic. If your workspace has a legitimate signal we're missing:
+`workspace_bench/audit.py` is deterministic but heuristic. If your workspace has a legitimate signal we're missing:
 
 1. Add the signal detection to the relevant `scan_pillar_N` function
-2. Test against the Madani reference (it shouldn't go up artificially)
+2. Test against the reference workspaces in `examples/` — the score on those existing audits should NOT change unless you're fixing a real bug (anti-gaming · the detector must be vendor-neutral)
 3. Open a PR with:
    - Description of the signal · what it detects · why it matters
-   - A test workspace (or path within Madani reference) where the signal is present
+   - A test workspace (fixture in `tests/`) where the signal is present
    - A test workspace where it's absent
+   - The detector must match the signal **by semantic pattern**, not by hardcoded path/filename specific to one workspace's naming convention
 
-False positives are worse than false negatives. Be conservative.
+False positives are worse than false negatives. Be conservative. Vendor-neutral always.
 
 ---
 

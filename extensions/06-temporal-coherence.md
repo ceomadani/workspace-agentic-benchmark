@@ -20,7 +20,7 @@ Target ≥ 0.95 for L4.
 
 | Requirement | Workspace artifact |
 |-------------|---------------------|
-| **Session archive** | PreCompact hook saves session snapshots (cronologia in `/madani`) — provenance + recoverable |
+| **Session archive** | PreCompact hook saves session snapshots to a dedicated folder (e.g. `sessions/`, `history/`, `cronologia/`) — provenance + recoverable |
 | **Decision log** | `lessons.md` · `_CHANGELOG.md` per cluster · who/when/why for every architectural decision |
 | **Memory tier separation** | Episodic (events) ≠ Procedural (rules) ≠ Semantic (facts) — different aging/decay rules |
 | **Drift detection** | Periodic audits compare current state vs decisions log · flag inconsistencies |

@@ -12,14 +12,14 @@ The opposite is **brittle**: one cron job dies silently · its outputs go stale 
 
 ---
 
-## Concrete failure modes observed in Madani
+## Concrete failure modes (universal patterns)
 
-| Mode | Example · 20 May 2026 |
-|------|----------------------|
-| Cron job silently dead | `com.madani.transcript-summary` exit 127 for ~20 hours · no alerts · discovered manually |
-| Plist orphaned by refactor | iter-37 moved `monitoring-dash_madani` · plist not updated · launchctl path 404 |
-| Hook silently exits 0 with wrong schema | `pre-tool-use.sh` returned `{"allow": false}` (old schema) · Claude Code ignored · secret guard bypassed unnoticed |
-| Daemon supervisor up · workers empty | `~/.claude/daemon.status.json` `workers: {}` despite supervisor running |
+| Mode | Generic example |
+|------|-----------------|
+| Cron / scheduler job silently dead | A daily job exits non-zero · no alerts wired · downstream artifacts grow stale · discovered manually when user notices output missing |
+| Scheduler config orphaned by refactor | A folder rename / repo restructure leaves the launchd/cron/systemd config pointing at the old path · job fails on every invocation |
+| Hook silently exits 0 with wrong schema | A PreToolUse hook returns the previous protocol's JSON shape · runtime ignores it · the intended safety check is bypassed unnoticed |
+| Daemon supervisor up · workers empty | The supervisor process is alive (PID exists) but its worker pool is empty · status JSON shows zero active workers despite "running" state |
 
 ---
 
@@ -27,8 +27,8 @@ The opposite is **brittle**: one cron job dies silently · its outputs go stale 
 
 | Requirement | Mechanism |
 |-------------|-----------|
-| **Liveness watchdog** | A meta-job that scans all critical jobs (`launchctl list | grep com.madani`) · checks recent exit codes · alerts on persistent failure |
-| **Exit code surveillance** | Stop hook captures session outcome · features.json append-only · trend visible |
+| **Liveness watchdog** | A meta-job that scans all critical scheduled jobs (e.g., `launchctl list` · `systemctl --user list-units` · `crontab -l`) · checks recent exit codes · alerts on persistent failure |
+| **Exit code surveillance** | Stop hook captures session outcome · append-only state file · trend visible over time |
 | **Health endpoints** | Each long-running daemon exposes status (last_run · last_success · next_run) readable without invoking it |
 | **Graceful degradation** | If a tool is down, the agent says so explicitly rather than producing garbage |
 | **Recovery runbook** | Each critical component has documented "if X dies, do Y to recover" — not in operator's head |
@@ -55,4 +55,4 @@ The opposite is **brittle**: one cron job dies silently · its outputs go stale 
 
 ---
 
-_Extension 09 · iter-2 · 2026-05-20 · derived from MAST 14 failure modes (Patil et al. 2025) + Madani live audit_
+_Extension 09 · iter-2 · 2026-05-20 · derived from MAST 14 failure modes (Patil et al. 2025) + live audit data_

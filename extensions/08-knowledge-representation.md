@@ -31,16 +31,20 @@ The best workspaces **mix representations strategically** by use case · not by 
 
 ---
 
-## Madani workspace · current mix
+## Typical workspace · representation audit template
+
+The benchmark's `score` command introspects what the audited workspace uses. A workspace audit produces a table like:
 
 | Layer | Representation today | Gap |
 |-------|----------------------|-----|
 | Documentation | Markdown · frontmatter YAML | Good |
-| Skill catalog | Markdown SKILL.md + folder | Good |
+| Skill catalog | Markdown skill manifest + folder | Good |
 | Memory tiers | Markdown + folder hierarchy | Could benefit from vector layer for semantic recall |
-| Entity registry | Scattered across INDEX files | Proposed: dedicated YAML registry |
+| Entity registry | Scattered across INDEX files | Recommended: dedicated YAML registry |
 | Pattern catalog | Markdown articles | Could benefit from graph layer (which patterns compose) |
 | Cross-link spine | Markdown links | Risk: broken-link drift · could benefit from graph integrity check |
+
+Each workspace gets its own row · the right answer depends on use case.
 
 ---
 

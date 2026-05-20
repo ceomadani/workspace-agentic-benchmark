@@ -18,15 +18,15 @@ An index is not "a list of files." An index is a **compressed semantic map**: gi
 
 ## What counts as an index
 
-| Index type | Example in `/madani` | What it answers |
-|-----------|----------------------|------------------|
-| **Structural** | `INDEX.md` per folder · `00_INDEX.md` root | "What is in this folder · what role · what to read first" |
-| **Entity registry** | `00_ENTITY-REGISTRY.md` (proposed iter-2) · `00_AGENTS.md` | "Which daemons · cron jobs · sub-agents · tools exist live and where" |
-| **Skill catalog** | `10_SKILLS/INDEX.md` · `llms.txt` | "Which capabilities are available and how to invoke them" |
-| **Memory manifest** | `12_HARNESS/memory-engine/_MANIFEST` · `MEMORY.md` | "Which facts/rules/events/prefs are stored and where" |
-| **Pattern catalog** | `pattern-adapters/INDEX.md` (proposed iter-2) | "Which research patterns have adapters and what they cover" |
-| **API/Credentials registry** | `credentials/API-MASTER.md` (or `09_KNOWLEDGE-BASE/api-master.md` post-migration) | "Which integrations are wired and where the credentials live" |
-| **Configuration/Hooks registry** | `12_HARNESS/hooks/INDEX.md` · `SETTINGS-PATCH.md` | "Which hooks are active and where they're configured" |
+| Index type | Common naming convention | What it answers |
+|-----------|--------------------------|------------------|
+| **Structural** | `INDEX.md` per folder · root-level `00_*.md` | "What is in this folder · what role · what to read first" |
+| **Entity registry** | `ENTITY-REGISTRY.md` · `AGENTS.md` · `llms.txt` | "Which daemons · cron jobs · sub-agents · tools exist live and where" |
+| **Skill / capability catalog** | `skills/INDEX.md` · `capabilities.json` · `llms.txt` | "Which capabilities are available and how to invoke them" |
+| **Memory manifest** | `memory/_MANIFEST.md` · `MEMORY.md` · `KNOWLEDGE_BASE.md` | "Which facts/rules/events/prefs are stored and where" |
+| **Pattern catalog** | `patterns/INDEX.md` · `pattern-adapters/REGISTRY.md` | "Which research patterns have adapters and what they cover" |
+| **API/Credentials registry** | `API-MASTER.md` · `integrations/INDEX.md` · `.env.template` | "Which integrations are wired and where the credentials live" |
+| **Configuration/Hooks registry** | `hooks/INDEX.md` · `.claude/settings.json` · `SETTINGS.md` | "Which hooks are active and where they're configured" |
 | **Cross-link spine** | links inside any file that connect to other indices | "How to navigate from here to anything else" |
 
 A workspace is **well-indexed** when every entity it depends on appears in at least one of these indices, and the indices cross-reference each other to form a navigable graph.
@@ -103,19 +103,19 @@ This is why iter-2 elevates it to a top-level extension instead of folding it in
 
 ### Every refactor must update the indices
 
-A refactor that moves files without updating the indices is **architectural debt**, not progress. Example from `/madani` audit · 20 mag 2026:
+A refactor that moves files without updating the indices is **architectural debt**, not progress. A generic failure mode (observed in live audits):
 
-- Refactor iter-37 moved `~/monitoring-dash_madani/` → `~/madani/monitoring-dash/`
-- Indices in `00_INDEX.md` were updated · `00_AGENTS.md` was updated
-- **But `~/Library/LaunchAgents/com.madani.transcript-summary.plist` was not updated**
-- Result: the 15:55 daily PDF job failed silently for ~20 hours
-- Root cause: launchd plist registry wasn't treated as an index that needed sync
+- Refactor renames or moves a folder `~/old-name/` → `~/new-location/`
+- The repo's own indices (`INDEX.md` · `AGENTS.md`) get updated as part of the diff
+- **But the OS-level scheduler config (launchd plist · systemd unit · crontab entry) still references the old path** — outside the repo's awareness
+- Result: the job fails silently for hours/days until manual discovery
+- Root cause: the OS scheduler registry is an index that needed sync · the refactor didn't treat it as one
 
-The pattern emerges: indices live in many places. A refactor checklist must enumerate all of them.
+The pattern emerges: indices live in many places, including outside the repo. A refactor checklist must enumerate all of them.
 
 ### Auto-index tooling
 
-A workspace at L4 has tools that **regenerate indices from source-of-truth**. Example: a script that scans `launchctl list | grep com.madani.*` + reads each plist + emits a fresh `12_HARNESS/hooks/CRON-REGISTRY.md`. Run on cron. Diff detects drift.
+A workspace at L4 has tools that **regenerate indices from source-of-truth**. Example: a script that scans `launchctl list` (or `systemctl --user list-units` · or `crontab -l`) · reads each scheduler config · emits a fresh `CRON-REGISTRY.md`. Run on cron. Diff detects drift.
 
 ### Indices are not docs
 

@@ -14,16 +14,16 @@ Most of this is **passive injection at session start** — the agent doesn't hav
 
 ## Requirements
 
-| Awareness | Mechanism | Example in `/madani` |
-|-----------|-----------|----------------------|
-| Time · absolute · timezone | SessionStart injection | "Today's date is 2026-05-20 · Europe/Paris" |
-| Location · cwd · git state | SessionStart injection | "pwd: /Users/nourmatine/madani · branch: iter-33-blocker-p0-executor" |
-| User identity · scope | Auto from system | "user: ceomadani · email: ceo@madani.agency" |
-| Recent actions · last 24h | SessionStart reads progress.txt last 50 events | "Last 50 tool calls: ..." |
+| Awareness | Mechanism | Example injection (any workspace) |
+|-----------|-----------|------------------------------------|
+| Time · absolute · timezone | SessionStart injection | "Today's date is YYYY-MM-DD · Europe/Paris" |
+| Location · cwd · git state | SessionStart injection | "pwd: /Users/operator/workspace · branch: feature/x" |
+| User identity · scope | Auto from system | "user: operator · email: operator@org.com" |
+| Recent actions · last 24h | SessionStart reads tool-log file last 50 events | "Last 50 tool calls: ..." |
 | Active rules · live | SessionStart injects procedural memory top 5 | "Active hard rules: HR#1, HR#10, HR#13, HR#15" |
 | Available tools | Automatic via Claude Code tool list | (built-in) |
 | Active hooks | SessionStart injects hook list | "Active enforcement: PreToolUse · PostToolUse · Stop · ..." |
-| External system status | Optional health checks | "n8n: up · GHL: up · Slack: up" |
+| External system status | Optional health checks | "n8n: up · CRM: up · Slack: up" |
 
 ---
 
