@@ -1,6 +1,6 @@
 # Workspace Agentic Benchmark · Report (v0.3)
 
-**Workspace**: `/Users/nourmatine/madani`
+**Workspace**: `/Users/operator/workspace`
 **Scored at**: 2026-05-19T23:42:13.430412
 
 ---

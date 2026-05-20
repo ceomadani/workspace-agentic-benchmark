@@ -2,7 +2,7 @@
   "tool": "workspace-agentic-benchmark/score.py",
   "version": "0.3.0",
   "scored_at": "2026-05-19T23:42:13.430412",
-  "workspace": "/Users/nourmatine/madani",
+  "workspace": "/Users/operator/workspace",
   "audit_at": "2026-05-19T23:39:47.506668",
   "composite": 81.25,
   "max": 100,

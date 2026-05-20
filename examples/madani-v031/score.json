@@ -2,7 +2,7 @@
   "tool": "workspace-bench",
   "version": "0.3.1",
   "scored_at": "2026-05-20T00:07:49.503106",
-  "workspace": "/Users/nourmatine/madani",
+  "workspace": "/Users/operator/workspace",
   "audit_at": "2026-05-20T00:05:37.466272",
   "composite": 81.25,
   "max": 100,
