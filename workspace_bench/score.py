@@ -270,8 +270,33 @@ def load_weights(weights_path: Path | None) -> dict[str, float]:
     return equal_weights()
 
 
-def score_audit(audit: dict, weights: dict[str, float] | None = None) -> dict:
+def score_audit(
+    audit: dict,
+    weights: dict[str, float] | None = None,
+    profile: dict | None = None,
+    extensions_result: dict | None = None,
+) -> dict:
+    """Score a workspace audit · backward-compatible iter-1.
+
+    iter-2 args (optional):
+      - profile: parsed YAML dict from profiles/<id>.yml · applies per-pillar weights + extension enforcement
+      - extensions_result: dict from extensions.detect_extensions(workspace) · 11 extension presence checks
+
+    When profile is provided · its weights override the `weights` arg.
+    When extensions_result is provided · added to output + used for profile compliance check.
+    """
     from . import __version__
+
+    # Profile · resolve weights if profile passed
+    profile_id = None
+    profile_summary = None
+    if profile is not None:
+        from .profiles import profile_to_pillar_weights, evaluate_extensions_against_profile
+        weights = profile_to_pillar_weights(profile)
+        profile_id = profile.get("profile_id", "custom")
+        if extensions_result:
+            profile_summary = evaluate_extensions_against_profile(profile, extensions_result)
+
     if weights is None:
         weights = equal_weights()
 
@@ -325,7 +350,7 @@ def score_audit(audit: dict, weights: dict[str, float] | None = None) -> dict:
         for cluster, data in cluster_scores.items()
     }
 
-    return {
+    result = {
         "tool": "workspace-bench",
         "version": __version__,
         "scored_at": datetime.now().isoformat(),
@@ -343,3 +368,24 @@ def score_audit(audit: dict, weights: dict[str, float] | None = None) -> dict:
             "thresholds": {"A": 85, "B": 70, "C": 50, "D": 30, "F": 0},
         },
     }
+
+    # iter-2 additions · only present when used
+    if profile_id is not None:
+        result["profile_id"] = profile_id
+        result["profile_weights_applied"] = {k: round(v, 3) for k, v in weights.items()}
+    if extensions_result is not None:
+        result["extensions"] = extensions_result
+    if profile_summary is not None:
+        result["profile_extension_compliance"] = profile_summary
+        # Penalty: if required extensions ratio < 1.0, apply soft penalty visible to user
+        compliance = profile_summary.get("required_compliance_ratio", 1.0)
+        if compliance < 1.0:
+            result["composite_pre_extension_penalty"] = composite_norm
+            # Penalty proportional to missing required extensions · max -10 pts
+            penalty = round((1.0 - compliance) * 10, 2)
+            result["extension_penalty"] = penalty
+            result["composite"] = round(max(0.0, composite_norm - penalty), 2)
+            result["grade"] = grade(result["composite"])
+            result["grade_description"] = grade_description(result["grade"])
+
+    return result

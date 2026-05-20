@@ -158,17 +158,50 @@ def cmd_audit(workspace: Path, output: Path | None, no_color: bool, quiet: bool)
         print(output_json)
 
 
-@cli.command("score", help="Score an audit.json against the 12-pillar L0-L4 rubric")
+@cli.command("score", help="Score an audit.json against the 12-pillar L0-L4 rubric · iter-2: --profile + extension detection")
 @click.argument("audit_json", type=click.Path(exists=True, dir_okay=False, path_type=Path))
 @click.option("--output", "-o", type=click.Path(path_type=Path), help="Output JSON path (default: stdout)")
-@click.option("--weights", type=click.Path(exists=True, dir_okay=False, path_type=Path), help="Path to weights.json")
+@click.option("--weights", type=click.Path(exists=True, dir_okay=False, path_type=Path), help="Path to weights.json (overridden by --profile if both set)")
+@click.option("--profile", "profile_id", type=str, default=None, help="iter-2 profile id (e.g., solo-operator-private-repo) · applies weights + extension enforcement")
+@click.option("--detect-extensions/--no-detect-extensions", default=None, help="Detect 11 iter-2 extensions in workspace (auto-enabled if --profile set)")
 @click.option("--no-color", is_flag=True, help="Disable color output")
 @click.option("--quiet", "-q", is_flag=True, help="Suppress display output")
-def cmd_score(audit_json: Path, output: Path | None, weights: Path | None, no_color: bool, quiet: bool):
+def cmd_score(audit_json: Path, output: Path | None, weights: Path | None, profile_id: str | None, detect_extensions: bool | None, no_color: bool, quiet: bool):
     console = make_console(no_color=no_color)
     audit = json.loads(audit_json.read_text(encoding="utf-8"))
-    weight_dict = load_weights(weights)
-    score = score_audit(audit, weight_dict)
+
+    # iter-2: load profile if specified
+    profile = None
+    if profile_id:
+        from .profiles import load_profile, available_profiles
+        profile = load_profile(profile_id)
+        if profile is None:
+            avail = available_profiles()
+            console.print(f"[red]✗ Profile '{profile_id}' not found.[/red]")
+            console.print(f"[dim]Available profiles:[/dim] {', '.join(avail) if avail else '(none)'}")
+            sys.exit(1)
+        if not quiet:
+            console.print(f"[dim]  Using profile:[/dim] [cyan]{profile_id}[/cyan]")
+        # auto-enable extension detection when profile is set
+        if detect_extensions is None:
+            detect_extensions = True
+
+    # iter-2: detect extensions if requested
+    extensions_result = None
+    if detect_extensions:
+        from .extensions import detect_extensions as do_detect
+        workspace_path_str = audit.get("workspace")
+        if workspace_path_str:
+            wp = Path(workspace_path_str)
+            if wp.exists() and wp.is_dir():
+                if not quiet:
+                    console.print("[dim]  Detecting 11 iter-2 extensions...[/dim]")
+                extensions_result = do_detect(wp)
+            else:
+                console.print(f"[yellow]  Cannot detect extensions: workspace path missing[/yellow]")
+
+    weight_dict = load_weights(weights) if profile is None else None
+    score = score_audit(audit, weight_dict, profile=profile, extensions_result=extensions_result)
 
     if not quiet:
         console.print()
@@ -225,14 +258,15 @@ def cmd_report(score_json: Path, output: Path, language: str | None, workspace_n
     console.print(f"[dim]  Open the report:[/dim]  [yellow]open {output}[/yellow]")
 
 
-@cli.command("run", help="Run full pipeline (audit + score + report) with live progress · uses .workspace-bench.yaml if present")
+@cli.command("run", help="Run full pipeline (audit + score + report) with live progress · uses .workspace-bench.yaml if present · iter-2: --profile")
 @click.argument("workspace", type=click.Path(exists=True, file_okay=False, dir_okay=True, path_type=Path), required=False)
 @click.option("--output-dir", "-d", type=click.Path(path_type=Path), default=None, help="Output directory (default: from config or ./bench-output)")
 @click.option("--language", type=click.Choice(["en", "it", "fr", "es", "de", "pt"]), default=None, help="Report language (default: auto-detect)")
 @click.option("--workspace-name", default="", help="Display name in HTML report")
-@click.option("--weights", type=click.Path(exists=True, dir_okay=False, path_type=Path), help="Path to weights.json")
+@click.option("--weights", type=click.Path(exists=True, dir_okay=False, path_type=Path), help="Path to weights.json (overridden by --profile if both set)")
+@click.option("--profile", "profile_id", type=str, default=None, help="iter-2 profile id · applies pillar weights + extension enforcement (auto-detect extensions)")
 @click.option("--no-color", is_flag=True, help="Disable color output")
-def cmd_run(workspace: Path | None, output_dir: Path | None, language: str | None, workspace_name: str, weights: Path | None, no_color: bool):
+def cmd_run(workspace: Path | None, output_dir: Path | None, language: str | None, workspace_name: str, weights: Path | None, profile_id: str | None, no_color: bool):
     console = make_console(no_color=no_color)
 
     # Load config if present (cwd/.workspace-bench.yaml)
@@ -300,9 +334,24 @@ def cmd_run(workspace: Path | None, output_dir: Path | None, language: str | Non
 
     audit_path.write_text(json.dumps(audit, indent=2, ensure_ascii=False), encoding="utf-8")
 
+    # iter-2: profile + extension detection
+    profile = None
+    extensions_result = None
+    if profile_id:
+        from .profiles import load_profile, available_profiles
+        profile = load_profile(profile_id)
+        if profile is None:
+            avail = available_profiles()
+            console.print(f"[red]✗ Profile '{profile_id}' not found.[/red]  Available: {', '.join(avail)}")
+            sys.exit(1)
+        console.print(f"[dim]  Using profile:[/dim] [cyan]{profile_id}[/cyan]")
+        from .extensions import detect_extensions as do_detect
+        console.print("[dim]  Detecting 11 iter-2 extensions...[/dim]")
+        extensions_result = do_detect(workspace)
+
     # 3. Score
-    weight_dict = load_weights(weights)
-    score = score_audit(audit, weight_dict)
+    weight_dict = load_weights(weights) if profile is None else None
+    score = score_audit(audit, weight_dict, profile=profile, extensions_result=extensions_result)
     score_path.write_text(json.dumps(score, indent=2, ensure_ascii=False), encoding="utf-8")
 
     # 4. Info theory (base + advanced) + language detection
