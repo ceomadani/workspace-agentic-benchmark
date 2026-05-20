@@ -48,6 +48,70 @@ def cmd_init(force: bool, no_color: bool):
     run_init_wizard(console, __version__, force=force)
 
 
+AGENT_PROMPT_TEMPLATE = """Leggi https://github.com/ceomadani/workspace-agentic-benchmark.
+
+Cammina il workspace e valuta la sua maturità sui 12 pillar del Workspace Agentic
+Benchmark, organizzati in 4 cluster:
+
+  · Cluster A · Cognition       (P1 memoria · P4 auto-improvement · P9 metacognition)
+  · Cluster B · Action          (P2 skills · P5 multi-agent DPI · P10 reliability)
+  · Cluster C · Trust           (P3 governance · P6 observability · P7 credentials · P11 HITL)
+  · Cluster D · Operations      (P8 portability · P12 cost & performance)
+
+Per ogni pillar assegna un livello di maturità L0-L4:
+  L0 Absent       (0)   pillar non esiste nel workspace
+  L1 Initial      (20)  ad-hoc · non documentato · vive nella testa dell'operatore
+  L2 Managed      (50)  documentato · eseguito manualmente
+  L3 Defined      (75)  enforced via tools/hooks · automatizzato
+  L4 Optimizing  (100)  si auto-migliora · misurato · loop cibernetico
+
+Calcola il composito pesato 0-100 (peso uguale 1/12 per pillar di default).
+Grade: A ≥85 · B ≥70 · C ≥50 · D ≥30 · F <30.
+
+OUTPUT richiesto (markdown):
+  1. Composito + grade + descrizione 1 frase
+  2. Tabella per-pillar: numero · titolo · cluster · livello · score · 1 frase razionale + evidenza
+  3. Cluster averages (4 numeri)
+  4. Top 3 priorità di miglioramento ordinate per gap al livello successivo · per ognuna 3 azioni concrete
+  5. Layer di teoria dell'informazione (stima): α=√(Q×Q) · SNR · entropia tipo file · densità
+  6. Limitazioni dell'audit + cosa non hai potuto verificare
+
+Sii ONESTO. Default a livelli bassi se mancano evidenze. Cita file:linea quando affermi L3+.
+NON inventare. Se un signal è ambiguo segnala il dubbio e abbassa il livello.
+"""
+
+
+@cli.command("prompt", help="Stampa il prompt da incollare nel tuo agente AI · usabile in qualsiasi LLM con accesso a file")
+@click.option("--copy", is_flag=True, help="Copia direttamente nella clipboard (richiede pyperclip · macOS pbcopy automatico)")
+@click.option("--no-color", is_flag=True, help="Disable color output")
+def cmd_prompt(copy: bool, no_color: bool):
+    console = make_console(no_color=no_color)
+    prompt = AGENT_PROMPT_TEMPLATE
+
+    if copy:
+        # macOS: pbcopy · Linux: xclip · Windows: clip
+        import subprocess
+        import sys as _sys
+        try:
+            if _sys.platform == "darwin":
+                subprocess.run(["pbcopy"], input=prompt, text=True, check=True)
+                console.print("[bright_green]✓[/bright_green] Prompt copiato in clipboard (pbcopy)")
+                return
+            elif _sys.platform.startswith("linux"):
+                subprocess.run(["xclip", "-selection", "clipboard"], input=prompt, text=True, check=True)
+                console.print("[bright_green]✓[/bright_green] Prompt copiato in clipboard (xclip)")
+                return
+            elif _sys.platform == "win32":
+                subprocess.run(["clip"], input=prompt, text=True, check=True)
+                console.print("[bright_green]✓[/bright_green] Prompt copiato in clipboard (clip)")
+                return
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            console.print("[yellow]Clipboard tool non disponibile · stampo a stdout[/yellow]")
+
+    # Just print to stdout · piping-friendly
+    click.echo(prompt)
+
+
 @cli.command("audit", help="Run audit on a workspace · emit audit.json")
 @click.argument("workspace", type=click.Path(exists=True, file_okay=False, dir_okay=True, path_type=Path))
 @click.option("--output", "-o", type=click.Path(path_type=Path), help="Output JSON path (default: stdout)")
