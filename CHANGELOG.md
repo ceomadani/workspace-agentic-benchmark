@@ -68,7 +68,7 @@ Format inspired by [Keep a Changelog](https://keepachangelog.com/). Versioning f
   - Coverage matrix · how many patterns inform each pillar
   - Sources include Reflexion · Voyager · MetaCogAgent · MAST · CLEAR · DGM · MemGPT · CoALA · NIST AI RMF · AAGATE · OWASP · CMMI · Anthropic Effective Harnesses · Manus · PaperClip · Hermes-agent · OpenCode · etc.
 - **HTML report v3 · tree-heavy · Madani branded · localized**
-  - Inline SVG Nour Matine brand mark in header
+  - Inline SVG Madani Lab brand mark in header (Nour Matine · Madani Lab)
   - Multi-language full content (executive summary · cluster averages · pillar table · trees · improvement priorities · pattern catalog · info-theory · legend)
   - 5+ tree visualizations: pillar trees per cluster · pattern catalog trees per category · pattern coverage tree · info-theory components tree
   - Information theory section with α · SNR · entropy · density · quality vs quantity cards

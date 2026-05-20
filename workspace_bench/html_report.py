@@ -1,9 +1,9 @@
 """
-Polished HTML report · multi-language · tree-heavy · Nour Matine-branded.
+Polished HTML report · multi-language · tree-heavy · Nour Matine · Madani Lab branded.
 
 Self-contained · inline CSS · no external runtime deps.
 Renders:
-  - Nour Matine branded header (inline SVG logo)
+  - Nour Matine · Madani Lab branded header (inline SVG logo)
   - Composite hero + grade
   - Cluster grid
   - Pillar maturity table
@@ -37,7 +37,7 @@ CATEGORY_COLOR = {
 }
 
 
-# Inline SVG · minimal Nour Matine mark · sage accent
+# Inline SVG · minimal Madani Lab mark · sage accent
 MADANI_LOGO_SVG = '''<svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Nour Matine">
   <rect x="3" y="3" width="36" height="36" rx="6" stroke="#A8C0A8" stroke-width="1.5" fill="none"/>
   <path d="M11 30 L11 12 L21 22 L31 12 L31 30" stroke="#C8DDC8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -461,7 +461,7 @@ def render_html(score: dict, audit: dict | None = None, info_theory: dict | None
 
     <header class="brand-header">
         <div class="brand-logo">{MADANI_LOGO_SVG}</div>
-        <div class="brand-text">Nour <b>Matine</b><br><span style="color:var(--fg-faint);font-size:9px;letter-spacing:0.14em;">{t("report_language", lang).upper()}: {language_name(lang)} ({lang})</span></div>
+        <div class="brand-text">Nour Matine<br><b>Madani Lab</b><br><span style="color:var(--fg-faint);font-size:9px;letter-spacing:0.14em;">{t("report_language", lang).upper()}: {language_name(lang)} ({lang})</span></div>
         <div class="brand-meta">workspace-bench · v{version}</div>
     </header>
 
@@ -532,7 +532,7 @@ def render_html(score: dict, audit: dict | None = None, info_theory: dict | None
 
     <footer>
         {t("generated_by", lang)} workspace-bench v{version} · {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}<br>
-        github.com/ceomadani/workspace-agentic-benchmark · MIT license · Nour Matine
+        github.com/ceomadani/workspace-agentic-benchmark · MIT license · Nour Matine · Madani Lab
     </footer>
 </div>
 </body>

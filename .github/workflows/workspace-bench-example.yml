@@ -1,10 +1,23 @@
 # ─────────────────────────────────────────────────────────────────────────
-# workspace-bench · example GitHub Action for end users
+# workspace-bench · example GitHub Action TEMPLATE for end users
 # ─────────────────────────────────────────────────────────────────────────
 #
-# Copy this file to .github/workflows/workspace-bench.yml in YOUR repo to
-# auto-audit your workspace on every push or PR. The action:
+# THIS IS A TEMPLATE · NOT auto-active on this repo (the benchmark itself).
+# This repo is a TOOL (Python package) · NOT a workspace · auto-running the
+# benchmark on it produces a low grade by design (you can't measure a meter
+# with a meter). Trigger is `workflow_dispatch` so it can be invoked manually
+# for documentation/screenshots only.
 #
+# Copy this file to .github/workflows/workspace-bench.yml in YOUR workspace
+# repo (NOT a tool repo) and change the `on:` triggers to:
+#
+#   on:
+#     push:
+#       branches: [main]
+#     pull_request:
+#       branches: [main]
+#
+# The action then:
 #   1. Installs workspace-bench from GitHub
 #   2. Audits your repository against the 12-pillar framework
 #   3. Uploads audit.json + score.json + report.html as workflow artifacts
@@ -16,11 +29,9 @@
 
 name: Workspace Agentic Benchmark
 
+# Manual trigger only on this repo · the example is meant for OTHER workspaces
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 env:
   # Set to A/B/C/D/F or empty to skip threshold check

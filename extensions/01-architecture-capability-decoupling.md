@@ -124,4 +124,4 @@ In order of expected impact for most workspaces:
 
 ---
 
-_Extension 01 · iter-2 · 2026-05-20 · author: Nour Matine (formula + framework) · supersedes METHODOLOGY.md §1 "Workspace > Agent"_
+_Extension 01 · iter-2 · 2026-05-20 · author: Nour Matine · Madani Lab (formula + framework) · supersedes METHODOLOGY.md §1 "Workspace > Agent"_
