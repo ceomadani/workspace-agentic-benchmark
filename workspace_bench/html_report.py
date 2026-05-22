@@ -28,6 +28,60 @@ from .patterns import PATTERNS, CATEGORIES, patterns_by_category, patterns_by_pi
 GRADE_COLOR = {"A": "#10b981", "B": "#3b82f6", "C": "#f59e0b", "D": "#ef4444", "F": "#7c2d12"}
 CLUSTER_COLOR = {"A": "#a855f7", "B": "#3b82f6", "C": "#f59e0b", "D": "#10b981"}
 LEVEL_COLOR = {0: "#6b7280", 1: "#ef4444", 2: "#f59e0b", 3: "#3b82f6", 4: "#10b981"}
+
+
+# Madani Lab research articles (live · https://www.madani.agency/[locale]/research/articles/<slug>)
+MADANI_LAB_BASE = "https://www.madani.agency"
+MADANI_LAB_ARTICLES = {
+    "architettura-12-pillar":       "Architettura · 12 Pilastri",
+    "catalogo-pattern-50":          "Catalogo · 50 Pattern",
+    "forward-deploy-portabilita":   "Forward Deploy · Portabilità",
+    "manifesto-vision":             "Manifesto · Vision",
+    "maturita-l0-l4":               "Maturità · L0–L4",
+    "metacognizione-prospettica":   "Metacognizione Prospettica",
+    "multi-agent-dpi-stanford":     "Multi-Agent DPI · Stanford 2604.02460",
+    "reliability-pass-at-k-mast":   "Reliability · pass@k MAST",
+    "signal-to-noise-workspace":    "Signal-to-Noise · Workspace",
+    "teoria-informazione-alpha":    "Teoria Informazione · α formula",
+}
+
+# Anomaly → list of relevant Madani Lab article slugs
+EXTENSION_ARTICLES = {
+    "01-architecture-capability-decoupling": ["teoria-informazione-alpha", "manifesto-vision"],
+    "02-information-theory":                 ["signal-to-noise-workspace", "teoria-informazione-alpha"],
+    "03-causal-reasoning":                   ["catalogo-pattern-50"],
+    "04-adversarial-robustness":             ["reliability-pass-at-k-mast"],
+    "05-compositionality":                   ["catalogo-pattern-50", "forward-deploy-portabilita"],
+    "06-temporal-coherence":                 ["catalogo-pattern-50"],
+    "07-embodied-awareness":                 ["metacognizione-prospettica"],
+    "08-knowledge-representation":           ["signal-to-noise-workspace"],
+    "09-resilience-partial-failure":         ["reliability-pass-at-k-mast", "forward-deploy-portabilita"],
+    "10-index-density":                      ["signal-to-noise-workspace"],
+    "11-meta-measurement":                   ["reliability-pass-at-k-mast", "maturita-l0-l4"],
+}
+
+# Per-pillar fallback when pillar is L0-L1
+PILLAR_ARTICLES = {
+    "P01": ["architettura-12-pillar", "manifesto-vision"],
+    "P02": ["catalogo-pattern-50", "signal-to-noise-workspace"],
+    "P03": ["catalogo-pattern-50"],
+    "P04": ["metacognizione-prospettica", "catalogo-pattern-50"],
+    "P05": ["catalogo-pattern-50"],
+    "P06": ["multi-agent-dpi-stanford"],
+    "P07": ["signal-to-noise-workspace"],
+    "P08": ["reliability-pass-at-k-mast"],
+    "P09": ["maturita-l0-l4", "architettura-12-pillar"],
+    "P10": ["forward-deploy-portabilita"],
+    "P11": ["reliability-pass-at-k-mast"],
+    "P12": ["manifesto-vision", "teoria-informazione-alpha"],
+}
+
+# Folders excluded from workspace tree walk (noise · build artifacts · VCS)
+TREE_EXCLUDE = {
+    ".git", "node_modules", "__pycache__", ".pytest_cache", ".next", ".nuxt",
+    "build", "dist", ".cache", ".turbo", ".vercel", ".vscode", ".idea",
+    "venv", ".venv", "env", ".env", "target", "out", ".DS_Store",
+}
 CATEGORY_COLOR = {
     "foundational": "#a855f7",
     "production": "#3b82f6",
@@ -341,7 +395,122 @@ def _info_theory_section(info: dict, lang: str) -> str:
     '''
 
 
-def render_html(score: dict, audit: dict | None = None, info_theory: dict | None = None, language: str = "en", workspace_name: str = "") -> str:
+def _article_link(slug: str, lang: str) -> str:
+    """Render <a> link to Madani Lab research article."""
+    title = MADANI_LAB_ARTICLES.get(slug, slug)
+    locale = lang if lang in ("it", "en", "fr") else "it"
+    url = f"{MADANI_LAB_BASE}/{locale}/research/articles/{slug}"
+    return f'<a href="{url}" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">{title}</a>'
+
+
+def _workspace_tree(workspace_path: Path | None, max_depth: int = 2, max_entries_per_dir: int = 25) -> str:
+    """Walk workspace dir · render ASCII-tree of top-level structure for confirmation."""
+    if workspace_path is None or not workspace_path.exists() or not workspace_path.is_dir():
+        return ""
+
+    lines = [f'<div class="tree-root">▸ {workspace_path.name}/ <span style="color:var(--fg-faint);font-size:0.85em;">— workspace identified · confirm before reading the report</span></div>']
+
+    def _walk(d: Path, depth: int, prefix: str):
+        if depth > max_depth:
+            return
+        try:
+            entries = sorted(
+                [e for e in d.iterdir() if e.name not in TREE_EXCLUDE and not e.name.startswith(".")],
+                key=lambda e: (not e.is_dir(), e.name.lower()),
+            )
+        except (PermissionError, OSError):
+            return
+        if len(entries) > max_entries_per_dir:
+            entries = entries[:max_entries_per_dir]
+            truncated = True
+        else:
+            truncated = False
+        for i, entry in enumerate(entries):
+            is_last = i == len(entries) - 1
+            connector = "└─ " if is_last else "├─ "
+            icon = "📁" if entry.is_dir() else "📄"
+            color = "var(--accent-bright)" if entry.is_dir() else "var(--fg-dim)"
+            suffix = "/" if entry.is_dir() else ""
+            lines.append(f'''<div class="tree-node">
+                <span class="tree-prefix">{prefix}{connector}</span>
+                <span class="tree-label" style="color:{color};">{icon} {entry.name}{suffix}</span>
+            </div>''')
+            if entry.is_dir() and depth < max_depth:
+                next_prefix = prefix + ("    " if is_last else "│   ")
+                _walk(entry, depth + 1, next_prefix)
+        if truncated:
+            lines.append(f'<div class="tree-node"><span class="tree-prefix">{prefix}</span><span class="tree-label" style="color:var(--fg-faint);font-style:italic;">… more entries truncated</span></div>')
+
+    _walk(workspace_path, 1, "")
+    return f'<div class="tree-section"><div class="tree">{"".join(lines)}</div></div>'
+
+
+def _anomalies_section(score: dict, lang: str) -> str:
+    """Detect anomalies (L0-L1 pillars + absent/partial extensions) · render with article cross-references."""
+    pillars = score.get("pillars", {})
+    extensions = score.get("extensions", {})
+
+    anomalies = []
+
+    # Pillar anomalies (L0-L1 = missing/initial)
+    for p in PILLARS:
+        data = pillars.get(p.key, {})
+        level = data.get("level", 0)
+        if level <= 1:
+            articles = PILLAR_ARTICLES.get(f"P{p.n:02d}", [])
+            anomalies.append({
+                "type": "pillar",
+                "code": f"P{p.n:02d}",
+                "title": p.title,
+                "detail": f"{LEVEL_NAMES.get(level, '?')} · score {data.get('score', 0)}/100",
+                "severity": "high" if level == 0 else "medium",
+                "articles": articles,
+            })
+
+    # Extension anomalies (absent/partial)
+    if isinstance(extensions, dict) and extensions:
+        for ext_id, ext_data in extensions.items():
+            if not isinstance(ext_data, dict):
+                continue
+            status = ext_data.get("status", "absent")
+            if status in ("absent", "partial"):
+                articles = EXTENSION_ARTICLES.get(ext_id, [])
+                title = ext_data.get("title", ext_id)
+                anomalies.append({
+                    "type": "extension",
+                    "code": ext_id,
+                    "title": title,
+                    "detail": f"status: {status}",
+                    "severity": "high" if status == "absent" else "medium",
+                    "articles": articles,
+                })
+
+    if not anomalies:
+        return f'<p style="color:#10b981;font-style:italic;font-family:var(--font-serif);font-size:1.05rem;margin:1rem 0 2rem;">✓ No anomalies detected · all pillars L2+ · all extensions present</p>'
+
+    rows_html = []
+    for a in anomalies:
+        sev_color = "#ef4444" if a["severity"] == "high" else "#f59e0b"
+        sev_label = "HIGH" if a["severity"] == "high" else "MED"
+        articles_html = " · ".join(_article_link(s, lang) for s in a["articles"]) if a["articles"] else '<span style="color:var(--fg-faint);font-style:italic;">no article reference yet</span>'
+        type_tag = "PILLAR" if a["type"] == "pillar" else "EXT"
+        rows_html.append(f'''
+        <div class="anomaly-item" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid {sev_color};border-radius:6px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
+            <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
+                <span class="tree-tag" style="background:{sev_color};color:#fff;">{sev_label}</span>
+                <span class="tree-tag" style="background:rgba(168,192,168,0.18);color:var(--accent-bright);">{type_tag}</span>
+                <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.04em;">{a["code"]}</span>
+                <span style="font-family:var(--font-serif);font-size:1.05rem;color:var(--accent-bright);">{a["title"]}</span>
+                <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);margin-left:auto;">{a["detail"]}</span>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.5rem;">→ relevant reading · Madani Lab</div>
+            <div style="font-family:var(--font-serif);font-size:0.95rem;color:var(--fg-dim);margin-top:0.3rem;line-height:1.6;">{articles_html}</div>
+        </div>''')
+
+    return f'<div style="margin:1rem 0 2.5rem;">{"".join(rows_html)}</div>'
+
+
+def render_html(score: dict, audit: dict | None = None, info_theory: dict | None = None, language: str = "en", workspace_name: str = "", workspace_path: Path | None = None) -> str:
     composite = score.get("composite", 0)
     grade = score.get("grade", "F")
     grade_desc = score.get("grade_description", "")
@@ -444,6 +613,8 @@ def render_html(score: dict, audit: dict | None = None, info_theory: dict | None
         '''
 
     workspace_display = workspace_name if workspace_name else workspace
+    workspace_tree_html = _workspace_tree(workspace_path) if workspace_path else ""
+    anomalies_html = _anomalies_section(score, lang)
 
     return f'''<!DOCTYPE html>
 <html lang="{lang}">
@@ -474,6 +645,8 @@ def render_html(score: dict, audit: dict | None = None, info_theory: dict | None
         <span><b>{t("tool", lang)}</b> workspace-bench v{version}</span>
         <span><b>{t("language_detected", lang)}</b> {language_name(lang)} ({lang})</span>
     </div>
+
+    {("<div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Tree</h2>" + workspace_tree_html) if workspace_tree_html else ""}
 
     <div class="eyebrow">{t("executive_summary", lang)}</div>
     <div class="composite-card">
@@ -517,6 +690,11 @@ def render_html(score: dict, audit: dict | None = None, info_theory: dict | None
     {_tree_pillar(score, lang)}
 
     {info_section}
+
+    <div class="eyebrow" style="margin-top:3.5rem;">anomalies detected</div>
+    <h2 style="margin-top:0.5rem;">Anomalies · cross-referenced with Madani Lab research</h2>
+    <p class="subtitle" style="margin-bottom:1rem;">Each anomaly (L0-L1 pillar · absent/partial extension) is linked to research articles that explain the gap and the path forward.</p>
+    {anomalies_html}
 
     <div class="eyebrow" style="margin-top:3.5rem;">{t("improvement_priorities", lang)}</div>
     <h2 style="margin-top:0.5rem;">{t("ordered_by_gap", lang)}</h2>

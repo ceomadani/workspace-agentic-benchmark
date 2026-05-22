@@ -1,0 +1,391 @@
+{
+  "tool": "workspace-bench",
+  "version": "0.3.4",
+  "scored_at": "2026-05-22T18:41:58.514588",
+  "workspace": "/Users/operator/workspace-agentic-benchmark/examples/naive-startup",
+  "audit_at": "2026-05-22T18:41:58.480380",
+  "composite": 0.0,
+  "max": 100,
+  "grade": "F",
+  "grade_description": "Failing · workspace not fit for purpose",
+  "cluster_averages": {
+    "A": {
+      "name": "Cognition",
+      "average": 0.0
+    },
+    "B": {
+      "name": "Action",
+      "average": 0.0
+    },
+    "C": {
+      "name": "Trust",
+      "average": 12.5
+    },
+    "D": {
+      "name": "Operations",
+      "average": 10.0
+    }
+  },
+  "pillars": {
+    "1_context_memory": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Context Hierarchy & Memory",
+      "cluster": "A · Cognition",
+      "cluster_letter": "A",
+      "n": 1,
+      "weight": 1.5
+    },
+    "2_skill_tool": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Skill / Tool Architecture",
+      "cluster": "B · Action",
+      "cluster_letter": "B",
+      "n": 2,
+      "weight": 1.0
+    },
+    "3_governance": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Governance & Compliance",
+      "cluster": "C · Trust",
+      "cluster_letter": "C",
+      "n": 3,
+      "weight": 1.0
+    },
+    "4_auto_improvement": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Auto-Improvement Loop",
+      "cluster": "A · Cognition",
+      "cluster_letter": "A",
+      "n": 4,
+      "weight": 1.2
+    },
+    "5_multi_agent_dpi": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Multi-Agent Discipline (DPI)",
+      "cluster": "B · Action",
+      "cluster_letter": "B",
+      "n": 5,
+      "weight": 1.0
+    },
+    "6_observability": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Observability & Recovery",
+      "cluster": "C · Trust",
+      "cluster_letter": "C",
+      "n": 6,
+      "weight": 1.2
+    },
+    "7_credentials_security": {
+      "level": 2,
+      "level_name": "L2 Managed",
+      "score": 50,
+      "criteria_passed": 3,
+      "criteria_total": 10,
+      "title": "Credentials & Security",
+      "cluster": "C · Trust",
+      "cluster_letter": "C",
+      "n": 7,
+      "weight": 0.5
+    },
+    "8_portability": {
+      "level": 1,
+      "level_name": "L1 Initial",
+      "score": 20,
+      "criteria_passed": 1,
+      "criteria_total": 10,
+      "title": "Portability & Re-deployability",
+      "cluster": "D · Operations",
+      "cluster_letter": "D",
+      "n": 8,
+      "weight": 0.0
+    },
+    "9_metacognition": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Metacognition & Self-Assessment",
+      "cluster": "A · Cognition",
+      "cluster_letter": "A",
+      "n": 9,
+      "weight": 1.5
+    },
+    "10_reliability": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Reliability & Determinism",
+      "cluster": "B · Action",
+      "cluster_letter": "B",
+      "n": 10,
+      "weight": 1.5
+    },
+    "11_human_in_the_loop": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Human-in-the-Loop",
+      "cluster": "C · Trust",
+      "cluster_letter": "C",
+      "n": 11,
+      "weight": 1.0
+    },
+    "12_cost_performance": {
+      "level": 0,
+      "level_name": "L0 Absent",
+      "score": 0,
+      "criteria_passed": 0,
+      "criteria_total": 10,
+      "title": "Cost & Performance Efficiency",
+      "cluster": "D · Operations",
+      "cluster_letter": "D",
+      "n": 12,
+      "weight": 0.0
+    }
+  },
+  "scoring_model": {
+    "level_mapping": {
+      "0": 0,
+      "1": 20,
+      "2": 50,
+      "3": 75,
+      "4": 100
+    },
+    "level_names": {
+      "0": "L0 Absent",
+      "1": "L1 Initial",
+      "2": "L2 Managed",
+      "3": "L3 Defined",
+      "4": "L4 Optimizing"
+    },
+    "thresholds": {
+      "A": 85,
+      "B": 70,
+      "C": 50,
+      "D": 30,
+      "F": 0
+    }
+  },
+  "profile_id": "solo-operator-private-repo",
+  "profile_weights_applied": {
+    "1_context_memory": 1.5,
+    "2_skill_tool": 1.0,
+    "9_metacognition": 1.5,
+    "4_auto_improvement": 1.2,
+    "5_multi_agent_dpi": 1.0,
+    "10_reliability": 1.5,
+    "3_governance": 1.0,
+    "6_observability": 1.2,
+    "7_credentials_security": 0.5,
+    "11_human_in_the_loop": 1.0,
+    "8_portability": 0.0,
+    "12_cost_performance": 0.0
+  },
+  "extensions": {
+    "01-architecture-capability-decoupling": {
+      "title": "Architecture-Capability Decoupling",
+      "cluster": "root-principle",
+      "status": "absent",
+      "evidence": []
+    },
+    "02-information-theory": {
+      "title": "Information Theory · Signal-to-Noise",
+      "cluster": "cross-cutting",
+      "status": "absent",
+      "evidence": []
+    },
+    "03-causal-reasoning": {
+      "title": "Causal Reasoning Support",
+      "cluster": "cross-cutting",
+      "status": "absent",
+      "evidence": {
+        "rules_with_why": 0,
+        "total_rules_scoped": 0,
+        "ratio": 0,
+        "lessons_files_count": 0
+      }
+    },
+    "04-adversarial-robustness": {
+      "title": "Adversarial Robustness",
+      "cluster": "cross-cutting",
+      "status": "absent",
+      "evidence": {
+        "secret_guard_hook": false,
+        "hitl_documented": false
+      }
+    },
+    "05-compositionality": {
+      "title": "Compositionality",
+      "cluster": "cross-cutting",
+      "status": "absent",
+      "evidence": {
+        "skills_with_contract": 0,
+        "total_skills": 0
+      }
+    },
+    "06-temporal-coherence": {
+      "title": "Temporal Coherence",
+      "cluster": "cross-cutting",
+      "status": "absent",
+      "evidence": {
+        "reflection_cycle": false,
+        "session_archive": false,
+        "changelog_files": false,
+        "absolute_dates_count": 0,
+        "relative_dates_count": 0
+      }
+    },
+    "07-embodied-awareness": {
+      "title": "Embodied / Situational Awareness",
+      "cluster": "cross-cutting",
+      "status": "absent",
+      "evidence": {
+        "session_start_hook": false,
+        "cwd_injection": false,
+        "branch_injection": false
+      }
+    },
+    "08-knowledge-representation": {
+      "title": "Knowledge Representation Choice",
+      "cluster": "cross-cutting",
+      "status": "partial",
+      "evidence": {
+        "yaml_files": false,
+        "json_files": true,
+        "md_with_frontmatter": 0,
+        "graph_or_vector_hint": false
+      }
+    },
+    "09-resilience-partial-failure": {
+      "title": "Resilience under Partial Failure",
+      "cluster": "cross-cutting",
+      "status": "absent",
+      "evidence": {
+        "liveness_watchdog": false,
+        "state_snapshot_file": false,
+        "recovery_docs": false
+      }
+    },
+    "10-index-density": {
+      "title": "Index Density & Semantic Coverage",
+      "cluster": "cross-cutting",
+      "status": "absent",
+      "evidence": {
+        "INDEX_md_count": 0,
+        "root_00_files": 0,
+        "manifests": 0,
+        "entity_registry": false,
+        "llms_txt": false,
+        "agents_md": false,
+        "signals": 0
+      }
+    },
+    "11-meta-measurement": {
+      "title": "Meta-Measurement",
+      "cluster": "recursive",
+      "status": "absent",
+      "evidence": {
+        "compliance_log_dir": false,
+        "compliance_check_tool": false,
+        "workspace_bench_history": false,
+        "anti_gaming_doc": false
+      }
+    }
+  },
+  "profile_extension_compliance": {
+    "required": [
+      {
+        "id": "10-index-density",
+        "title": "Index Density & Semantic Coverage",
+        "status": "absent"
+      },
+      {
+        "id": "06-temporal-coherence",
+        "title": "Temporal Coherence",
+        "status": "absent"
+      },
+      {
+        "id": "01-architecture-capability-decoupling",
+        "title": "Architecture-Capability Decoupling",
+        "status": "absent"
+      }
+    ],
+    "optional": [
+      {
+        "id": "02-information-theory",
+        "title": "Information Theory · Signal-to-Noise",
+        "status": "absent"
+      },
+      {
+        "id": "03-causal-reasoning",
+        "title": "Causal Reasoning Support",
+        "status": "absent"
+      },
+      {
+        "id": "04-adversarial-robustness",
+        "title": "Adversarial Robustness",
+        "status": "absent"
+      },
+      {
+        "id": "05-compositionality",
+        "title": "Compositionality",
+        "status": "absent"
+      },
+      {
+        "id": "07-embodied-awareness",
+        "title": "Embodied / Situational Awareness",
+        "status": "absent"
+      },
+      {
+        "id": "08-knowledge-representation",
+        "title": "Knowledge Representation Choice",
+        "status": "partial"
+      },
+      {
+        "id": "09-resilience-partial-failure",
+        "title": "Resilience under Partial Failure",
+        "status": "absent"
+      },
+      {
+        "id": "11-meta-measurement",
+        "title": "Meta-Measurement",
+        "status": "absent"
+      }
+    ],
+    "required_present_count": 0,
+    "required_partial_count": 0,
+    "required_total": 3,
+    "required_compliance_ratio": 0.0
+  },
+  "composite_pre_extension_penalty": 2.19,
+  "extension_penalty": 10.0
+}

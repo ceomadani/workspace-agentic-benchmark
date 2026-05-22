@@ -34,3 +34,8 @@ Thumbs.db
 *.pem
 *.key
 credentials.json
+examples/*/.workspace-bench/
+
+# docs/ for GitHub Pages · always tracked
+!docs/
+!docs/*.html

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workspace Agentic Benchmark · Nour Matine · Madani Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0a0d0a; --bg-elev: #0f1410; --bg-card: #131815;
+    --border: rgba(168, 192, 168, 0.18); --border-strong: rgba(168, 192, 168, 0.35);
+    --fg: #E8EBE8; --fg-dim: rgba(232, 235, 232, 0.70); --fg-faint: rgba(232, 235, 232, 0.45);
+    --accent: #A8C0A8; --accent-bright: #C8DDC8;
+    --font-serif: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-sans); margin: 0; line-height: 1.65; font-size: 16px; }
+.container { max-width: 880px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+header { padding-bottom: 2rem; border-bottom: 1px solid var(--border); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+.brand-text { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; }
+.brand-text b { color: var(--accent-bright); font-weight: 600; }
+h1 { font-family: var(--font-serif); font-size: clamp(2.6rem, 6vw, 4rem); line-height: 1.05; margin: 1.5rem 0 0.75rem; color: #F5F7F5; }
+h1 em { font-style: italic; color: var(--accent-bright); }
+.subtitle { font-family: var(--font-serif); font-style: italic; font-size: 1.2rem; color: var(--fg-dim); margin: 0 0 3rem; }
+h2 { font-family: var(--font-serif); font-size: 1.6rem; color: #F5F7F5; margin: 3rem 0 0.75rem; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin-bottom: 0.5rem; }
+.lead { font-family: var(--font-serif); font-size: 1.15rem; color: var(--fg-dim); line-height: 1.7; margin: 0 0 2rem; }
+a { color: var(--accent-bright); }
+.cta { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 1.75rem; background: var(--bg-elev); border: 1px solid var(--border-strong); border-radius: 6px; text-decoration: none; color: var(--accent-bright); font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.04em; margin: 0.5rem 0.5rem 0.5rem 0; transition: border-color 0.15s; }
+.cta:hover { border-color: var(--accent); }
+.cta b { color: #F5F7F5; }
+.formula { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem 1.75rem; font-family: var(--font-mono); font-size: 1rem; color: var(--accent-bright); margin: 1.5rem 0; }
+ul { padding-left: 1.25rem; color: var(--fg-dim); }
+ul li { margin-bottom: 0.5rem; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0 2rem; }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem 1.5rem; }
+.card h3 { font-family: var(--font-serif); font-size: 1.1rem; color: var(--accent-bright); margin: 0 0 0.5rem; }
+.card p { margin: 0; color: var(--fg-dim); font-size: 0.95rem; line-height: 1.55; }
+footer { margin-top: 6rem; padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--fg-faint); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+    <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="36" height="36" rx="6" stroke="#A8C0A8" stroke-width="1.5" fill="none"/>
+        <path d="M11 30 L11 12 L21 22 L31 12 L31 30" stroke="#C8DDC8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="21" cy="26" r="1.8" fill="#A8C0A8"/>
+    </svg>
+    <div class="brand-text">Nour Matine<br><b>Madani Lab</b></div>
+</header>
+
+<div class="eyebrow">Workspace Agentic Benchmark</div>
+<h1>Measure the <em>workspace</em>,<br>not the model.</h1>
+<p class="subtitle">12 pillars · 11 cross-cutting extensions · L0–L4 maturity · vendor-neutral.</p>
+
+<p class="lead">
+    The output of an agentic system is bounded by the multiplication of <b style="color:var(--accent-bright);">capability</b> (the model) and <b style="color:var(--accent-bright);">α</b> (the workspace).
+    LLM benchmarks measure capability. This benchmark measures α — the structural quality of the environment the agent operates in.
+</p>
+
+<div class="formula">
+    output = α(workspace) × capability(LLM)<br>
+    <span style="color:var(--fg-faint);font-size:0.85em;">α = √(quality × quantity) × density_indices</span>
+</div>
+
+<a class="cta" href="report-madani.html"><b>→ Madani workspace · 85.75 · grade A</b> · real-world reference</a>
+<a class="cta" href="report-naive-startup.html"><b>→ Naive startup · 0 · grade F</b> · what unstructured looks like</a>
+<a class="cta" href="https://github.com/ceomadani/workspace-agentic-benchmark"><b>→ Repo</b> · install + score your own</a>
+
+<div class="eyebrow">what the report shows</div>
+<h2>Composition</h2>
+<div class="grid-2">
+    <div class="card">
+        <h3>Workspace tree</h3>
+        <p>Visual confirmation of the directory structure analyzed — so you know exactly what was measured before reading the score.</p>
+    </div>
+    <div class="card">
+        <h3>12 pillars · L0–L4</h3>
+        <p>Maturity per dimension: governance, doctrine, production, foundational. Each pillar has explicit criteria · deterministic detector.</p>
+    </div>
+    <div class="card">
+        <h3>11 extensions</h3>
+        <p>Cross-cutting first principles · architecture-capability decoupling · information theory · adversarial robustness · compositionality · others.</p>
+    </div>
+    <div class="card">
+        <h3>Anomalies + references</h3>
+        <p>Every L0–L1 pillar and every absent/partial extension is paired with research articles on Madani Lab that explain the gap and the path forward.</p>
+    </div>
+    <div class="card">
+        <h3>Information theory layer</h3>
+        <p>α formula · signal-to-noise dB · entropy bits · density · quality × quantity decomposition.</p>
+    </div>
+    <div class="card">
+        <h3>50+ pattern catalog</h3>
+        <p>arXiv-grounded pattern adapters mapped to pillars · MAST · DPI Stanford · MetaCogAgent · Manus KV-cache · Voyager · Reflexion · Dreams · others.</p>
+    </div>
+</div>
+
+<div class="eyebrow">install</div>
+<h2>Score your workspace in under a minute</h2>
+<div class="formula">
+git clone https://github.com/ceomadani/workspace-agentic-benchmark<br>
+cd workspace-agentic-benchmark<br>
+pip install -e .<br>
+workspace-bench run /path/to/your/workspace --profile solo-operator-private-repo
+</div>
+
+<div class="eyebrow">research</div>
+<h2>Behind the scoring</h2>
+<ul>
+    <li><a href="https://www.madani.agency/en/research/articles/teoria-informazione-alpha">α formula · information theory decomposition</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/architettura-12-pillar">Why 12 pillars · architecture rationale</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/catalogo-pattern-50">50-pattern catalog · arXiv-grounded</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/maturita-l0-l4">L0–L4 · CMMI-inspired maturity</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/multi-agent-dpi-stanford">Multi-Agent DPI · Stanford 2604.02460</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/reliability-pass-at-k-mast">Reliability · pass@k MAST</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/signal-to-noise-workspace">Signal-to-Noise · workspace</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/metacognizione-prospettica">Prospective metacognition</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/forward-deploy-portabilita">Forward-deploy portability</a></li>
+    <li><a href="https://www.madani.agency/en/research/articles/manifesto-vision">Manifesto · vision</a></li>
+</ul>
+
+<footer>
+    MIT license · Nour Matine · Madani Lab · github.com/ceomadani/workspace-agentic-benchmark
+</footer>
+</div>
+</body>
+</html>

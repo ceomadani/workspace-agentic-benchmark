@@ -251,7 +251,8 @@ def cmd_report(score_json: Path, output: Path, language: str | None, workspace_n
                 info = compute_info_theory(wp)
 
     lang = language or detected_lang
-    html = render_html(score, info_theory=info, language=lang, workspace_name=workspace_name)
+    wp_for_tree = Path(workspace_path_str) if workspace_path_str and Path(workspace_path_str).exists() else None
+    html = render_html(score, info_theory=info, language=lang, workspace_name=workspace_name, workspace_path=wp_for_tree)
     output.write_text(html, encoding="utf-8")
     console.print(f"[bright_green]✓[/bright_green] Wrote HTML report to [cyan]{output}[/cyan]")
     console.print(f"[dim]  Language: [/dim][cyan]{language_name(lang)}[/cyan] ({lang})")
@@ -380,7 +381,7 @@ def cmd_run(workspace: Path | None, output_dir: Path | None, language: str | Non
     console.print()
 
     # 6. HTML report
-    html = render_html(score, info_theory=info, language=language, workspace_name=workspace_name)
+    html = render_html(score, info_theory=info, language=language, workspace_name=workspace_name, workspace_path=workspace)
     report_path.write_text(html, encoding="utf-8")
 
     # 7. Save to history (.workspace-bench/history/)
