@@ -1,7 +1,7 @@
 {
   "tool": "workspace-bench",
   "version": "0.3.4",
-  "audited_at": "2026-05-22T18:41:58.480380",
+  "audited_at": "2026-05-22T20:36:23.641108",
   "workspace": "/Users/operator/workspace-agentic-benchmark/examples/naive-startup",
   "pillars": {
     "1_context_memory": {
@@ -39,7 +39,7 @@
     "4_auto_improvement": {
       "dreams_pipeline": false,
       "reflexion_runner": false,
-      "session_capture_evidence": false,
+      "session_capture_evidence": true,
       "scoring_rubric_for_proposals": false,
       "two_stage_review": false,
       "apply_log_exists": false,

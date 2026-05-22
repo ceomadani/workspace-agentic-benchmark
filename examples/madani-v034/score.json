@@ -1,9 +1,9 @@
 {
   "tool": "workspace-bench",
   "version": "0.3.4",
-  "scored_at": "2026-05-22T18:39:59.645549",
+  "scored_at": "2026-05-22T20:39:23.357587",
   "workspace": "/Users/operator/workspace",
-  "audit_at": "2026-05-22T18:36:39.038940",
+  "audit_at": "2026-05-22T20:35:58.005030",
   "composite": 85.75,
   "max": 100,
   "grade": "A",
@@ -239,7 +239,7 @@
         "rules_with_why": 1,
         "total_rules_scoped": 1,
         "ratio": 1.0,
-        "lessons_files_count": 6
+        "lessons_files_count": 5
       }
     },
     "04-adversarial-robustness": {

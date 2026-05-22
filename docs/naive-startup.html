@@ -213,6 +213,56 @@ td.pillar-name { font-family: var(--font-sans); font-weight: 500; font-size: 14p
 .article-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); font-family: var(--font-sans); font-weight: 500; transition: border-color 0.15s; }
 .article-link:hover { border-bottom-color: var(--accent); }
 
+/* Workspace tree · recursive collapsible */
+.workspace-tree {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--glass-shadow);
+    padding: 1.5rem 1.75rem;
+    margin: 1rem 0 2rem;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.55;
+}
+.workspace-tree-header { display: flex; align-items: baseline; gap: 1rem; padding-bottom: 0.75rem; margin-bottom: 0.75rem; border-bottom: 1px dashed var(--border); }
+.workspace-tree-root-name { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; color: var(--fg); font-weight: 400; }
+.workspace-tree-meta { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: var(--fg-faint); text-transform: uppercase; margin-left: auto; }
+.workspace-tree-body details, .workspace-tree-body .tree-file, .workspace-tree-body .tree-empty-folder { padding: 1px 0; }
+.workspace-tree-body details summary {
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    padding: 2px 0;
+    color: var(--fg);
+    font-weight: 600;
+}
+.workspace-tree-body details summary::-webkit-details-marker { display: none; }
+.workspace-tree-body details summary::before {
+    content: "▸";
+    display: inline-block;
+    width: 1em;
+    color: var(--accent);
+    font-weight: 600;
+    transition: transform 0.12s ease;
+}
+.workspace-tree-body details[open] > summary::before { transform: rotate(90deg); }
+.workspace-tree-body summary:hover .tree-folder-name { color: var(--accent); }
+.workspace-tree-body .tree-folder-name { color: var(--fg); font-weight: 600; }
+.workspace-tree-body .tree-children {
+    margin-left: 0.85rem;
+    border-left: 1px solid var(--border);
+    padding-left: 0.85rem;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.workspace-tree-body .tree-empty-folder { color: var(--fg-dim); padding-left: 1em; }
+.workspace-tree-body .tree-empty-folder::before { content: "▹"; color: var(--fg-faint); margin-right: 6px; display: inline-block; width: 1em; }
+.workspace-tree-body .tree-file { color: var(--fg-dim); padding-left: 1em; font-weight: 400; }
+.workspace-tree-body .tree-file::before { content: "·"; color: var(--fg-faint); margin-right: 8px; }
+.workspace-tree-body .tree-file-name { color: var(--fg-dim); }
+.workspace-tree-body .tree-truncated { font-family: var(--font-serif); font-style: italic; color: var(--fg-faint); padding: 0.75rem 0 0 1em; font-size: 0.95em; }
+
 footer { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg-faint); text-align: center; line-height: 1.8; }
 footer em { font-family: var(--font-serif); }
 
@@ -240,6 +290,16 @@ footer em { font-family: var(--font-serif); }
 </style>
 </head>
 <body>
+<div class="top-strip" style="background: var(--bg-elev); border-bottom: 1px solid var(--border); padding: 0.6rem clamp(20px, 5vw, 40px); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg-dim); display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+    <span style="font-weight: 600; color: var(--fg);">workspace-agentic-benchmark</span>
+    <span style="color: var(--fg-faint);">·</span>
+    <span style="font-family: var(--font-serif); font-style: italic;">Nour Matine · Madani Lab</span>
+    <span style="margin-left: auto; display: inline-flex; gap: 1.25rem; align-items: center;">
+        <a href="index.html" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line);">see Madani workspace · A →</a>
+        <a href="https://github.com/ceomadani/workspace-agentic-benchmark" style="color: var(--fg-dim); text-decoration: none; border-bottom: 1px solid var(--border);">github ↗</a>
+    </span>
+</div>
+
 <div class="container">
 
     <header class="brand-header">
@@ -256,13 +316,19 @@ footer em { font-family: var(--font-serif); }
     <p class="subtitle">A first-principles audit across 12 pillars in 4 clusters · L0-L4 maturity model</p>
 
     <div class="meta">
-        <span><b>Workspace</b> naive-startup</span>
-        <span><b>Scored</b> 2026-05-22T18:41:58.514588</span>
+        <span><b>Workspace</b> /Users/operator/workspace-agentic-benchmark/examples/naive-startup</span>
+        <span><b>Scored</b> 2026-05-22T20:36:23.691471</span>
         <span><b>Tool</b> workspace-bench v0.3.4</span>
         <span><b>Language detected</b> English (en)</span>
     </div>
 
-    
+    <div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Tree · click folders to expand</h2><div class="workspace-tree">
+        <div class="workspace-tree-header">
+            <span class="workspace-tree-root-name">naive-startup/</span>
+            <span class="workspace-tree-meta">10 nodes · click folders to expand</span>
+        </div>
+        <div class="workspace-tree-body"><details class="tree-folder" open><summary><span class="tree-folder-name">docs/</span></summary><div class="tree-children"><div class="tree-file"><span class="tree-file-name">notes.md</span></div></div></details><details class="tree-folder" open><summary><span class="tree-folder-name">src/</span></summary><div class="tree-children"><div class="tree-file"><span class="tree-file-name">api.js</span></div><div class="tree-file"><span class="tree-file-name">index.js</span></div></div></details><div class="tree-file"><span class="tree-file-name">audit.json</span></div><div class="tree-file"><span class="tree-file-name">package.json</span></div><div class="tree-file"><span class="tree-file-name">README.md</span></div><div class="tree-file"><span class="tree-file-name">report.html</span></div><div class="tree-file"><span class="tree-file-name">score.json</span></div></div>
+    </div>
 
     <div class="eyebrow">Executive summary</div>
     <div class="composite-card">
@@ -282,8 +348,8 @@ footer em { font-family: var(--font-serif); }
         
         <div class="cluster-card">
             <div class="label" style="color:#a855f7">A · Cognition</div>
-            <div class="value">0.0<span style="font-size:0.5em;color:var(--fg-faint);"> / 100</span></div>
-            <div class="progress"><div class="progress-fill" style="width:0.0%;background:#a855f7"></div></div>
+            <div class="value">6.7<span style="font-size:0.5em;color:var(--fg-faint);"> / 100</span></div>
+            <div class="progress"><div class="progress-fill" style="width:6.67%;background:#a855f7"></div></div>
             <p class="desc">the agent's mind · memory · learning · self-assessment</p>
         </div>
         <div class="cluster-card">
@@ -353,10 +419,10 @@ footer em { font-family: var(--font-serif); }
             <td style="color:var(--fg-faint);">P04</td>
             <td class="pillar-name">Auto-Improvement Loop</td>
             <td><span class="cluster-tag" style="background:#a855f7">A</span></td>
-            <td><span class="level-badge" style="background:#6b7280">L0</span>&nbsp;<span style="color:var(--fg-dim);">Absent</span> <span title="needs improvement">⚠</span></td>
-            <td style="text-align:right;"><b style="color:#6b7280;font-size:1.05rem">0</b><span style="color:var(--fg-faint);"> / 100</span></td>
-            <td style="text-align:right;color:var(--fg-dim);">0/10</td>
-            <td><span class="maturity-bar"><span class="maturity-cell" style="background:rgba(0,0,0,0.06)"></span><span class="maturity-cell" style="background:rgba(0,0,0,0.06)"></span><span class="maturity-cell" style="background:rgba(0,0,0,0.06)"></span><span class="maturity-cell" style="background:rgba(0,0,0,0.06)"></span></span></td>
+            <td><span class="level-badge" style="background:#ef4444">L1</span>&nbsp;<span style="color:var(--fg-dim);">Initial</span> <span title="needs improvement">⚠</span></td>
+            <td style="text-align:right;"><b style="color:#ef4444;font-size:1.05rem">20</b><span style="color:var(--fg-faint);"> / 100</span></td>
+            <td style="text-align:right;color:var(--fg-dim);">1/10</td>
+            <td><span class="maturity-bar"><span class="maturity-cell" style="background:#ef4444"></span><span class="maturity-cell" style="background:rgba(0,0,0,0.06)"></span><span class="maturity-cell" style="background:rgba(0,0,0,0.06)"></span><span class="maturity-cell" style="background:rgba(0,0,0,0.06)"></span></span></td>
         </tr>
         <tr>
             <td style="color:var(--fg-faint);">P05</td>
@@ -449,8 +515,8 @@ footer em { font-family: var(--font-serif); }
                 <span class="tree-prefix">├─ </span>
                 <span class="tree-label">P04 · Auto-Improvement Loop</span>
                 <span class="tree-meta">
-                    <span class="level-badge" style="background:#6b7280">L0</span>
-                    0/100 · 0/10 criteria
+                    <span class="level-badge" style="background:#ef4444">L1</span>
+                    20/100 · 1/10 criteria
                 </span>
             </div><div class="tree-node" style="margin-left:0;font-size:0.85em;font-style:italic;color:var(--fg-faint);">
                 <span class="tree-prefix">│   └─</span>
@@ -558,6 +624,94 @@ footer em { font-family: var(--font-serif); }
             </div></div></div>
 
     
+        <div class="eyebrow" style="margin-top:3.5rem;">Information theory layer</div>
+        <h2 style="margin-top:0.5rem;">Signal-to-noise · entropy · information density · quality vs quantity</h2>
+        
+    <p class="subtitle" style="margin-bottom:1rem;">Signal-to-noise · entropy · information density · quality vs quantity</p>
+    <div class="info-grid"><div class="info-card" style="border-left:3px solid #a855f7;">
+            <div class="label" style="color:#a855f7">α · Quality × Quantity</div>
+            <div class="value">20.37</div>
+            <p class="interpretation">prototype · build quantity of structured content first</p>
+        </div><div class="info-card" style="border-left:3px solid #3b82f6;">
+            <div class="label" style="color:#3b82f6">Signal-to-noise ratio</div>
+            <div class="value">-60.0 dB</div>
+            <p class="interpretation">poor · noise dominates · prune stale and empty files</p>
+        </div><div class="info-card" style="border-left:3px solid #f59e0b;">
+            <div class="label" style="color:#f59e0b">Workspace entropy</div>
+            <div class="value">1.906 bits</div>
+            <p class="interpretation">diverse file ecosystem · multi-modal capability</p>
+        </div><div class="info-card" style="border-left:3px solid #10b981;">
+            <div class="label" style="color:#10b981">Information density</div>
+            <div class="value">1.07%</div>
+            <p class="interpretation"></p>
+        </div><div class="info-card" style="border-left:3px solid #06b6d4;">
+            <div class="label" style="color:#06b6d4">Quality index</div>
+            <div class="value">37.5</div>
+            <p class="interpretation">quality > quantity · ready to grow volume of structured content</p>
+        </div><div class="info-card" style="border-left:3px solid #ec4899;">
+            <div class="label" style="color:#ec4899">Quantity index</div>
+            <div class="value">11.07</div>
+            <p class="interpretation"></p>
+        </div></div>
+    <div class="tree-section"><div class="tree"><div class="tree-root">▸ Information theory components · raw counts</div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Files total</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">8</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Docs (md/rst/txt)</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">2</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Code files</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">2</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Config files</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">3</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Assets</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Files with frontmatter</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Frontmatter rate</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0.0%</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Wiki-style cross-links</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">arXiv citations</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Markdown links</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Stale files (>6 months)</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0.0%</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Empty / near-empty</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">62.5%</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">├─ </span>
+            <span class="tree-label">Citation density</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0.0%</span>
+        </div><div class="tree-node">
+            <span class="tree-prefix">└─ </span>
+            <span class="tree-label">Structure ratio</span>
+            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0.0%</span>
+        </div></div></div>
+    
+        
 
     <div class="eyebrow" style="margin-top:3.5rem;">anomalies detected</div>
     <h2 style="margin-top:0.5rem;">Anomalies · cross-referenced with Madani Lab research</h2>
@@ -596,13 +750,13 @@ footer em { font-family: var(--font-serif); }
             <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.5rem;">→ relevant reading · Madani Lab</div>
             <div style="font-family:var(--font-serif);font-size:0.95rem;color:var(--fg-dim);margin-top:0.3rem;line-height:1.6;"><a href="https://www.madani.agency/en/research/articles/catalogo-pattern-50" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Catalogo · 50 Pattern</a></div>
         </div>
-        <div class="anomaly-item" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid #ef4444;border-radius:6px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
+        <div class="anomaly-item" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid #f59e0b;border-radius:6px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
             <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
-                <span class="tree-tag" style="background:#ef4444;color:#fff;">HIGH</span>
+                <span class="tree-tag" style="background:#f59e0b;color:#fff;">MED</span>
                 <span class="tree-tag" style="background:var(--accent-glow);color:var(--accent);">PILLAR</span>
                 <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.04em;">P04</span>
                 <span style="font-family:var(--font-serif);font-size:1.05rem;color:var(--accent-bright);">Auto-Improvement Loop</span>
-                <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);margin-left:auto;">L0 Absent · score 0/100</span>
+                <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);margin-left:auto;">L1 Initial · score 20/100</span>
             </div>
             <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.5rem;">→ relevant reading · Madani Lab</div>
             <div style="font-family:var(--font-serif);font-size:0.95rem;color:var(--fg-dim);margin-top:0.3rem;line-height:1.6;"><a href="https://www.madani.agency/en/research/articles/metacognizione-prospettica" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Metacognizione Prospettica</a> · <a href="https://www.madani.agency/en/research/articles/catalogo-pattern-50" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Catalogo · 50 Pattern</a></div>
@@ -739,13 +893,13 @@ footer em { font-family: var(--font-serif); }
             <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.5rem;">→ relevant reading · Madani Lab</div>
             <div style="font-family:var(--font-serif);font-size:0.95rem;color:var(--fg-dim);margin-top:0.3rem;line-height:1.6;"><a href="https://www.madani.agency/en/research/articles/catalogo-pattern-50" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Catalogo · 50 Pattern</a> · <a href="https://www.madani.agency/en/research/articles/forward-deploy-portabilita" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Forward Deploy · Portabilità</a></div>
         </div>
-        <div class="anomaly-item" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid #ef4444;border-radius:6px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
+        <div class="anomaly-item" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid #f59e0b;border-radius:6px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
             <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
-                <span class="tree-tag" style="background:#ef4444;color:#fff;">HIGH</span>
+                <span class="tree-tag" style="background:#f59e0b;color:#fff;">MED</span>
                 <span class="tree-tag" style="background:var(--accent-glow);color:var(--accent);">EXT</span>
                 <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.04em;">06-temporal-coherence</span>
                 <span style="font-family:var(--font-serif);font-size:1.05rem;color:var(--accent-bright);">Temporal Coherence</span>
-                <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);margin-left:auto;">status: absent</span>
+                <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);margin-left:auto;">status: partial</span>
             </div>
             <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.5rem;">→ relevant reading · Madani Lab</div>
             <div style="font-family:var(--font-serif);font-size:0.95rem;color:var(--fg-dim);margin-top:0.3rem;line-height:1.6;"><a href="https://www.madani.agency/en/research/articles/catalogo-pattern-50" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Catalogo · 50 Pattern</a></div>
@@ -794,13 +948,13 @@ footer em { font-family: var(--font-serif); }
             <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.5rem;">→ relevant reading · Madani Lab</div>
             <div style="font-family:var(--font-serif);font-size:0.95rem;color:var(--fg-dim);margin-top:0.3rem;line-height:1.6;"><a href="https://www.madani.agency/en/research/articles/signal-to-noise-workspace" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Signal-to-Noise · Workspace</a></div>
         </div>
-        <div class="anomaly-item" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid #ef4444;border-radius:6px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
+        <div class="anomaly-item" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid #f59e0b;border-radius:6px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
             <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
-                <span class="tree-tag" style="background:#ef4444;color:#fff;">HIGH</span>
+                <span class="tree-tag" style="background:#f59e0b;color:#fff;">MED</span>
                 <span class="tree-tag" style="background:var(--accent-glow);color:var(--accent);">EXT</span>
                 <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.04em;">11-meta-measurement</span>
                 <span style="font-family:var(--font-serif);font-size:1.05rem;color:var(--accent-bright);">Meta-Measurement</span>
-                <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);margin-left:auto;">status: absent</span>
+                <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);margin-left:auto;">status: partial</span>
             </div>
             <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.5rem;">→ relevant reading · Madani Lab</div>
             <div style="font-family:var(--font-serif);font-size:0.95rem;color:var(--fg-dim);margin-top:0.3rem;line-height:1.6;"><a href="https://www.madani.agency/en/research/articles/reliability-pass-at-k-mast" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Reliability · pass@k MAST</a> · <a href="https://www.madani.agency/en/research/articles/maturita-l0-l4" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">Maturità · L0–L4</a></div>
@@ -839,16 +993,6 @@ footer em { font-family: var(--font-serif); }
                 </p>
                 <p class="priority-principle">Every irreversible action must pass an explicit gate. No silent execution.</p>
             </li>
-            <li class="priority-item" style="border-left-color:#a855f7">
-                <h3 class="priority-pillar">P04 · Auto-Improvement Loop</h3>
-                <p class="priority-transition">
-                    <span style="color:#6b7280">L0</span> →
-                    <span style="color:#ef4444">L1</span>
-                    &nbsp;·&nbsp; +50 pts on this pillar
-                    &nbsp;·&nbsp; <span style="color:var(--fg-faint)">Cluster A · Cognition</span>
-                </p>
-                <p class="priority-principle">The workspace learns from its own session history · automatically · on a schedule.</p>
-            </li>
             <li class="priority-item" style="border-left-color:#3b82f6">
                 <h3 class="priority-pillar">P05 · Multi-Agent Discipline (DPI)</h3>
                 <p class="priority-transition">
@@ -858,6 +1002,16 @@ footer em { font-family: var(--font-serif); }
                     &nbsp;·&nbsp; <span style="color:var(--fg-faint)">Cluster B · Action</span>
                 </p>
                 <p class="priority-principle">Default to single-thread. Multi-agent is an exception with explicit justification.</p>
+            </li>
+            <li class="priority-item" style="border-left-color:#f59e0b">
+                <h3 class="priority-pillar">P06 · Observability & Recovery</h3>
+                <p class="priority-transition">
+                    <span style="color:#6b7280">L0</span> →
+                    <span style="color:#ef4444">L1</span>
+                    &nbsp;·&nbsp; +50 pts on this pillar
+                    &nbsp;·&nbsp; <span style="color:var(--fg-faint)">Cluster C · Trust</span>
+                </p>
+                <p class="priority-principle">Failure is the default. Detection must be automatic and fast.</p>
             </li></ol>
 
     <div class="eyebrow" style="margin-top:3.5rem;">Pattern adapter catalog</div>
@@ -1688,7 +1842,7 @@ footer em { font-family: var(--font-serif); }
         </div></div>
 
     <footer>
-        Generated by workspace-bench v0.3.4 · 2026-05-22 18:49:24<br>
+        Generated by workspace-bench v0.3.4 · 2026-05-22 20:36:23<br>
         github.com/ceomadani/workspace-agentic-benchmark · MIT license · Nour Matine · Madani Lab
     </footer>
 </div>

@@ -1,7 +1,7 @@
 {
   "tool": "workspace-bench",
   "version": "0.3.4",
-  "audited_at": "2026-05-22T18:36:39.038940",
+  "audited_at": "2026-05-22T20:35:58.005030",
   "workspace": "/Users/operator/workspace",
   "pillars": {
     "1_context_memory": {
@@ -109,7 +109,7 @@
       "skill_index_files": [],
       "auto_trigger_mechanism": true,
       "staleness_detector_found": true,
-      "deterministic_tools_count": 10002,
+      "deterministic_tools_count": 9998,
       "llm_tools_count": 39,
       "skill_roster_doc": true,
       "skill_changelog": 494
@@ -131,7 +131,6 @@
         "/Users/operator/workspace/madani-funnels-agency/CLAUDE.md",
         "/Users/operator/workspace/05_DELIVERY/CLAUDE.md",
         "/Users/operator/workspace/09_KNOWLEDGE-BASE/CLAUDE.md",
-        "/Users/operator/workspace/voice-caller-livekit/CLAUDE.md",
         "/Users/operator/workspace/03_SETTING/CLAUDE.md",
         "/Users/operator/workspace/monitoring-dash/CLAUDE.md",
         "/Users/operator/workspace/07_FINANZE/CLAUDE.md",

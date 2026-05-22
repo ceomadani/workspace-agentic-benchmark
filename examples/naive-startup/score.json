@@ -1,9 +1,9 @@
 {
   "tool": "workspace-bench",
   "version": "0.3.4",
-  "scored_at": "2026-05-22T18:41:58.514588",
+  "scored_at": "2026-05-22T20:36:23.691471",
   "workspace": "/Users/operator/workspace-agentic-benchmark/examples/naive-startup",
-  "audit_at": "2026-05-22T18:41:58.480380",
+  "audit_at": "2026-05-22T20:36:23.641108",
   "composite": 0.0,
   "max": 100,
   "grade": "F",
@@ -11,7 +11,7 @@
   "cluster_averages": {
     "A": {
       "name": "Cognition",
-      "average": 0.0
+      "average": 6.67
     },
     "B": {
       "name": "Action",
@@ -64,10 +64,10 @@
       "weight": 1.0
     },
     "4_auto_improvement": {
-      "level": 0,
-      "level_name": "L0 Absent",
-      "score": 0,
-      "criteria_passed": 0,
+      "level": 1,
+      "level_name": "L1 Initial",
+      "score": 20,
+      "criteria_passed": 1,
       "criteria_total": 10,
       "title": "Auto-Improvement Loop",
       "cluster": "A · Cognition",
@@ -255,10 +255,10 @@
     "06-temporal-coherence": {
       "title": "Temporal Coherence",
       "cluster": "cross-cutting",
-      "status": "absent",
+      "status": "partial",
       "evidence": {
         "reflection_cycle": false,
-        "session_archive": false,
+        "session_archive": true,
         "changelog_files": false,
         "absolute_dates_count": 0,
         "relative_dates_count": 0
@@ -312,11 +312,11 @@
     "11-meta-measurement": {
       "title": "Meta-Measurement",
       "cluster": "recursive",
-      "status": "absent",
+      "status": "partial",
       "evidence": {
         "compliance_log_dir": false,
         "compliance_check_tool": false,
-        "workspace_bench_history": false,
+        "workspace_bench_history": true,
         "anti_gaming_doc": false
       }
     }
@@ -331,7 +331,7 @@
       {
         "id": "06-temporal-coherence",
         "title": "Temporal Coherence",
-        "status": "absent"
+        "status": "partial"
       },
       {
         "id": "01-architecture-capability-decoupling",
@@ -378,14 +378,14 @@
       {
         "id": "11-meta-measurement",
         "title": "Meta-Measurement",
-        "status": "absent"
+        "status": "partial"
       }
     ],
     "required_present_count": 0,
-    "required_partial_count": 0,
+    "required_partial_count": 1,
     "required_total": 3,
-    "required_compliance_ratio": 0.0
+    "required_compliance_ratio": 0.167
   },
-  "composite_pre_extension_penalty": 2.19,
-  "extension_penalty": 10.0
+  "composite_pre_extension_penalty": 4.3,
+  "extension_penalty": 8.33
 }

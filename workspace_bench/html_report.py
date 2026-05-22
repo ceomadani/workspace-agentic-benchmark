@@ -307,6 +307,56 @@ td.pillar-name { font-family: var(--font-sans); font-weight: 500; font-size: 14p
 .article-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); font-family: var(--font-sans); font-weight: 500; transition: border-color 0.15s; }
 .article-link:hover { border-bottom-color: var(--accent); }
 
+/* Workspace tree · recursive collapsible */
+.workspace-tree {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--glass-shadow);
+    padding: 1.5rem 1.75rem;
+    margin: 1rem 0 2rem;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.55;
+}
+.workspace-tree-header { display: flex; align-items: baseline; gap: 1rem; padding-bottom: 0.75rem; margin-bottom: 0.75rem; border-bottom: 1px dashed var(--border); }
+.workspace-tree-root-name { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; color: var(--fg); font-weight: 400; }
+.workspace-tree-meta { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: var(--fg-faint); text-transform: uppercase; margin-left: auto; }
+.workspace-tree-body details, .workspace-tree-body .tree-file, .workspace-tree-body .tree-empty-folder { padding: 1px 0; }
+.workspace-tree-body details summary {
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    padding: 2px 0;
+    color: var(--fg);
+    font-weight: 600;
+}
+.workspace-tree-body details summary::-webkit-details-marker { display: none; }
+.workspace-tree-body details summary::before {
+    content: "▸";
+    display: inline-block;
+    width: 1em;
+    color: var(--accent);
+    font-weight: 600;
+    transition: transform 0.12s ease;
+}
+.workspace-tree-body details[open] > summary::before { transform: rotate(90deg); }
+.workspace-tree-body summary:hover .tree-folder-name { color: var(--accent); }
+.workspace-tree-body .tree-folder-name { color: var(--fg); font-weight: 600; }
+.workspace-tree-body .tree-children {
+    margin-left: 0.85rem;
+    border-left: 1px solid var(--border);
+    padding-left: 0.85rem;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.workspace-tree-body .tree-empty-folder { color: var(--fg-dim); padding-left: 1em; }
+.workspace-tree-body .tree-empty-folder::before { content: "▹"; color: var(--fg-faint); margin-right: 6px; display: inline-block; width: 1em; }
+.workspace-tree-body .tree-file { color: var(--fg-dim); padding-left: 1em; font-weight: 400; }
+.workspace-tree-body .tree-file::before { content: "·"; color: var(--fg-faint); margin-right: 8px; }
+.workspace-tree-body .tree-file-name { color: var(--fg-dim); }
+.workspace-tree-body .tree-truncated { font-family: var(--font-serif); font-style: italic; color: var(--fg-faint); padding: 0.75rem 0 0 1em; font-size: 0.95em; }
+
 footer { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg-faint); text-align: center; line-height: 1.8; }
 footer em { font-family: var(--font-serif); }
 
@@ -511,46 +561,64 @@ def _article_link(slug: str, lang: str) -> str:
     return f'<a href="{url}" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">{title}</a>'
 
 
-def _workspace_tree(workspace_path: Path | None, max_depth: int = 2, max_entries_per_dir: int = 25) -> str:
-    """Walk workspace dir · render ASCII-tree of top-level structure for confirmation."""
+def _workspace_tree(workspace_path: Path | None, max_nodes: int = 6000, auto_expand_depth: int = 2) -> str:
+    """Recursive collapsible tree · folder → sub-folder → file → sub-file · <details>/<summary> native.
+
+    Walks the entire workspace (excluding TREE_EXCLUDE noise folders) capped at max_nodes.
+    First `auto_expand_depth` levels open by default; deeper levels collapsed until click.
+    """
     if workspace_path is None or not workspace_path.exists() or not workspace_path.is_dir():
         return ""
 
-    lines = [f'<div class="tree-root">▸ {workspace_path.name}/ <span style="color:var(--fg-faint);font-size:0.85em;">— workspace identified · confirm before reading the report</span></div>']
+    state = {"count": 0, "truncated": False}
 
-    def _walk(d: Path, depth: int, prefix: str):
-        if depth > max_depth:
-            return
+    def _walk(d: Path, depth: int) -> str:
+        if state["count"] >= max_nodes:
+            state["truncated"] = True
+            return ""
         try:
             entries = sorted(
                 [e for e in d.iterdir() if e.name not in TREE_EXCLUDE and not e.name.startswith(".")],
                 key=lambda e: (not e.is_dir(), e.name.lower()),
             )
         except (PermissionError, OSError):
-            return
-        if len(entries) > max_entries_per_dir:
-            entries = entries[:max_entries_per_dir]
-            truncated = True
-        else:
-            truncated = False
-        for i, entry in enumerate(entries):
-            is_last = i == len(entries) - 1
-            connector = "└─ " if is_last else "├─ "
-            icon = "📁" if entry.is_dir() else "📄"
-            color = "var(--accent-bright)" if entry.is_dir() else "var(--fg-dim)"
-            suffix = "/" if entry.is_dir() else ""
-            lines.append(f'''<div class="tree-node">
-                <span class="tree-prefix">{prefix}{connector}</span>
-                <span class="tree-label" style="color:{color};">{icon} {entry.name}{suffix}</span>
-            </div>''')
-            if entry.is_dir() and depth < max_depth:
-                next_prefix = prefix + ("    " if is_last else "│   ")
-                _walk(entry, depth + 1, next_prefix)
-        if truncated:
-            lines.append(f'<div class="tree-node"><span class="tree-prefix">{prefix}</span><span class="tree-label" style="color:var(--fg-faint);font-style:italic;">… more entries truncated</span></div>')
+            return ""
 
-    _walk(workspace_path, 1, "")
-    return f'<div class="tree-section"><div class="tree">{"".join(lines)}</div></div>'
+        parts = []
+        for entry in entries:
+            if state["count"] >= max_nodes:
+                state["truncated"] = True
+                break
+            state["count"] += 1
+            if entry.is_dir():
+                children_html = _walk(entry, depth + 1)
+                open_attr = " open" if depth < auto_expand_depth else ""
+                if children_html:
+                    parts.append(
+                        f'<details class="tree-folder"{open_attr}>'
+                        f'<summary><span class="tree-folder-name">{entry.name}/</span></summary>'
+                        f'<div class="tree-children">{children_html}</div>'
+                        f'</details>'
+                    )
+                else:
+                    parts.append(f'<div class="tree-empty-folder"><span class="tree-folder-name">{entry.name}/</span></div>')
+            else:
+                parts.append(f'<div class="tree-file"><span class="tree-file-name">{entry.name}</span></div>')
+        return "".join(parts)
+
+    body = _walk(workspace_path, 0)
+    trunc_html = (
+        f'<div class="tree-truncated">… {state["count"]} nodes scanned · further entries truncated (cap {max_nodes})</div>'
+        if state["truncated"] else ""
+    )
+
+    return f'''<div class="workspace-tree">
+        <div class="workspace-tree-header">
+            <span class="workspace-tree-root-name">{workspace_path.name}/</span>
+            <span class="workspace-tree-meta">{state["count"]} nodes · click folders to expand</span>
+        </div>
+        <div class="workspace-tree-body">{body}{trunc_html}</div>
+    </div>'''
 
 
 def _anomalies_section(score: dict, lang: str) -> str:
@@ -754,7 +822,7 @@ def render_html(score: dict, audit: dict | None = None, info_theory: dict | None
         <span><b>{t("language_detected", lang)}</b> {language_name(lang)} ({lang})</span>
     </div>
 
-    {("<div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Tree</h2>" + workspace_tree_html) if workspace_tree_html else ""}
+    {("<div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Tree · click folders to expand</h2>" + workspace_tree_html) if workspace_tree_html else ""}
 
     <div class="eyebrow">{t("executive_summary", lang)}</div>
     <div class="composite-card">
