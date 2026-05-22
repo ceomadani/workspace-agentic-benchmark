@@ -213,55 +213,25 @@ td.pillar-name { font-family: var(--font-sans); font-weight: 500; font-size: 14p
 .article-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); font-family: var(--font-sans); font-weight: 500; transition: border-color 0.15s; }
 .article-link:hover { border-bottom-color: var(--accent); }
 
-/* Workspace tree · recursive collapsible */
+/* Workspace tree · compact ASCII · canonical pattern madani.agency/research */
 .workspace-tree {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
     box-shadow: var(--glass-shadow);
-    padding: 1.5rem 1.75rem;
+    padding: 1.25rem 1.5rem;
     margin: 1rem 0 2rem;
     font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 12.5px;
+    line-height: 1.7;
+    overflow-x: auto;
 }
-.workspace-tree-header { display: flex; align-items: baseline; gap: 1rem; padding-bottom: 0.75rem; margin-bottom: 0.75rem; border-bottom: 1px dashed var(--border); }
-.workspace-tree-root-name { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; color: var(--fg); font-weight: 400; }
-.workspace-tree-meta { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: var(--fg-faint); text-transform: uppercase; margin-left: auto; }
-.workspace-tree-body details, .workspace-tree-body .tree-file, .workspace-tree-body .tree-empty-folder { padding: 1px 0; }
-.workspace-tree-body details summary {
-    cursor: pointer;
-    user-select: none;
-    list-style: none;
-    padding: 2px 0;
-    color: var(--fg);
-    font-weight: 600;
-}
-.workspace-tree-body details summary::-webkit-details-marker { display: none; }
-.workspace-tree-body details summary::before {
-    content: "▸";
-    display: inline-block;
-    width: 1em;
-    color: var(--accent);
-    font-weight: 600;
-    transition: transform 0.12s ease;
-}
-.workspace-tree-body details[open] > summary::before { transform: rotate(90deg); }
-.workspace-tree-body summary:hover .tree-folder-name { color: var(--accent); }
-.workspace-tree-body .tree-folder-name { color: var(--fg); font-weight: 600; }
-.workspace-tree-body .tree-children {
-    margin-left: 0.85rem;
-    border-left: 1px solid var(--border);
-    padding-left: 0.85rem;
-    margin-top: 2px;
-    margin-bottom: 2px;
-}
-.workspace-tree-body .tree-empty-folder { color: var(--fg-dim); padding-left: 1em; }
-.workspace-tree-body .tree-empty-folder::before { content: "▹"; color: var(--fg-faint); margin-right: 6px; display: inline-block; width: 1em; }
-.workspace-tree-body .tree-file { color: var(--fg-dim); padding-left: 1em; font-weight: 400; }
-.workspace-tree-body .tree-file::before { content: "·"; color: var(--fg-faint); margin-right: 8px; }
-.workspace-tree-body .tree-file-name { color: var(--fg-dim); }
-.workspace-tree-body .tree-truncated { font-family: var(--font-serif); font-style: italic; color: var(--fg-faint); padding: 0.75rem 0 0 1em; font-size: 0.95em; }
+.ws-tree-row { display: flex; align-items: baseline; gap: 1rem; white-space: nowrap; }
+.ws-tree-label { color: var(--fg-dim); white-space: pre; }
+.ws-tree-meta { color: var(--fg-faint); font-size: 0.85em; margin-left: auto; white-space: nowrap; }
+.ws-tree-rootrow { padding-bottom: 0.5rem; margin-bottom: 0.4rem; border-bottom: 1px dashed var(--border); }
+.ws-tree-rootrow .ws-tree-label { color: var(--fg); font-weight: 600; }
+.ws-tree-rootrow .ws-tree-meta { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-faint); }
 
 footer { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg-faint); text-align: center; line-height: 1.8; }
 footer em { font-family: var(--font-serif); }
@@ -316,19 +286,13 @@ footer em { font-family: var(--font-serif); }
     <p class="subtitle">A first-principles audit across 12 pillars in 4 clusters · L0-L4 maturity model</p>
 
     <div class="meta">
-        <span><b>Workspace</b> /Users/operator/workspace-agentic-benchmark/examples/naive-startup</span>
+        <span><b>Workspace</b> naive-startup</span>
         <span><b>Scored</b> 2026-05-22T20:36:23.691471</span>
         <span><b>Tool</b> workspace-bench v0.3.4</span>
         <span><b>Language detected</b> English (en)</span>
     </div>
 
-    <div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Tree · click folders to expand</h2><div class="workspace-tree">
-        <div class="workspace-tree-header">
-            <span class="workspace-tree-root-name">naive-startup/</span>
-            <span class="workspace-tree-meta">10 nodes · click folders to expand</span>
-        </div>
-        <div class="workspace-tree-body"><details class="tree-folder" open><summary><span class="tree-folder-name">docs/</span></summary><div class="tree-children"><div class="tree-file"><span class="tree-file-name">notes.md</span></div></div></details><details class="tree-folder" open><summary><span class="tree-folder-name">src/</span></summary><div class="tree-children"><div class="tree-file"><span class="tree-file-name">api.js</span></div><div class="tree-file"><span class="tree-file-name">index.js</span></div></div></details><div class="tree-file"><span class="tree-file-name">audit.json</span></div><div class="tree-file"><span class="tree-file-name">package.json</span></div><div class="tree-file"><span class="tree-file-name">README.md</span></div><div class="tree-file"><span class="tree-file-name">report.html</span></div><div class="tree-file"><span class="tree-file-name">score.json</span></div></div>
-    </div>
+    
 
     <div class="eyebrow">Executive summary</div>
     <div class="composite-card">
@@ -624,94 +588,6 @@ footer em { font-family: var(--font-serif); }
             </div></div></div>
 
     
-        <div class="eyebrow" style="margin-top:3.5rem;">Information theory layer</div>
-        <h2 style="margin-top:0.5rem;">Signal-to-noise · entropy · information density · quality vs quantity</h2>
-        
-    <p class="subtitle" style="margin-bottom:1rem;">Signal-to-noise · entropy · information density · quality vs quantity</p>
-    <div class="info-grid"><div class="info-card" style="border-left:3px solid #a855f7;">
-            <div class="label" style="color:#a855f7">α · Quality × Quantity</div>
-            <div class="value">20.37</div>
-            <p class="interpretation">prototype · build quantity of structured content first</p>
-        </div><div class="info-card" style="border-left:3px solid #3b82f6;">
-            <div class="label" style="color:#3b82f6">Signal-to-noise ratio</div>
-            <div class="value">-60.0 dB</div>
-            <p class="interpretation">poor · noise dominates · prune stale and empty files</p>
-        </div><div class="info-card" style="border-left:3px solid #f59e0b;">
-            <div class="label" style="color:#f59e0b">Workspace entropy</div>
-            <div class="value">1.906 bits</div>
-            <p class="interpretation">diverse file ecosystem · multi-modal capability</p>
-        </div><div class="info-card" style="border-left:3px solid #10b981;">
-            <div class="label" style="color:#10b981">Information density</div>
-            <div class="value">1.07%</div>
-            <p class="interpretation"></p>
-        </div><div class="info-card" style="border-left:3px solid #06b6d4;">
-            <div class="label" style="color:#06b6d4">Quality index</div>
-            <div class="value">37.5</div>
-            <p class="interpretation">quality > quantity · ready to grow volume of structured content</p>
-        </div><div class="info-card" style="border-left:3px solid #ec4899;">
-            <div class="label" style="color:#ec4899">Quantity index</div>
-            <div class="value">11.07</div>
-            <p class="interpretation"></p>
-        </div></div>
-    <div class="tree-section"><div class="tree"><div class="tree-root">▸ Information theory components · raw counts</div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Files total</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">8</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Docs (md/rst/txt)</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">2</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Code files</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">2</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Config files</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">3</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Assets</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Files with frontmatter</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Frontmatter rate</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0.0%</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Wiki-style cross-links</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">arXiv citations</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Markdown links</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Stale files (>6 months)</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0.0%</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Empty / near-empty</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">62.5%</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">├─ </span>
-            <span class="tree-label">Citation density</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0.0%</span>
-        </div><div class="tree-node">
-            <span class="tree-prefix">└─ </span>
-            <span class="tree-label">Structure ratio</span>
-            <span class="tree-meta" style="margin-left:auto;color:var(--accent-bright);">0.0%</span>
-        </div></div></div>
-    
-        
 
     <div class="eyebrow" style="margin-top:3.5rem;">anomalies detected</div>
     <h2 style="margin-top:0.5rem;">Anomalies · cross-referenced with Madani Lab research</h2>
@@ -1842,7 +1718,7 @@ footer em { font-family: var(--font-serif); }
         </div></div>
 
     <footer>
-        Generated by workspace-bench v0.3.4 · 2026-05-22 20:36:23<br>
+        Generated by workspace-bench v0.3.4 · 2026-05-22 20:56:32<br>
         github.com/ceomadani/workspace-agentic-benchmark · MIT license · Nour Matine · Madani Lab
     </footer>
 </div>

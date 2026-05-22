@@ -307,55 +307,25 @@ td.pillar-name { font-family: var(--font-sans); font-weight: 500; font-size: 14p
 .article-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); font-family: var(--font-sans); font-weight: 500; transition: border-color 0.15s; }
 .article-link:hover { border-bottom-color: var(--accent); }
 
-/* Workspace tree · recursive collapsible */
+/* Workspace tree · compact ASCII · canonical pattern madani.agency/research */
 .workspace-tree {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
     box-shadow: var(--glass-shadow);
-    padding: 1.5rem 1.75rem;
+    padding: 1.25rem 1.5rem;
     margin: 1rem 0 2rem;
     font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.55;
+    font-size: 12.5px;
+    line-height: 1.7;
+    overflow-x: auto;
 }
-.workspace-tree-header { display: flex; align-items: baseline; gap: 1rem; padding-bottom: 0.75rem; margin-bottom: 0.75rem; border-bottom: 1px dashed var(--border); }
-.workspace-tree-root-name { font-family: var(--font-serif); font-style: italic; font-size: 1.15rem; color: var(--fg); font-weight: 400; }
-.workspace-tree-meta { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: var(--fg-faint); text-transform: uppercase; margin-left: auto; }
-.workspace-tree-body details, .workspace-tree-body .tree-file, .workspace-tree-body .tree-empty-folder { padding: 1px 0; }
-.workspace-tree-body details summary {
-    cursor: pointer;
-    user-select: none;
-    list-style: none;
-    padding: 2px 0;
-    color: var(--fg);
-    font-weight: 600;
-}
-.workspace-tree-body details summary::-webkit-details-marker { display: none; }
-.workspace-tree-body details summary::before {
-    content: "▸";
-    display: inline-block;
-    width: 1em;
-    color: var(--accent);
-    font-weight: 600;
-    transition: transform 0.12s ease;
-}
-.workspace-tree-body details[open] > summary::before { transform: rotate(90deg); }
-.workspace-tree-body summary:hover .tree-folder-name { color: var(--accent); }
-.workspace-tree-body .tree-folder-name { color: var(--fg); font-weight: 600; }
-.workspace-tree-body .tree-children {
-    margin-left: 0.85rem;
-    border-left: 1px solid var(--border);
-    padding-left: 0.85rem;
-    margin-top: 2px;
-    margin-bottom: 2px;
-}
-.workspace-tree-body .tree-empty-folder { color: var(--fg-dim); padding-left: 1em; }
-.workspace-tree-body .tree-empty-folder::before { content: "▹"; color: var(--fg-faint); margin-right: 6px; display: inline-block; width: 1em; }
-.workspace-tree-body .tree-file { color: var(--fg-dim); padding-left: 1em; font-weight: 400; }
-.workspace-tree-body .tree-file::before { content: "·"; color: var(--fg-faint); margin-right: 8px; }
-.workspace-tree-body .tree-file-name { color: var(--fg-dim); }
-.workspace-tree-body .tree-truncated { font-family: var(--font-serif); font-style: italic; color: var(--fg-faint); padding: 0.75rem 0 0 1em; font-size: 0.95em; }
+.ws-tree-row { display: flex; align-items: baseline; gap: 1rem; white-space: nowrap; }
+.ws-tree-label { color: var(--fg-dim); white-space: pre; }
+.ws-tree-meta { color: var(--fg-faint); font-size: 0.85em; margin-left: auto; white-space: nowrap; }
+.ws-tree-rootrow { padding-bottom: 0.5rem; margin-bottom: 0.4rem; border-bottom: 1px dashed var(--border); }
+.ws-tree-rootrow .ws-tree-label { color: var(--fg); font-weight: 600; }
+.ws-tree-rootrow .ws-tree-meta { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-faint); }
 
 footer { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg-faint); text-align: center; line-height: 1.8; }
 footer em { font-family: var(--font-serif); }
@@ -561,64 +531,129 @@ def _article_link(slug: str, lang: str) -> str:
     return f'<a href="{url}" target="_blank" rel="noopener" class="article-link" style="color:var(--accent-bright);text-decoration:none;border-bottom:1px dashed var(--accent);">{title}</a>'
 
 
-def _workspace_tree(workspace_path: Path | None, max_nodes: int = 6000, auto_expand_depth: int = 2) -> str:
-    """Recursive collapsible tree · folder → sub-folder → file → sub-file · <details>/<summary> native.
+def _fmt_size(b: int) -> str:
+    """Compact size string: 12 KB, 1.2 MB, 5 GB."""
+    if b < 1024:
+        return f"{b} B"
+    if b < 1024 ** 2:
+        return f"{b // 1024} KB"
+    if b < 1024 ** 3:
+        v = b / 1024 ** 2
+        return f"{v:.1f} MB" if v < 10 else f"{int(v)} MB"
+    v = b / 1024 ** 3
+    return f"{v:.1f} GB" if v < 10 else f"{int(v)} GB"
 
-    Walks the entire workspace (excluding TREE_EXCLUDE noise folders) capped at max_nodes.
-    First `auto_expand_depth` levels open by default; deeper levels collapsed until click.
+
+def _dir_aggregate(d: Path) -> tuple[int, int]:
+    """Quick (non-recursive) count + size for a folder. Bounded · skips noise."""
+    count = 0
+    size = 0
+    try:
+        for entry in d.iterdir():
+            if entry.name in TREE_EXCLUDE or entry.name.startswith("."):
+                continue
+            count += 1
+            if entry.is_file():
+                try:
+                    size += entry.stat().st_size
+                except OSError:
+                    pass
+    except (PermissionError, OSError):
+        pass
+    return count, size
+
+
+def _workspace_tree(workspace_path: Path | None, max_lines: int = 28) -> str:
+    """Compact ASCII workspace tree · canonical pattern from madani.agency/research.
+
+    ~25 lines max · 2 levels · folders with many subdirs aggregated as `─── N entries ───`.
+    Static (no collapse) · monospaced · right-aligned size column.
     """
     if workspace_path is None or not workspace_path.exists() or not workspace_path.is_dir():
         return ""
 
-    state = {"count": 0, "truncated": False}
+    try:
+        top_entries = sorted(
+            [e for e in workspace_path.iterdir() if e.name not in TREE_EXCLUDE and not e.name.startswith(".")],
+            key=lambda e: (not e.is_dir(), e.name.lower()),
+        )
+    except (PermissionError, OSError):
+        return ""
 
-    def _walk(d: Path, depth: int) -> str:
-        if state["count"] >= max_nodes:
-            state["truncated"] = True
-            return ""
-        try:
-            entries = sorted(
-                [e for e in d.iterdir() if e.name not in TREE_EXCLUDE and not e.name.startswith(".")],
-                key=lambda e: (not e.is_dir(), e.name.lower()),
-            )
-        except (PermissionError, OSError):
-            return ""
+    lines: list[tuple[str, str]] = []  # (label, right_meta)
 
-        parts = []
-        for entry in entries:
-            if state["count"] >= max_nodes:
-                state["truncated"] = True
-                break
-            state["count"] += 1
-            if entry.is_dir():
-                children_html = _walk(entry, depth + 1)
-                open_attr = " open" if depth < auto_expand_depth else ""
-                if children_html:
-                    parts.append(
-                        f'<details class="tree-folder"{open_attr}>'
-                        f'<summary><span class="tree-folder-name">{entry.name}/</span></summary>'
-                        f'<div class="tree-children">{children_html}</div>'
-                        f'</details>'
-                    )
-                else:
-                    parts.append(f'<div class="tree-empty-folder"><span class="tree-folder-name">{entry.name}/</span></div>')
+    for i, entry in enumerate(top_entries):
+        if len(lines) >= max_lines:
+            lines.append((f"└── ... {len(top_entries) - i} more entries truncated", ""))
+            break
+
+        is_last_top = (i == len(top_entries) - 1)
+        connector = "└──" if is_last_top else "├──"
+
+        if entry.is_file():
+            try:
+                size = entry.stat().st_size
+            except OSError:
+                size = 0
+            lines.append((f"{connector} {entry.name}", _fmt_size(size)))
+        else:
+            sub_count, sub_size = _dir_aggregate(entry)
+            lines.append((f"{connector} {entry.name}/", f"{sub_count} entries · {_fmt_size(sub_size)}" if sub_count else ""))
+
+            # Decide: inline subdirs (if ≤4) or aggregation line (if more)
+            if sub_count == 0:
+                continue
+            try:
+                subs = sorted(
+                    [e for e in entry.iterdir() if e.name not in TREE_EXCLUDE and not e.name.startswith(".")],
+                    key=lambda e: (not e.is_dir(), e.name.lower()),
+                )
+            except (PermissionError, OSError):
+                continue
+
+            indent = "    " if is_last_top else "│   "
+
+            if len(subs) > 4:
+                # Aggregation line for crowded folders
+                if len(lines) < max_lines:
+                    lines.append((f"{indent}└── ─── {len(subs)} entries ───", ""))
             else:
-                parts.append(f'<div class="tree-file"><span class="tree-file-name">{entry.name}</span></div>')
-        return "".join(parts)
+                for j, sub in enumerate(subs):
+                    if len(lines) >= max_lines:
+                        break
+                    is_last_sub = (j == len(subs) - 1)
+                    sub_conn = "└──" if is_last_sub else "├──"
+                    if sub.is_file():
+                        try:
+                            sz = sub.stat().st_size
+                        except OSError:
+                            sz = 0
+                        lines.append((f"{indent}{sub_conn} {sub.name}", _fmt_size(sz)))
+                    else:
+                        sc, sz = _dir_aggregate(sub)
+                        lines.append((f"{indent}{sub_conn} {sub.name}/", f"{sc} entries" if sc else ""))
 
-    body = _walk(workspace_path, 0)
-    trunc_html = (
-        f'<div class="tree-truncated">… {state["count"]} nodes scanned · further entries truncated (cap {max_nodes})</div>'
-        if state["truncated"] else ""
-    )
+    # Compute total root size summary
+    root_count = len(top_entries)
+
+    # Render rows · 80-col layout with right-aligned meta
+    rows_html = []
+    for label, meta in lines:
+        # Escape label for HTML safety
+        safe_label = label.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        rows_html.append(
+            f'<div class="ws-tree-row"><span class="ws-tree-label">{safe_label}</span><span class="ws-tree-meta">{meta}</span></div>'
+        )
+
+    body = "".join(rows_html)
 
     return f'''<div class="workspace-tree">
-        <div class="workspace-tree-header">
-            <span class="workspace-tree-root-name">{workspace_path.name}/</span>
-            <span class="workspace-tree-meta">{state["count"]} nodes · click folders to expand</span>
-        </div>
-        <div class="workspace-tree-body">{body}{trunc_html}</div>
-    </div>'''
+    <div class="ws-tree-row ws-tree-rootrow">
+        <span class="ws-tree-label">{workspace_path.name}/</span>
+        <span class="ws-tree-meta">{root_count} top-level · workspace identified</span>
+    </div>
+    {body}
+</div>'''
 
 
 def _anomalies_section(score: dict, lang: str) -> str:
@@ -822,7 +857,7 @@ def render_html(score: dict, audit: dict | None = None, info_theory: dict | None
         <span><b>{t("language_detected", lang)}</b> {language_name(lang)} ({lang})</span>
     </div>
 
-    {("<div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Tree · click folders to expand</h2>" + workspace_tree_html) if workspace_tree_html else ""}
+    {("<div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Structure</h2>" + workspace_tree_html) if workspace_tree_html else ""}
 
     <div class="eyebrow">{t("executive_summary", lang)}</div>
     <div class="composite-card">
