@@ -213,25 +213,29 @@ td.pillar-name { font-family: var(--font-sans); font-weight: 500; font-size: 14p
 .article-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); font-family: var(--font-sans); font-weight: 500; transition: border-color 0.15s; }
 .article-link:hover { border-bottom-color: var(--accent); }
 
-/* Workspace tree · compact ASCII · canonical pattern madani.agency/research */
-.workspace-tree {
-    background: var(--bg-card);
+/* Workspace tree · canonical ArchitectureTree pattern from madani.agency/research:570-657 */
+.arch-tree {
+    border-radius: 8px;
+    background: var(--bg-elev);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: var(--glass-shadow);
-    padding: 1.25rem 1.5rem;
+    padding: clamp(8px, 1.4vw, 14px);
     margin: 1rem 0 2rem;
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-    overflow-x: auto;
+    overflow: hidden;
 }
-.ws-tree-row { display: flex; align-items: baseline; gap: 1rem; white-space: nowrap; }
-.ws-tree-label { color: var(--fg-dim); white-space: pre; }
-.ws-tree-meta { color: var(--fg-faint); font-size: 0.85em; margin-left: auto; white-space: nowrap; }
-.ws-tree-rootrow { padding-bottom: 0.5rem; margin-bottom: 0.4rem; border-bottom: 1px dashed var(--border); }
-.ws-tree-rootrow .ws-tree-label { color: var(--fg); font-weight: 600; }
-.ws-tree-rootrow .ws-tree-meta { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-faint); }
+.arch-tree-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+.arch-tree-cmd { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-faint); margin: 0; }
+.arch-tree-tag { font-family: var(--font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.10em; color: var(--fg-faint); margin: 0; }
+.arch-tree-pre {
+    font-family: var(--font-mono);
+    font-size: clamp(8.5px, 0.85vw, 11px);
+    line-height: 1.5;
+    color: var(--fg-dim);
+    margin: 0;
+    white-space: pre;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+}
 
 footer { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg-faint); text-align: center; line-height: 1.8; }
 footer em { font-family: var(--font-serif); }
@@ -282,12 +286,35 @@ footer em { font-family: var(--font-serif); }
         <span><b>Lingua rilevata</b> Italiano (it)</span>
     </div>
 
-    <div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Structure</h2><div class="workspace-tree">
-    <div class="ws-tree-row ws-tree-rootrow">
-        <span class="ws-tree-label">madani/</span>
-        <span class="ws-tree-meta">38 top-level · workspace identified</span>
+    <div class='eyebrow'>workspace identified</div><h2 style='margin-top:0.5rem;'>Structure</h2><div class="arch-tree">
+    <div class="arch-tree-header">
+        <p class="arch-tree-cmd">$ wab-scan ~/madani</p>
+        <p class="arch-tree-tag">38 top-level · depth 2</p>
     </div>
-    <div class="ws-tree-row"><span class="ws-tree-label">├── 01_FONDAMENTA/</span><span class="ws-tree-meta">9 entries · 121 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── ─── 9 entries ───</span><span class="ws-tree-meta"></span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 02_LEAD-GENERATION/</span><span class="ws-tree-meta">4 entries · 4 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   ├── 02a_ORGANICA/</span><span class="ws-tree-meta">4 entries</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   ├── 02b_PAID/</span><span class="ws-tree-meta">1 entries</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   ├── cerca-bandi/</span><span class="ws-tree-meta">5 entries</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── CLAUDE.md</span><span class="ws-tree-meta">4 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 03_SETTING/</span><span class="ws-tree-meta">2 entries · 1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   ├── calendar-resources/</span><span class="ws-tree-meta">2 entries</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── CLAUDE.md</span><span class="ws-tree-meta">1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 04_SALES/</span><span class="ws-tree-meta">1 entries · 1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── CLAUDE.md</span><span class="ws-tree-meta">1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 05_DELIVERY/</span><span class="ws-tree-meta">1 entries · 1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── CLAUDE.md</span><span class="ws-tree-meta">1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 06_ORGANIZZAZIONE/</span><span class="ws-tree-meta">3 entries · 1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   ├── 06a_PROJECT-MANAGEMENT/</span><span class="ws-tree-meta"></span></div><div class="ws-tree-row"><span class="ws-tree-label">│   ├── 06b_HUMAN-RESOURCES/</span><span class="ws-tree-meta"></span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── CLAUDE.md</span><span class="ws-tree-meta">1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 07_FINANZE/</span><span class="ws-tree-meta">2 entries · 1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   ├── marktr-dashboard/</span><span class="ws-tree-meta">15 entries</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── CLAUDE.md</span><span class="ws-tree-meta">1 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 08_CLIENTI/</span><span class="ws-tree-meta">32 entries · 76 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── ─── 32 entries ───</span><span class="ws-tree-meta"></span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 09_KNOWLEDGE-BASE/</span><span class="ws-tree-meta">7 entries · 11 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── ─── 7 entries ───</span><span class="ws-tree-meta"></span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 10_SKILLS/</span><span class="ws-tree-meta">58 entries · 34 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">│   └── ─── 58 entries ───</span><span class="ws-tree-meta"></span></div><div class="ws-tree-row"><span class="ws-tree-label">├── 11_TOOLS/</span><span class="ws-tree-meta">43 entries · 382 KB</span></div><div class="ws-tree-row"><span class="ws-tree-label">└── ... 27 more entries truncated</span><span class="ws-tree-meta"></span></div>
+    <pre class="arch-tree-pre">madani/                                         38 top-level entries
+├── 01_FONDAMENTA/                              9 entries
+│   └── ─── 9 entries ───                       
+├── 02_LEAD-GENERATION/                         4 entries
+│   └── ─── 4 entries ───                       
+├── 03_SETTING/                                 2 entries
+│   ├── calendar-resources/                     2 entries
+│   └── CLAUDE.md                               1 KB
+├── 04_SALES/                                   1 entries
+│   └── CLAUDE.md                               1 KB
+├── 05_DELIVERY/                                1 entries
+│   └── CLAUDE.md                               1 KB
+├── 06_ORGANIZZAZIONE/                          3 entries
+│   ├── 06a_PROJECT-MANAGEMENT/                 empty
+│   ├── 06b_HUMAN-RESOURCES/                    empty
+│   └── CLAUDE.md                               1 KB
+├── 07_FINANZE/                                 2 entries
+│   ├── marktr-dashboard/                       15 entries
+│   └── CLAUDE.md                               1 KB
+├── 08_CLIENTI/                                 32 entries
+│   └── ─── 32 entries ───                      
+├── 09_KNOWLEDGE-BASE/                          7 entries
+│   └── ─── 7 entries ───                       
+└── ... 29 more truncated                       </pre>
 </div>
 
     <div class="eyebrow">Sintesi esecutiva</div>
@@ -1560,7 +1587,7 @@ footer em { font-family: var(--font-serif); }
         </div></div>
 
     <footer>
-        Generato da workspace-bench v0.3.4 · 2026-05-22 20:56:32<br>
+        Generato da workspace-bench v0.3.4 · 2026-05-22 21:06:20<br>
         github.com/ceomadani/workspace-agentic-benchmark · MIT license · Nour Matine · Madani Lab
     </footer>
 </div>

@@ -307,25 +307,29 @@ td.pillar-name { font-family: var(--font-sans); font-weight: 500; font-size: 14p
 .article-link { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); font-family: var(--font-sans); font-weight: 500; transition: border-color 0.15s; }
 .article-link:hover { border-bottom-color: var(--accent); }
 
-/* Workspace tree · compact ASCII · canonical pattern madani.agency/research */
-.workspace-tree {
-    background: var(--bg-card);
+/* Workspace tree · canonical ArchitectureTree pattern from madani.agency/research:570-657 */
+.arch-tree {
+    border-radius: 8px;
+    background: var(--bg-elev);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: var(--glass-shadow);
-    padding: 1.25rem 1.5rem;
+    padding: clamp(8px, 1.4vw, 14px);
     margin: 1rem 0 2rem;
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-    overflow-x: auto;
+    overflow: hidden;
 }
-.ws-tree-row { display: flex; align-items: baseline; gap: 1rem; white-space: nowrap; }
-.ws-tree-label { color: var(--fg-dim); white-space: pre; }
-.ws-tree-meta { color: var(--fg-faint); font-size: 0.85em; margin-left: auto; white-space: nowrap; }
-.ws-tree-rootrow { padding-bottom: 0.5rem; margin-bottom: 0.4rem; border-bottom: 1px dashed var(--border); }
-.ws-tree-rootrow .ws-tree-label { color: var(--fg); font-weight: 600; }
-.ws-tree-rootrow .ws-tree-meta { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-faint); }
+.arch-tree-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+.arch-tree-cmd { font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-faint); margin: 0; }
+.arch-tree-tag { font-family: var(--font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.10em; color: var(--fg-faint); margin: 0; }
+.arch-tree-pre {
+    font-family: var(--font-mono);
+    font-size: clamp(8.5px, 0.85vw, 11px);
+    line-height: 1.5;
+    color: var(--fg-dim);
+    margin: 0;
+    white-space: pre;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+}
 
 footer { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg-faint); text-align: center; line-height: 1.8; }
 footer em { font-family: var(--font-serif); }
@@ -563,11 +567,11 @@ def _dir_aggregate(d: Path) -> tuple[int, int]:
     return count, size
 
 
-def _workspace_tree(workspace_path: Path | None, max_lines: int = 28) -> str:
-    """Compact ASCII workspace tree · canonical pattern from madani.agency/research.
+def _workspace_tree(workspace_path: Path | None, max_lines: int = 22, label_width: int = 48) -> str:
+    """Compact monospace workspace tree · canonical pattern madani.agency/research ArchitectureTree.
 
-    ~25 lines max · 2 levels · folders with many subdirs aggregated as `─── N entries ───`.
-    Static (no collapse) · monospaced · right-aligned size column.
+    Renders as single <pre> block · font 8.5-11px clamp · ~22 lines max · 2 levels.
+    Single string per row: `connector name/  comment      meta` · meta right-aligned via padding.
     """
     if workspace_path is None or not workspace_path.exists() or not workspace_path.is_dir():
         return ""
@@ -580,11 +584,13 @@ def _workspace_tree(workspace_path: Path | None, max_lines: int = 28) -> str:
     except (PermissionError, OSError):
         return ""
 
-    lines: list[tuple[str, str]] = []  # (label, right_meta)
+    rows: list[tuple[str, str]] = []  # (label, right_meta)
+    total_root_size = 0
 
     for i, entry in enumerate(top_entries):
-        if len(lines) >= max_lines:
-            lines.append((f"└── ... {len(top_entries) - i} more entries truncated", ""))
+        if len(rows) >= max_lines:
+            remaining = len(top_entries) - i
+            rows.append((f"└── ... {remaining} more truncated", ""))
             break
 
         is_last_top = (i == len(top_entries) - 1)
@@ -595,12 +601,13 @@ def _workspace_tree(workspace_path: Path | None, max_lines: int = 28) -> str:
                 size = entry.stat().st_size
             except OSError:
                 size = 0
-            lines.append((f"{connector} {entry.name}", _fmt_size(size)))
+            total_root_size += size
+            rows.append((f"{connector} {entry.name}", _fmt_size(size)))
         else:
             sub_count, sub_size = _dir_aggregate(entry)
-            lines.append((f"{connector} {entry.name}/", f"{sub_count} entries · {_fmt_size(sub_size)}" if sub_count else ""))
+            total_root_size += sub_size
+            rows.append((f"{connector} {entry.name}/", f"{sub_count} entries" if sub_count else "empty"))
 
-            # Decide: inline subdirs (if ≤4) or aggregation line (if more)
             if sub_count == 0:
                 continue
             try:
@@ -612,14 +619,12 @@ def _workspace_tree(workspace_path: Path | None, max_lines: int = 28) -> str:
                 continue
 
             indent = "    " if is_last_top else "│   "
-
-            if len(subs) > 4:
-                # Aggregation line for crowded folders
-                if len(lines) < max_lines:
-                    lines.append((f"{indent}└── ─── {len(subs)} entries ───", ""))
+            if len(subs) > 3:
+                if len(rows) < max_lines:
+                    rows.append((f"{indent}└── ─── {len(subs)} entries ───", ""))
             else:
                 for j, sub in enumerate(subs):
-                    if len(lines) >= max_lines:
+                    if len(rows) >= max_lines:
                         break
                     is_last_sub = (j == len(subs) - 1)
                     sub_conn = "└──" if is_last_sub else "├──"
@@ -628,31 +633,29 @@ def _workspace_tree(workspace_path: Path | None, max_lines: int = 28) -> str:
                             sz = sub.stat().st_size
                         except OSError:
                             sz = 0
-                        lines.append((f"{indent}{sub_conn} {sub.name}", _fmt_size(sz)))
+                        rows.append((f"{indent}{sub_conn} {sub.name}", _fmt_size(sz)))
                     else:
                         sc, sz = _dir_aggregate(sub)
-                        lines.append((f"{indent}{sub_conn} {sub.name}/", f"{sc} entries" if sc else ""))
+                        rows.append((f"{indent}{sub_conn} {sub.name}/", f"{sc} entries" if sc else "empty"))
 
-    # Compute total root size summary
-    root_count = len(top_entries)
-
-    # Render rows · 80-col layout with right-aligned meta
-    rows_html = []
-    for label, meta in lines:
-        # Escape label for HTML safety
+    # Build pre-formatted string · pad label to fixed width then append meta (right-aligned via whitespace)
+    root_line = f"{workspace_path.name}/".ljust(label_width) + f"{len(top_entries)} top-level entries"
+    body_lines = [root_line]
+    for label, meta in rows:
         safe_label = label.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        rows_html.append(
-            f'<div class="ws-tree-row"><span class="ws-tree-label">{safe_label}</span><span class="ws-tree-meta">{meta}</span></div>'
-        )
+        safe_meta = meta.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        # Compute visual padding using printable length of label (already plain text · safe)
+        pad = " " * max(2, label_width - len(label))
+        body_lines.append(f"{safe_label}{pad}{safe_meta}")
 
-    body = "".join(rows_html)
+    pre_content = "\n".join(body_lines)
 
-    return f'''<div class="workspace-tree">
-    <div class="ws-tree-row ws-tree-rootrow">
-        <span class="ws-tree-label">{workspace_path.name}/</span>
-        <span class="ws-tree-meta">{root_count} top-level · workspace identified</span>
+    return f'''<div class="arch-tree">
+    <div class="arch-tree-header">
+        <p class="arch-tree-cmd">$ wab-scan ~/{workspace_path.name}</p>
+        <p class="arch-tree-tag">{len(top_entries)} top-level · depth 2</p>
     </div>
-    {body}
+    <pre class="arch-tree-pre">{pre_content}</pre>
 </div>'''
 
 
@@ -857,7 +860,7 @@ def render_html(score: dict, audit: dict | None = None, info_theory: dict | None
         <span><b>{t("language_detected", lang)}</b> {language_name(lang)} ({lang})</span>
     </div>
 
-    {("<div class='eyebrow'>workspace identified · confirm before reading</div><h2 style='margin-top:0.5rem;'>Structure</h2>" + workspace_tree_html) if workspace_tree_html else ""}
+    {("<div class='eyebrow'>workspace identified</div><h2 style='margin-top:0.5rem;'>Structure</h2>" + workspace_tree_html) if workspace_tree_html else ""}
 
     <div class="eyebrow">{t("executive_summary", lang)}</div>
     <div class="composite-card">
