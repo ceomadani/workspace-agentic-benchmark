@@ -702,12 +702,19 @@ def _anomalies_section(score: dict, lang: str) -> str:
     if not anomalies:
         return f'<p style="color:#10b981;font-style:italic;font-family:var(--font-serif);font-size:1.05rem;margin:1rem 0 2rem;">✓ No anomalies detected · all pillars L2+ · all extensions present</p>'
 
+    # Per-anomaly recommendation text + Madani audit CTA mapping
+    anomaly_recommendation = {
+        "pillar": "Address this pillar to lift the workspace from L0-L1 toward L2+ · concrete steps in the linked article(s).",
+        "extension": "This cross-cutting principle is absent or partial · the linked paper-grounded article shows the implementation pattern.",
+    }
+
     rows_html = []
     for a in anomalies:
         sev_color = "#ef4444" if a["severity"] == "high" else "#f59e0b"
         sev_label = "HIGH" if a["severity"] == "high" else "MED"
         articles_html = " · ".join(_article_link(s, lang) for s in a["articles"]) if a["articles"] else '<span style="color:var(--fg-faint);font-style:italic;">no article reference yet</span>'
         type_tag = "PILLAR" if a["type"] == "pillar" else "EXT"
+        recommendation = anomaly_recommendation.get(a["type"], "Read the linked article for the implementation pattern.")
         rows_html.append(f'''
         <div class="anomaly-item" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid {sev_color};border-radius:6px;padding:1rem 1.25rem;margin-bottom:0.75rem;">
             <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
@@ -717,11 +724,21 @@ def _anomalies_section(score: dict, lang: str) -> str:
                 <span style="font-family:var(--font-serif);font-size:1.05rem;color:var(--accent-bright);">{a["title"]}</span>
                 <span style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);margin-left:auto;">{a["detail"]}</span>
             </div>
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.5rem;">→ relevant reading · Madani Lab</div>
+            <div style="font-family:var(--font-serif);font-style:italic;font-size:0.92rem;color:var(--fg-dim);margin-top:0.5rem;line-height:1.55;">{recommendation}</div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;text-transform:uppercase;margin-top:0.75rem;">→ recommended reading · Madani Lab research</div>
             <div style="font-family:var(--font-serif);font-size:0.95rem;color:var(--fg-dim);margin-top:0.3rem;line-height:1.6;">{articles_html}</div>
         </div>''')
 
-    return f'<div style="margin:1rem 0 2.5rem;">{"".join(rows_html)}</div>'
+    # CTA · prenota audit con Madani in chiusura
+    cta_html = '''
+    <div class="madani-audit-cta" style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:1.5rem 1.75rem;margin:2rem 0;box-shadow:var(--glass-shadow);">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;margin-bottom:0.5rem;">Need a hand?</div>
+        <h3 style="font-family:var(--font-sans);font-weight:600;font-size:1.15rem;color:var(--fg);margin:0 0 0.5rem;letter-spacing:-0.01em;">Closing these anomalies systematically · Madani audit</h3>
+        <p style="font-family:var(--font-serif);font-size:1rem;color:var(--fg-dim);line-height:1.65;margin:0 0 1rem;">If your workspace scored below grade A and you want a tailored audit · cluster-by-cluster prioritization · concrete week-by-week roadmap to ship the missing pillars, book a session with us. We run this on portfolios.</p>
+        <a href="https://www.madani.agency/contatti" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.5rem;background:var(--fg);color:var(--bg);border-radius:999px;font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;">Book a Madani audit →</a>
+    </div>'''
+
+    return f'<div style="margin:1rem 0 2.5rem;">{"".join(rows_html)}{cta_html}</div>'
 
 
 def render_html(score: dict, audit: dict | None = None, info_theory: dict | None = None, language: str = "en", workspace_name: str = "", workspace_path: Path | None = None) -> str:
