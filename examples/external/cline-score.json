@@ -1,10 +1,10 @@
 {
   "tool": "workspace-bench",
   "version": "0.3.4",
-  "scored_at": "2026-05-24T22:50:59.377189",
+  "scored_at": "2026-05-25T01:37:51.309372",
   "workspace": "/private/tmp/wsb-multi-audit/cline",
   "audit_at": "2026-05-24T22:50:56.716556",
-  "composite": 33.33,
+  "composite": 32.5,
   "max": 100,
   "grade": "D",
   "grade_description": "Prototype · not production-ready · infrastructure-first work required",
@@ -15,7 +15,7 @@
     },
     "B": {
       "name": "Action",
-      "average": 50.0
+      "average": 46.67
     },
     "C": {
       "name": "Trust",
@@ -42,7 +42,7 @@
     "2_skill_tool": {
       "level": 3,
       "level_name": "L3 Defined",
-      "score": 75,
+      "score": 70,
       "criteria_passed": 6,
       "criteria_total": 10,
       "title": "Skill / Tool Architecture",
@@ -138,7 +138,7 @@
     "10_reliability": {
       "level": 3,
       "level_name": "L3 Defined",
-      "score": 75,
+      "score": 70,
       "criteria_passed": 6,
       "criteria_total": 10,
       "title": "Reliability & Determinism",
@@ -177,8 +177,8 @@
       "0": 0,
       "1": 20,
       "2": 50,
-      "3": 75,
-      "4": 100
+      "3": 70,
+      "4": 95
     },
     "level_names": {
       "0": "L0 Absent",

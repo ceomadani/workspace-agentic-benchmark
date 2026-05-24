@@ -186,7 +186,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for full contribution guidelines.
 
 ## Known biases · validity threats
 
-This benchmark was developed by [Madani](https://madani.agency) and Madani's workspace currently ranks #1 (91.67/100 · grade A). That is a credibility red flag if not disclosed. This section discloses the limitations openly · readers can adjust their trust accordingly.
+This benchmark was developed by [Madani](https://madani.agency) and Madani's workspace currently ranks #1 (87.08/100 · grade A under v0.4 cap). That is a credibility red flag if not disclosed. This section discloses the limitations openly · readers can adjust their trust accordingly.
 
 ### Genesis bias · framework shaped by Madani case-study
 
@@ -194,7 +194,9 @@ The 12 pillars and their L0-L4 maturity descriptors were derived studying what w
 
 **Concrete consequence**: workspaces architecturally similar to Madani score higher · not because they are objectively better at all goals, but because they are better at the goals this rubric measures.
 
-**Mitigation in v0.3.3**: ~70% of audit is deterministic file-pattern matching (low LLM judgment surface). Vendor neutrality tested: Anthropic Cookbook scores F (27.5) despite Anthropic being the model provider Madani uses · LangChain/CrewAI/AutoGen all F · Hermes-agent (NousResearch · 165k★ · zero Madani contamination) C (53.33) · scores reflect architecture quality, not vendor allegiance.
+**Mitigation in v0.4 · L4 soft cap 95/100**: pure documentation-based scoring saturated too easily for workspaces that authored the rubric (Madani had 3 pillars at L4=100 → cluster B average 100.0 · structurally suspicious). v0.4 caps L4=95 and L3=70 · reserving 5 points per pillar for **runtime enforcement evidence** to be measured in v0.5. The cap deflates genesis-biased scores proportionally: Madani -4.59 (had many L4) · Hermes -2.50 (some L4) · workspaces with mostly L0-L2 unchanged. Proportional deflation = agnostic correction.
+
+**Mitigation in v0.3.3**: ~70% of audit is deterministic file-pattern matching (low LLM judgment surface). Vendor neutrality tested: Anthropic Cookbook scores F (27.5) despite Anthropic being the model provider Madani uses · LangChain/CrewAI/AutoGen all F · Hermes-agent (NousResearch · 165k★ · zero Madani contamination) C (50.83) · scores reflect architecture quality, not vendor allegiance.
 
 ### Scoring is deterministic · selection is not
 

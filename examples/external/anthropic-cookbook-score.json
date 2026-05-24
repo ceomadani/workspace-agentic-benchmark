@@ -1,7 +1,7 @@
 {
   "tool": "workspace-bench",
-  "version": "0.3.2",
-  "scored_at": "2026-05-20T00:51:39.388532",
+  "version": "0.3.4",
+  "scored_at": "2026-05-25T01:37:51.309565",
   "workspace": "/private/tmp/wsb-external-audit/anthropic-cookbook",
   "audit_at": "2026-05-20T00:51:38.834372",
   "composite": 27.5,
@@ -177,8 +177,8 @@
       "0": 0,
       "1": 20,
       "2": 50,
-      "3": 75,
-      "4": 100
+      "3": 70,
+      "4": 95
     },
     "level_names": {
       "0": "L0 Absent",
