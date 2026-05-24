@@ -1,0 +1,191 @@
+{
+  "tool": "workspace-bench",
+  "version": "0.3.4",
+  "audited_at": "2026-05-24T22:50:56.716556",
+  "workspace": "/private/tmp/wsb-multi-audit/cline",
+  "pillars": {
+    "1_context_memory": {
+      "tier_dirs_found": [],
+      "memory_index_files": [],
+      "structured_entries_count": 2,
+      "cross_link_pattern_count": 11,
+      "retrieval_policy_doc": false,
+      "decay_policy_doc": false,
+      "mcp_query_layer": false,
+      "kv_cache_awareness": false
+    },
+    "2_skill_tool": {
+      "skill_folders": [
+        "/private/tmp/wsb-multi-audit/cline/.agents/skills/cline-sdk",
+        "/private/tmp/wsb-multi-audit/cline/.agents/skills/create-pull-request",
+        "/private/tmp/wsb-multi-audit/cline/sdk/apps/cli/.agents/skills/opentui",
+        "/private/tmp/wsb-multi-audit/cline/sdk/apps/cli/.cline/skills/publish-cli"
+      ],
+      "skills_with_frontmatter": 4,
+      "skill_index_files": [],
+      "auto_trigger_mechanism": true,
+      "staleness_detector_found": false,
+      "deterministic_tools_count": 13,
+      "llm_tools_count": 0,
+      "skill_roster_doc": false,
+      "skill_changelog": 3
+    },
+    "3_governance": {
+      "constitution_found": [
+        "/private/tmp/wsb-multi-audit/cline/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/cline/sdk/.greptile/RULES.md"
+      ],
+      "hard_rules_count": 4,
+      "pre_output_check": false,
+      "compliance_judge": false,
+      "rules_dir_found": false,
+      "external_action_gate": false,
+      "destructive_action_gate": false,
+      "rules_versioning": false,
+      "evidence_linked_rules": 0
+    },
+    "4_auto_improvement": {
+      "dreams_pipeline": false,
+      "reflexion_runner": false,
+      "session_capture_evidence": true,
+      "scoring_rubric_for_proposals": false,
+      "two_stage_review": false,
+      "apply_log_exists": true,
+      "cron_for_improvement": false,
+      "cheaper_model_used": false
+    },
+    "5_multi_agent_dpi": {
+      "multi_agent_policy_doc": false,
+      "single_thread_default": false,
+      "explore_only_preauthorized": false,
+      "pre_spawn_checklist": false,
+      "anti_pattern_doc_count": 0,
+      "evidence_cited_dpi": false,
+      "no_recursive_subagents_rule": false
+    },
+    "6_observability": {
+      "centralized_log_dir": true,
+      "liveness_watchdog": false,
+      "aggregate_report": false,
+      "drift_detector": false,
+      "task_lifecycle_state_machine": true,
+      "stuck_task_detection": true,
+      "stderr_separated_from_stdout": false,
+      "log_rotation_policy": true,
+      "recovery_procedure_doc": false,
+      "mast_taxonomy_referenced": true,
+      "otel_genai_referenced": true
+    },
+    "7_credentials_security": {
+      "plaintext_secrets_found": [
+        {
+          "file": "sdk/packages/core/src/services/storage/provider-settings-legacy-migration.test.ts",
+          "snippet_prefix": "apiKey: \"legacy-anth..."
+        },
+        {
+          "file": "sdk/packages/core/src/services/storage/provider-settings-legacy-migration.test.ts",
+          "snippet_prefix": "apiKey: \"legacy-anth..."
+        },
+        {
+          "file": "sdk/packages/core/src/services/storage/provider-settings-legacy-migration.test.ts",
+          "snippet_prefix": "ApiKey: \"legacy-open..."
+        },
+        {
+          "file": "sdk/packages/shared/src/remote-config/schema.test.ts",
+          "snippet_prefix": "AKIAIOSFODNN7EXAMPLE..."
+        },
+        {
+          "file": "sdk/packages/shared/src/remote-config/schema.test.ts",
+          "snippet_prefix": "AKIAIOSFODNN7EXAMPLE..."
+        },
+        {
+          "file": "sdk/packages/shared/src/remote-config/schema.test.ts",
+          "snippet_prefix": "AKIAIOSFODNN7EXAMPLE..."
+        },
+        {
+          "file": "sdk/packages/llms/src/providers/vendors/vertex.test.ts",
+          "snippet_prefix": "apiKey: \"api-key-sho..."
+        },
+        {
+          "file": "src/core/prompts/loadMcpDocumentation.ts",
+          "snippet_prefix": "API_KEY\": \"user-prov..."
+        },
+        {
+          "file": "src/core/api/providers/qwen-code.ts",
+          "snippet_prefix": "apiKey: \"dummy-key-w..."
+        },
+        {
+          "file": "src/shared/remote-config/__tests__/schema.test.ts",
+          "snippet_prefix": "AKIAIOSFODNN7EXAMPLE..."
+        },
+        {
+          "file": "src/shared/remote-config/__tests__/schema.test.ts",
+          "snippet_prefix": "AKIAIOSFODNN7EXAMPLE..."
+        },
+        {
+          "file": "src/shared/remote-config/__tests__/schema.test.ts",
+          "snippet_prefix": "AKIAIOSFODNN7EXAMPLE..."
+        }
+      ],
+      "vault_integration": false,
+      "runtime_resolution_pattern": false,
+      "env_in_gitignore": true,
+      "credentials_doc": false,
+      "secret_rotation_doc": false,
+      "owasp_llm_referenced": false
+    },
+    "8_portability": {
+      "bootstrap_doc": [],
+      "templates_dir": true,
+      "scaffold_dir": false,
+      "client_isolation_evidence": false,
+      "vault_per_engagement": false,
+      "handoff_artifact_format": false,
+      "hardcoded_paths_count": 77,
+      "time_to_bootstrap_measured": false,
+      "multiple_deployments_evidence": false
+    },
+    "9_metacognition": {
+      "metacog_tool_found": false,
+      "capability_profile_found": false,
+      "verbalized_confidence_mechanism": false,
+      "composite_formula_documented": false,
+      "conflict_detection": false,
+      "decision_gate_documented": false,
+      "ema_update_mechanism": false,
+      "ece_or_calibration_tracking": false,
+      "anti_pattern_doc_count": 0,
+      "dpi_integration_documented": false,
+      "policy_doc_found": false,
+      "metacog_paper_cited": false
+    },
+    "10_reliability": {
+      "pass_at_k_measurement": true,
+      "retry_logic_documented": true,
+      "idempotency_doc": true,
+      "mast_taxonomy_coverage": false,
+      "replay_harness": false,
+      "circuit_breaker_pattern": false,
+      "determinism_doc": true
+    },
+    "11_human_in_the_loop": {
+      "approval_gate_documented": false,
+      "escalation_criteria_doc": true,
+      "feedback_collection_structured": false,
+      "approval_friction_measured": false,
+      "bypass_detection": true,
+      "hitl_policy_doc": true,
+      "nist_ai_rmf_referenced": false
+    },
+    "12_cost_performance": {
+      "cost_tracking_doc": false,
+      "latency_measurement_doc": false,
+      "cache_hit_rate_measured": true,
+      "model_routing_policy": true,
+      "subscription_vs_api_doc": true,
+      "cost_per_outcome_doc": false,
+      "cheaper_model_in_cron": true,
+      "clear_paper_cited": false
+    }
+  }
+}

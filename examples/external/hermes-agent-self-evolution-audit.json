@@ -1,0 +1,151 @@
+{
+  "tool": "workspace-bench",
+  "version": "0.3.4",
+  "audited_at": "2026-05-24T22:50:55.842112",
+  "workspace": "/private/tmp/wsb-multi-audit/hermes-agent-self-evolution",
+  "pillars": {
+    "1_context_memory": {
+      "tier_dirs_found": [],
+      "memory_index_files": [],
+      "structured_entries_count": 0,
+      "cross_link_pattern_count": 0,
+      "retrieval_policy_doc": false,
+      "decay_policy_doc": false,
+      "mcp_query_layer": false,
+      "kv_cache_awareness": false
+    },
+    "2_skill_tool": {
+      "skill_folders": [],
+      "skills_with_frontmatter": 0,
+      "skill_index_files": [],
+      "auto_trigger_mechanism": false,
+      "staleness_detector_found": false,
+      "deterministic_tools_count": 1,
+      "llm_tools_count": 0,
+      "skill_roster_doc": false,
+      "skill_changelog": 0
+    },
+    "3_governance": {
+      "constitution_found": [],
+      "hard_rules_count": 0,
+      "pre_output_check": false,
+      "compliance_judge": false,
+      "rules_dir_found": false,
+      "external_action_gate": false,
+      "destructive_action_gate": false,
+      "rules_versioning": false,
+      "evidence_linked_rules": 0
+    },
+    "4_auto_improvement": {
+      "dreams_pipeline": false,
+      "reflexion_runner": false,
+      "session_capture_evidence": false,
+      "scoring_rubric_for_proposals": false,
+      "two_stage_review": false,
+      "apply_log_exists": false,
+      "cron_for_improvement": false,
+      "cheaper_model_used": false
+    },
+    "5_multi_agent_dpi": {
+      "multi_agent_policy_doc": false,
+      "single_thread_default": false,
+      "explore_only_preauthorized": false,
+      "pre_spawn_checklist": false,
+      "anti_pattern_doc_count": 0,
+      "evidence_cited_dpi": false,
+      "no_recursive_subagents_rule": false
+    },
+    "6_observability": {
+      "centralized_log_dir": true,
+      "liveness_watchdog": false,
+      "aggregate_report": false,
+      "drift_detector": false,
+      "task_lifecycle_state_machine": false,
+      "stuck_task_detection": false,
+      "stderr_separated_from_stdout": false,
+      "log_rotation_policy": false,
+      "recovery_procedure_doc": false,
+      "mast_taxonomy_referenced": false,
+      "otel_genai_referenced": false
+    },
+    "7_credentials_security": {
+      "plaintext_secrets_found": [
+        {
+          "file": "tests/core/test_external_importers.py",
+          "snippet_prefix": "sk-ant-api03-abc123d..."
+        },
+        {
+          "file": "tests/core/test_external_importers.py",
+          "snippet_prefix": "sk-or-v1-abcdef12345..."
+        },
+        {
+          "file": "tests/core/test_external_importers.py",
+          "snippet_prefix": "sk-proj-1234567890ab..."
+        },
+        {
+          "file": "tests/core/test_external_importers.py",
+          "snippet_prefix": "AKIAIOSFODNN7EXAMPLE..."
+        }
+      ],
+      "vault_integration": false,
+      "runtime_resolution_pattern": false,
+      "env_in_gitignore": true,
+      "credentials_doc": false,
+      "secret_rotation_doc": false,
+      "owasp_llm_referenced": false
+    },
+    "8_portability": {
+      "bootstrap_doc": [],
+      "templates_dir": false,
+      "scaffold_dir": false,
+      "client_isolation_evidence": false,
+      "vault_per_engagement": false,
+      "handoff_artifact_format": false,
+      "hardcoded_paths_count": 0,
+      "time_to_bootstrap_measured": false,
+      "multiple_deployments_evidence": false
+    },
+    "9_metacognition": {
+      "metacog_tool_found": false,
+      "capability_profile_found": false,
+      "verbalized_confidence_mechanism": false,
+      "composite_formula_documented": false,
+      "conflict_detection": false,
+      "decision_gate_documented": false,
+      "ema_update_mechanism": false,
+      "ece_or_calibration_tracking": false,
+      "anti_pattern_doc_count": 0,
+      "dpi_integration_documented": false,
+      "policy_doc_found": false,
+      "metacog_paper_cited": false
+    },
+    "10_reliability": {
+      "pass_at_k_measurement": false,
+      "retry_logic_documented": false,
+      "idempotency_doc": false,
+      "mast_taxonomy_coverage": false,
+      "replay_harness": false,
+      "circuit_breaker_pattern": false,
+      "determinism_doc": false
+    },
+    "11_human_in_the_loop": {
+      "approval_gate_documented": true,
+      "escalation_criteria_doc": false,
+      "feedback_collection_structured": true,
+      "approval_friction_measured": false,
+      "bypass_detection": false,
+      "hitl_policy_doc": false,
+      "nist_ai_rmf_referenced": false
+    },
+    "12_cost_performance": {
+      "cost_tracking_doc": false,
+      "latency_measurement_doc": false,
+      "cache_hit_rate_measured": false,
+      "model_routing_policy": false,
+      "subscription_vs_api_doc": false,
+      "cost_per_outcome_doc": false,
+      "cheaper_model_in_cron": false,
+      "clear_paper_cited": false
+    }
+  }
+}

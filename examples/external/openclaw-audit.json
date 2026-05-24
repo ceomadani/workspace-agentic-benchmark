@@ -1,0 +1,365 @@
+{
+  "tool": "workspace-bench",
+  "version": "0.3.4",
+  "audited_at": "2026-05-24T22:46:50.800649",
+  "workspace": "/private/tmp/wsb-multi-audit/openclaw",
+  "pillars": {
+    "1_context_memory": {
+      "tier_dirs_found": [
+        {
+          "tier": "memory",
+          "path": "/private/tmp/wsb-multi-audit/openclaw/qa/scenarios/memory"
+        }
+      ],
+      "memory_index_files": [
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/oc-path/src/oc-path/tests/fixtures/real/MEMORY.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/cli/MEMORY.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/concepts/MEMORY.md",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/oc-path/src/oc-path/tests/fixtures/real/memory.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/cli/memory.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/concepts/memory.md"
+      ],
+      "structured_entries_count": 70,
+      "cross_link_pattern_count": 46,
+      "retrieval_policy_doc": false,
+      "decay_policy_doc": false,
+      "mcp_query_layer": false,
+      "kv_cache_awareness": true
+    },
+    "2_skill_tool": {
+      "skill_folders": [
+        "/private/tmp/wsb-multi-audit/openclaw/skills/nano-pdf",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/himalaya",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/bear-notes",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/meme-maker",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/peekaboo",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/model-usage",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/blogwatcher",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/discord",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/coding-agent",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/openhue",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/gemini",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/gifgrep",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/session-logs",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/node-connect",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/ordercli",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/openai-whisper",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/spotify-player",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/healthcheck",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/oracle",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/xurl",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/summarize",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/diagram-maker",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/clawhub",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/sherpa-onnx-tts",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/video-frames",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/eightctl",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/gog",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/canvas",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/notion",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/goplaces",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/apple-reminders",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/imsg",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/skill-creator",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/camsnap",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/github",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/taskflow-inbox-triage",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/things-mac",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/blucli",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/sonoscli",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/python-debugpy",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/mcporter",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/tmux",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/sag",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/spike",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/slack",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/weather",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/obsidian",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/trello",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/wacli",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/songsee",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/apple-notes",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/taskflow",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/openai-whisper-api",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/node-inspect-debugger",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/gh-issues",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/1password",
+        "/private/tmp/wsb-multi-audit/openclaw/skills/voice-call",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-secret-scanning-maintainer",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-refactor-docs",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-landable-bug-sweep",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/parallels-discord-roundtrip",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-test-heap-leaks",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-pr-maintainer",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/security-triage",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/notcrawl",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/discord-clawd",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-ghsa-maintainer",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/discrawl",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-release-ci",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-small-bugfix-sweep",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/optimizetests",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/crabbox",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/control-ui-e2e",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/telegram-crabbox-e2e-proof",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-docker-e2e-authoring",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/graincrawl",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-release-maintainer",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-debugging",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/gitcrawl",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-parallels-smoke",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-mac-release",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/clawsweeper",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-qa-testing",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-test-performance",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-testing",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/tag-duplicate-prs-issues",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-docs",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/openclaw-pre-release-plugin-testing",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/channel-message-flows",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/clawdtributor",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/slacrawl",
+        "/private/tmp/wsb-multi-audit/openclaw/.agents/skills/autoreview",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/open-prose/skills/prose",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/feishu/skills/feishu-perm",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/feishu/skills/feishu-wiki",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/feishu/skills/feishu-drive",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/feishu/skills/feishu-doc",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/browser/skills/browser-automation",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/acpx/skills/acp-router",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/qqbot/skills/qqbot-channel",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/qqbot/skills/qqbot-remind",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/qqbot/skills/qqbot-media",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/diffs/skills/diffs",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/memory-wiki/skills/wiki-maintainer",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/memory-wiki/skills/obsidian-vault-maintainer",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/tavily/skills/tavily"
+      ],
+      "skills_with_frontmatter": 106,
+      "skill_index_files": [],
+      "auto_trigger_mechanism": true,
+      "staleness_detector_found": false,
+      "deterministic_tools_count": 213,
+      "llm_tools_count": 0,
+      "skill_roster_doc": true,
+      "skill_changelog": 4
+    },
+    "3_governance": {
+      "constitution_found": [
+        "/private/tmp/wsb-multi-audit/openclaw/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/ui/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/scripts/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/tui/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/plugins/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/agents/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/plugin-sdk/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/gateway/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/channels/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/channels/plugins/contracts/test-helpers/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/gateway/protocol/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/gateway/server-methods/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/agents/tools/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/agents/pi-embedded-runner/run/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/src/infra/outbound/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/acpx/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/reference/templates/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/test/helpers/CLAUDE.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/cli/AGENT.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/concepts/AGENT.md"
+      ],
+      "hard_rules_count": 10,
+      "pre_output_check": false,
+      "compliance_judge": false,
+      "rules_dir_found": false,
+      "external_action_gate": true,
+      "destructive_action_gate": true,
+      "rules_versioning": false,
+      "evidence_linked_rules": 7
+    },
+    "4_auto_improvement": {
+      "dreams_pipeline": false,
+      "reflexion_runner": false,
+      "session_capture_evidence": true,
+      "scoring_rubric_for_proposals": false,
+      "two_stage_review": false,
+      "apply_log_exists": true,
+      "cron_for_improvement": false,
+      "cheaper_model_used": false
+    },
+    "5_multi_agent_dpi": {
+      "multi_agent_policy_doc": true,
+      "single_thread_default": false,
+      "explore_only_preauthorized": false,
+      "pre_spawn_checklist": false,
+      "anti_pattern_doc_count": 0,
+      "evidence_cited_dpi": true,
+      "no_recursive_subagents_rule": false
+    },
+    "6_observability": {
+      "centralized_log_dir": true,
+      "liveness_watchdog": false,
+      "aggregate_report": false,
+      "drift_detector": true,
+      "task_lifecycle_state_machine": false,
+      "stuck_task_detection": true,
+      "stderr_separated_from_stdout": false,
+      "log_rotation_policy": true,
+      "recovery_procedure_doc": true,
+      "mast_taxonomy_referenced": true,
+      "otel_genai_referenced": true
+    },
+    "7_credentials_security": {
+      "plaintext_secrets_found": [
+        {
+          "file": "test/scripts/plugin-prerelease-test-plan.test.ts",
+          "snippet_prefix": "API_KEY: \"openai-tok..."
+        },
+        {
+          "file": "test/scripts/dev-tooling-safety.test.ts",
+          "snippet_prefix": "sk-test1234567890abc..."
+        },
+        {
+          "file": "test/scripts/dev-tooling-safety.test.ts",
+          "snippet_prefix": "sk-test1234567890abc..."
+        },
+        {
+          "file": "qa/scenarios/personal/task-followthrough-status.md",
+          "snippet_prefix": "sk-followthrough-sta..."
+        },
+        {
+          "file": "docs/tools/firecrawl.md",
+          "snippet_prefix": "apiKey: \"FIRECRAWL_A..."
+        },
+        {
+          "file": "docs/tools/firecrawl.md",
+          "snippet_prefix": "apiKey: \"FIRECRAWL_A..."
+        },
+        {
+          "file": "docs/providers/anthropic.md",
+          "snippet_prefix": "API_KEY: \"example-an..."
+        },
+        {
+          "file": "docs/providers/openai.md",
+          "snippet_prefix": "API_KEY: \"example-op..."
+        },
+        {
+          "file": "docs/providers/openai.md",
+          "snippet_prefix": "API_KEY: \"example-op..."
+        },
+        {
+          "file": "docs/providers/volcengine.md",
+          "snippet_prefix": "API_KEY=\"byteplus_se..."
+        },
+        {
+          "file": "docs/providers/volcengine.md",
+          "snippet_prefix": "apiKey: \"byteplus_se..."
+        },
+        {
+          "file": "docs/reference/secret-placeholder-conventions.md",
+          "snippet_prefix": "API_KEY=\"example-ope..."
+        },
+        {
+          "file": "extensions/lmstudio/src/runtime.test.ts",
+          "snippet_prefix": "API_KEY: \"custom-tem..."
+        },
+        {
+          "file": "extensions/lmstudio/src/setup.test.ts",
+          "snippet_prefix": "apiKey: \"secretref-l..."
+        },
+        {
+          "file": "extensions/lmstudio/src/setup.test.ts",
+          "snippet_prefix": "apiKey: \"configured-..."
+        },
+        {
+          "file": "extensions/lmstudio/src/setup.test.ts",
+          "snippet_prefix": "apiKey: \"configured-..."
+        },
+        {
+          "file": "extensions/microsoft-foundry/index.test.ts",
+          "snippet_prefix": "apiKey: \"__entra_id_..."
+        },
+        {
+          "file": "extensions/microsoft-foundry/index.test.ts",
+          "snippet_prefix": "apiKey: \"__entra_id_..."
+        },
+        {
+          "file": "extensions/microsoft-foundry/index.test.ts",
+          "snippet_prefix": "apiKey: \"__entra_id_..."
+        },
+        {
+          "file": "extensions/microsoft-foundry/auth.ts",
+          "snippet_prefix": "apiKey: \"__entra_id_..."
+        }
+      ],
+      "vault_integration": false,
+      "runtime_resolution_pattern": false,
+      "env_in_gitignore": true,
+      "credentials_doc": false,
+      "secret_rotation_doc": false,
+      "owasp_llm_referenced": false
+    },
+    "8_portability": {
+      "bootstrap_doc": [
+        "/private/tmp/wsb-multi-audit/openclaw/docs/start/ONBOARDING.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/start/QUICKSTART.md",
+        "/private/tmp/wsb-multi-audit/openclaw/extensions/oc-path/src/oc-path/tests/fixtures/real/BOOTSTRAP.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/reference/templates/BOOTSTRAP.md",
+        "/private/tmp/wsb-multi-audit/openclaw/apps/ios/fastlane/SETUP.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/start/SETUP.md",
+        "/private/tmp/wsb-multi-audit/openclaw/docs/cli/SETUP.md"
+      ],
+      "templates_dir": true,
+      "scaffold_dir": false,
+      "client_isolation_evidence": false,
+      "vault_per_engagement": false,
+      "handoff_artifact_format": false,
+      "hardcoded_paths_count": 221,
+      "time_to_bootstrap_measured": false,
+      "multiple_deployments_evidence": false
+    },
+    "9_metacognition": {
+      "metacog_tool_found": false,
+      "capability_profile_found": false,
+      "verbalized_confidence_mechanism": false,
+      "composite_formula_documented": false,
+      "conflict_detection": false,
+      "decision_gate_documented": false,
+      "ema_update_mechanism": false,
+      "ece_or_calibration_tracking": false,
+      "anti_pattern_doc_count": 0,
+      "dpi_integration_documented": false,
+      "policy_doc_found": false,
+      "metacog_paper_cited": false
+    },
+    "10_reliability": {
+      "pass_at_k_measurement": false,
+      "retry_logic_documented": true,
+      "idempotency_doc": true,
+      "mast_taxonomy_coverage": false,
+      "replay_harness": false,
+      "circuit_breaker_pattern": true,
+      "determinism_doc": true
+    },
+    "11_human_in_the_loop": {
+      "approval_gate_documented": true,
+      "escalation_criteria_doc": true,
+      "feedback_collection_structured": true,
+      "approval_friction_measured": false,
+      "bypass_detection": true,
+      "hitl_policy_doc": true,
+      "nist_ai_rmf_referenced": false
+    },
+    "12_cost_performance": {
+      "cost_tracking_doc": false,
+      "latency_measurement_doc": true,
+      "cache_hit_rate_measured": true,
+      "model_routing_policy": true,
+      "subscription_vs_api_doc": true,
+      "cost_per_outcome_doc": false,
+      "cheaper_model_in_cron": false,
+      "clear_paper_cited": false
+    }
+  }
+}
