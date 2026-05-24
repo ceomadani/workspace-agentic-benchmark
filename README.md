@@ -184,6 +184,55 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for full contribution guidelines.
 
 ---
 
+## Known biases · validity threats
+
+This benchmark was developed by [Madani](https://madani.agency) and Madani's workspace currently ranks #1 (91.67/100 · grade A). That is a credibility red flag if not disclosed. This section discloses the limitations openly · readers can adjust their trust accordingly.
+
+### Genesis bias · framework shaped by Madani case-study
+
+The 12 pillars and their L0-L4 maturity descriptors were derived studying what works in the Madani workspace as a positive case-study, alongside peer-reviewed research. Patterns that Madani implements (Hermes-stale daily cron · Curator weekly · Reflexion 23:30 · auto-promote-engine · 5-tier memory · capability profile EMA) are codified as audit criteria. The framework was not designed in vacuum then applied to Madani · it was co-developed.
+
+**Concrete consequence**: workspaces architecturally similar to Madani score higher · not because they are objectively better at all goals, but because they are better at the goals this rubric measures.
+
+**Mitigation in v0.3.3**: ~70% of audit is deterministic file-pattern matching (low LLM judgment surface). Vendor neutrality tested: Anthropic Cookbook scores F (27.5) despite Anthropic being the model provider Madani uses · LangChain/CrewAI/AutoGen all F · Hermes-agent (NousResearch · 165k★ · zero Madani contamination) C (53.33) · scores reflect architecture quality, not vendor allegiance.
+
+### Scoring is deterministic · selection is not
+
+The 12-pillar list and the 10 criteria per pillar were chosen · choosing what to measure is itself a worldview. A UX-focused benchmark would rank Aider/Cursor/Cline higher. An adoption-focused benchmark would rank LangChain (massive ecosystem) higher. A production-scale benchmark would rank Vercel AI SDK (streaming efficiency) higher.
+
+**WAB benchmarks autonomous workspace governance.** That is one valid dimension of agentic quality. It is not the only dimension.
+
+### What WAB does NOT measure
+
+| Dimension | Not measured | Where to look instead |
+|-----------|--------------|------------------------|
+| Developer UX / DX | ❌ | SWE-Bench · HumanEval · qualitative reviews |
+| Adoption / ecosystem health | ❌ | GitHub stars · npm/pip downloads · contributor count |
+| Ease of getting started | ❌ | Tutorial completion benchmarks · time-to-first-success |
+| Production scale efficiency | ❌ | Inference cost benchmarks · latency P99 measurements |
+| Plugin / extension ecosystem | ❌ | Marketplace size · third-party integration count |
+| Model integration breadth | ❌ | Provider matrix audits |
+| End-user task completion | ❌ | TaskBench · AgentBench · WebArena |
+
+**Read WAB alongside these, not instead of them.** A workspace can be excellent for its purpose and score low here · the question is whether autonomous governance is one of its design priorities.
+
+### What we are doing to reduce bias (v0.4 roadmap)
+
+- **External rubric review** · invite maintainers of Hermes · OpenClaw · Cline · Aider · LangChain to propose pillar modifications via the RFC process · audit log all changes
+- **Multi-profile scoring** · publish alternative weight profiles (UX-focused · adoption-focused · production-scale · DX-focused) alongside the default · users select the lens that matches their goal
+- **Pillar provenance disclosure** · annotate each pillar with whether it derives from peer-reviewed paper, external case study, or Madani case study · transparency
+- **Independent reproduction badge** · invite third parties to audit the Madani workspace and verify the 91.67 score reproduces · publish their findings unaltered
+- **Inter-rater reliability protocol** · publish two-evaluator score comparisons to quantify subjectivity remaining after determinism
+
+### Reading guidance
+
+- Treat WAB as a **specific lens** on a specific dimension (autonomous governance)
+- Madani's #1 rank is real within that lens · not a universal claim of "best agentic workspace"
+- A grade-F result in WAB is not a criticism of the workspace audited · it is a measurement of how much of its architecture is shaped by the properties this rubric measures
+- If your priority is something else (UX, adoption, ease, plugins), the WAB score is information but not the answer
+
+---
+
 ## License
 
 MIT · forward-deploy friendly · fork and adapt for your enterprise context.
