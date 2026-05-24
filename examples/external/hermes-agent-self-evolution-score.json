@@ -1,7 +1,7 @@
 {
   "tool": "workspace-bench",
   "version": "0.3.4",
-  "scored_at": "2026-05-24T22:50:56.000524",
+  "scored_at": "2026-05-25T01:37:51.310362",
   "workspace": "/private/tmp/wsb-multi-audit/hermes-agent-self-evolution",
   "audit_at": "2026-05-24T22:50:55.842112",
   "composite": 10.83,
@@ -177,8 +177,8 @@
       "0": 0,
       "1": 20,
       "2": 50,
-      "3": 75,
-      "4": 100
+      "3": 70,
+      "4": 95
     },
     "level_names": {
       "0": "L0 Absent",

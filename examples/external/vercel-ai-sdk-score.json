@@ -1,10 +1,10 @@
 {
   "tool": "workspace-bench",
   "version": "0.3.4",
-  "scored_at": "2026-05-24T22:37:25.535418",
+  "scored_at": "2026-05-25T01:37:51.309959",
   "workspace": "/private/tmp/wsb-vercel-audit/ai",
   "audit_at": "2026-05-24T22:37:20.658043",
-  "composite": 23.75,
+  "composite": 23.33,
   "max": 100,
   "grade": "F",
   "grade_description": "Failing · workspace not fit for purpose",
@@ -15,7 +15,7 @@
     },
     "B": {
       "name": "Action",
-      "average": 31.67
+      "average": 30.0
     },
     "C": {
       "name": "Trust",
@@ -42,7 +42,7 @@
     "2_skill_tool": {
       "level": 3,
       "level_name": "L3 Defined",
-      "score": 75,
+      "score": 70,
       "criteria_passed": 8,
       "criteria_total": 10,
       "title": "Skill / Tool Architecture",
@@ -177,8 +177,8 @@
       "0": 0,
       "1": 20,
       "2": 50,
-      "3": 75,
-      "4": 100
+      "3": 70,
+      "4": 95
     },
     "level_names": {
       "0": "L0 Absent",

@@ -1,36 +1,36 @@
 {
   "tool": "workspace-bench",
   "version": "0.3.4",
-  "scored_at": "2026-05-24T22:50:55.562277",
+  "scored_at": "2026-05-25T01:37:51.308533",
   "workspace": "/Users/nourmatine/madani",
   "audit_at": "2026-05-24T22:48:36.441312",
-  "composite": 91.67,
+  "composite": 87.08,
   "max": 100,
   "grade": "A",
   "grade_description": "Production-grade · forward-deployable · FDE-engagement ready",
   "cluster_averages": {
     "A": {
       "name": "Cognition",
-      "average": 91.67
+      "average": 86.67
     },
     "B": {
       "name": "Action",
-      "average": 100.0
+      "average": 95.0
     },
     "C": {
       "name": "Trust",
-      "average": 93.75
+      "average": 88.75
     },
     "D": {
       "name": "Operations",
-      "average": 75.0
+      "average": 72.5
     }
   },
   "pillars": {
     "1_context_memory": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 9,
       "criteria_total": 10,
       "title": "Context Hierarchy & Memory",
@@ -42,7 +42,7 @@
     "2_skill_tool": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 10,
       "criteria_total": 10,
       "title": "Skill / Tool Architecture",
@@ -54,7 +54,7 @@
     "3_governance": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 9,
       "criteria_total": 10,
       "title": "Governance & Compliance",
@@ -66,7 +66,7 @@
     "4_auto_improvement": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 9,
       "criteria_total": 10,
       "title": "Auto-Improvement Loop",
@@ -78,7 +78,7 @@
     "5_multi_agent_dpi": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 10,
       "criteria_total": 10,
       "title": "Multi-Agent Discipline (DPI)",
@@ -90,7 +90,7 @@
     "6_observability": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 9,
       "criteria_total": 10,
       "title": "Observability & Recovery",
@@ -102,7 +102,7 @@
     "7_credentials_security": {
       "level": 3,
       "level_name": "L3 Defined",
-      "score": 75,
+      "score": 70,
       "criteria_passed": 6,
       "criteria_total": 10,
       "title": "Credentials & Security",
@@ -126,7 +126,7 @@
     "9_metacognition": {
       "level": 3,
       "level_name": "L3 Defined",
-      "score": 75,
+      "score": 70,
       "criteria_passed": 9,
       "criteria_total": 10,
       "title": "Metacognition & Self-Assessment",
@@ -138,7 +138,7 @@
     "10_reliability": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 10,
       "criteria_total": 10,
       "title": "Reliability & Determinism",
@@ -150,7 +150,7 @@
     "11_human_in_the_loop": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 10,
       "criteria_total": 10,
       "title": "Human-in-the-Loop",
@@ -162,7 +162,7 @@
     "12_cost_performance": {
       "level": 4,
       "level_name": "L4 Optimizing",
-      "score": 100,
+      "score": 95,
       "criteria_passed": 10,
       "criteria_total": 10,
       "title": "Cost & Performance Efficiency",
@@ -177,8 +177,8 @@
       "0": 0,
       "1": 20,
       "2": 50,
-      "3": 75,
-      "4": 100
+      "3": 70,
+      "4": 95
     },
     "level_names": {
       "0": "L0 Absent",

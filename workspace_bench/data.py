@@ -4,7 +4,13 @@ from __future__ import annotations
 from typing import NamedTuple
 
 
-LEVEL_SCORES = {0: 0, 1: 20, 2: 50, 3: 75, 4: 100}
+LEVEL_SCORES = {0: 0, 1: 20, 2: 50, 3: 70, 4: 95}
+# v0.4 anti-bias soft cap: L4 max=95 (reserves 5 pts for runtime-enforcement
+# evidence in v0.5) · L3 lowered to 70 for proportional ladder distance.
+# Rationale: pure documentation-based scoring saturates too easily for
+# workspaces that authored the rubric (genesis bias) · runtime probing tests
+# (v0.5) will fill the remaining 5 pts only when policies are demonstrably
+# enforced. Disclosure in README "Known biases · validity threats".
 LEVEL_NAMES = {
     0: "L0 Absent",
     1: "L1 Initial",
