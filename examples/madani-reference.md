@@ -1,9 +1,9 @@
 # Madani Reference Workspace · Case Study
 
-> **Latest live audit · iter-39 · 2026-05-25**
-> **Composite**: 91.67 / 100 · Grade **A** (was B 81.25 under v0.3.2 · iter-38)
+> **Latest live audit · iter-39 · 2026-05-25 · v0.4 cap applied**
+> **Composite**: 87.08 / 100 · Grade **A** (was B 81.25 under v0.3.2 · iter-38 · pre-cap iter-39 raw was 91.67)
 > **Workspace size**: ~5 GB · 12 macro folders · 10+ production cron jobs · 12 pattern adapters
-> **Audit pipeline**: workspace-bench v0.3.4 · deterministic (~70%) · IRR 1.0 verified
+> **Audit pipeline**: workspace-bench v0.4 · L4=95 / L3=70 anti-genesis-bias cap · deterministic (~70%) · IRR 1.0 verified
 
 A real production-grade workspace audited longitudinally with workspace-bench. Reference baseline for the WAB methodology. Self-audited but the audit script is open-source and reproducible — re-run it on this repo and the score is identical (IRR test 2026-05-24 · Haiku vs Opus blind audit · zero divergence on 12 pillars).
 
@@ -18,7 +18,8 @@ A real production-grade workspace audited longitudinally with workspace-bench. R
 | iter-32 | 2026-02 | 76.50 | B− | +6.5 | Skill registry consolidation · staleness cron |
 | iter-35 | 2026-04 | 79.50 | B | +3.0 | DPI guard · adversarial-robustness policy |
 | iter-38 | 2026-05-19 | 81.25 | B | +1.75 | v0.3 12-pillar stricter rubric + MetaCog integration |
-| **iter-39** | **2026-05-25** | **91.67** | **A** | **+10.42** | **Auto-promote-engine · Curator APPLY · Dreams APPLY · Reflexion lessons promote** |
+| iter-39 raw | 2026-05-25 | 91.67 | A | +10.42 | Auto-promote-engine · Curator APPLY · Dreams APPLY · Reflexion lessons promote |
+| **iter-39 v0.4 cap** | **2026-05-25** | **87.08** | **A** | **+5.83** | **L4 soft cap 95/100 applied · reserves 5 pts/pillar for runtime-enforcement evidence (v0.5)** |
 
 The iter-38 → iter-39 jump is the largest single-iteration delta in the series. The cause is the closure of the "diagnostic excellence · zero apply" gap that affected Pillar 4 · Pillar 6 · Pillar 11: Curator now applies 42 actions per run (was 0) · Dreams APPLY stage live (was iter-31-not-implemented) · Reflexion auto-promotes lessons violated (was diagnostic only). Documented in WSB-19 "Auto-promote Decision Engine."
 
@@ -26,16 +27,16 @@ The iter-38 → iter-39 jump is the largest single-iteration delta in the series
 
 ## Composite · iter-39 live
 
-**91.67 / 100 · Grade A** · top-tier · L4-everywhere remains aspirational on 1-2 pillars.
+**87.08 / 100 · Grade A** · top-tier under v0.4 cap · runtime enforcement evidence pending fills remaining headroom.
 
-### Cluster averages
+### Cluster averages · v0.4 cap
 
-| Cluster | iter-38 | iter-39 | Δ | Profile |
-|---------|--------:|--------:|--:|---------|
-| **A · Cognition** | 83.3 | **91.67** | +8.34 | Memory · Auto-Improvement · Metacognition all strong |
-| **B · Action** | 91.7 | **100.0** | +8.33 | Skills · DPI · Reliability at L4 across the board |
-| **C · Trust** | 81.2 | **93.75** | +12.50 | Governance L4 · Observability L4 · Credentials L3 · HITL L3 |
-| **D · Operations** | 62.5 | **75.0** | +12.50 | Portability L2 (still) · Cost/Performance L3 (now) |
+| Cluster | iter-38 | iter-39 raw | iter-39 capped | Profile |
+|---------|--------:|---------:|---------------:|---------|
+| **A · Cognition** | 83.3 | 91.67 | **86.67** | Memory · Auto-Improvement · Metacognition all strong (P9 still L3 → 70 capped) |
+| **B · Action** | 91.7 | 100.0 | **95.0** | Skills · DPI · Reliability at L4 across the board (capped 95) |
+| **C · Trust** | 81.2 | 93.75 | **88.75** | Governance L4 · Observability L4 · HITL L4 (capped) · Credentials L3 (70 capped) |
+| **D · Operations** | 62.5 | 75.0 | **72.5** | Portability L2=50 (still) · Cost/Performance L4=95 (capped) |
 
 Cluster B is the first 100.0 cluster recorded in the entire WAB leaderboard (14 audits cumulative). Cluster D remains the weakest · structural (hardcoded paths · cross-platform portability) · the same gap observed across all audited workspaces.
 
@@ -43,20 +44,22 @@ Cluster B is the first 100.0 cluster recorded in the entire WAB leaderboard (14 
 
 ## Per-pillar maturity · iter-39
 
-| # | Pillar | Cluster | Level | Score | Δ vs iter-38 | Notes |
-|---|--------|---------|-------|------:|------------:|-------|
-| 1 | Context Hierarchy & Memory | A · Cognition | **L4 Optimizing** | 100 | +25 | 5-tier memory + Brain MCP + KV-cache prefix validator + Manus pattern · iter-39 closed the cache audit gap |
-| 2 | Skill / Tool Architecture | B · Action | **L4 Optimizing** | 100 | 0 | 42 skills · 27 active · staleness cron · Hermes pattern · curator-applied 42 actions iter-39 |
-| 3 | Governance & Compliance | C · Trust | **L4 Optimizing** | 100 | 0 | CONSTITUTION v1.7 · 15 HARD RULES · HR15 PRE-OUTPUT · compliance-judge sub-agent · auto-promote 5-layer added iter-39 |
-| 4 | Auto-Improvement Loop | A · Cognition | **L4 Optimizing** | 100 | +25 | **Dreams APPLY live · Curator APPLY live · Reflexion auto-promote lessons** · auto-promote-engine.py decision tree |
-| 5 | Multi-Agent Discipline (DPI) | B · Action | **L4 Optimizing** | 100 | 0 | Policy + arXiv 2604.02460 + 3-condition gate + 4 anti-patterns |
-| 6 | Observability & Recovery | C · Trust | **L4 Optimizing** | 100 | +25 | 10+ cron · centralized `_logs/` · `_auto-promote-metrics/` daily telemetry · audit log every engine decision |
-| 7 | Credentials & Security | C · Trust | **L3 Defined** | 75 | +25 | op:// vault · `.envrc.template` · pre-commit secret guard hook · legacy plaintext scrub iter-39 |
-| 8 | Portability & Re-deployability | D · Operations | **L2 Managed** ⚠️ | 50 | 0 | `MADANI_ROOT` env partial · hardcoded `/Users/{operator}/` still in some scripts · **remains top improvement target** |
-| 9 | Metacognition & Self-Assessment | A · Cognition | **L4 Optimizing** | 100 | +25 | MetaCog adapter #11 · capability profile EMA · ECE tracking live iter-39 |
-| 10 | Reliability & Determinism | B · Action | **L4 Optimizing** | 100 | +25 | Retry + idempotency contracts · MAST taxonomy · IRR=1.0 inter-rater reliability verified Haiku-vs-Opus blind audit |
-| 11 | Human-in-the-Loop | C · Trust | **L4 Optimizing** | 100 | +25 | HR-1 approval policy · escalation queue `_pending-*/` rare-fire only · auto-promote 5-layer decision tree |
-| 12 | Cost & Performance Efficiency | D · Operations | **L3 Defined** | 75 | 0 | Cost-aware Sonnet routine cron · cache TTL · cost-per-outcome tracking added iter-39 but not stabilized → L4 pending |
+| # | Pillar | Cluster | Level | Score (v0.4 cap) | Notes |
+|---|--------|---------|-------|------------------:|-------|
+| 1 | Context Hierarchy & Memory | A · Cognition | **L4 Optimizing** | 95 | 5-tier memory + Brain MCP + KV-cache prefix validator + Manus pattern |
+| 2 | Skill / Tool Architecture | B · Action | **L4 Optimizing** | 95 | 42 skills · 27 active · staleness cron · Hermes pattern · curator-applied 42 actions iter-39 |
+| 3 | Governance & Compliance | C · Trust | **L4 Optimizing** | 95 | CONSTITUTION v1.7 · 15 HARD RULES · HR15 PRE-OUTPUT · compliance-judge sub-agent · auto-promote 5-layer |
+| 4 | Auto-Improvement Loop | A · Cognition | **L4 Optimizing** | 95 | Dreams APPLY live · Curator APPLY live · Reflexion auto-promote lessons · auto-promote-engine 5-layer |
+| 5 | Multi-Agent Discipline (DPI) | B · Action | **L4 Optimizing** | 95 | Policy + arXiv 2604.02460 + 3-condition gate + 4 anti-patterns |
+| 6 | Observability & Recovery | C · Trust | **L4 Optimizing** | 95 | 10+ cron · centralized `_logs/` · `_auto-promote-metrics/` daily telemetry · audit log every engine decision |
+| 7 | Credentials & Security | C · Trust | **L3 Defined** | 70 | op:// vault · `.envrc.template` · pre-commit secret guard hook · legacy plaintext scrub iter-39 |
+| 8 | Portability & Re-deployability | D · Operations | **L2 Managed** ⚠️ | 50 | `MADANI_ROOT` env partial · hardcoded `/Users/{operator}/` still in some scripts · **remains top improvement target** |
+| 9 | Metacognition & Self-Assessment | A · Cognition | **L3 Defined** | 70 | MetaCog adapter #11 · capability profile EMA · ECE tracking · L4 pending stabilization |
+| 10 | Reliability & Determinism | B · Action | **L4 Optimizing** | 95 | Retry + idempotency contracts · MAST taxonomy · IRR=1.0 inter-rater reliability verified Haiku-vs-Opus blind audit |
+| 11 | Human-in-the-Loop | C · Trust | **L4 Optimizing** | 95 | HR-1 approval policy · escalation queue `_pending-*/` rare-fire only · auto-promote 5-layer decision tree |
+| 12 | Cost & Performance Efficiency | D · Operations | **L4 Optimizing** | 95 | Cost-aware Sonnet routine cron · cache TTL · cost-per-outcome tracking active |
+
+**v0.4 cap effect**: L4=95 (was 100) · L3=70 (was 75). Pure documentation-based scoring saturated too easily for workspaces that authored the rubric (genesis bias). The 5 reserved points at L4 will be earned in v0.5 by runtime-enforcement probing tests (e.g., spawn 2 sub-agents · verify DPI policy actually blocks at runtime · not just that the policy file exists).
 
 **Headline change iter-38 → iter-39**: 7 pillars jumped L3→L4 (+25 each) · 0 pillars regressed · 2 pillars stable at L2/L3 (Portability · Cost/Performance) · structural gaps that require deeper refactoring.
 
@@ -184,9 +187,9 @@ Audit is reproducible across LLM evaluators. Verified 2026-05-24 · Haiku blind 
 
 ## Disclosure · known biases
 
-Madani ranks #1 in the WAB leaderboard (91.67 A · live iter-39). This is a credibility red flag if not disclosed. The framework was co-developed with this workspace as a positive case-study · workspaces architecturally similar to Madani score higher because they hit criteria the rubric explicitly measures. Mitigations: ~70% of audit is deterministic file-pattern matching · Anthropic Cookbook scores F (vendor neutrality demonstrated) · Hermes-agent (NousResearch · 165k★ · zero Madani contamination) scores C (genuine quality recognized externally) · IRR=1.0 across LLM models. Full validity-threats discussion in README "Known biases" section.
+Madani ranks #1 in the WAB leaderboard (87.08 A · live iter-39 · v0.4 cap applied). This is a credibility red flag if not disclosed. The framework was co-developed with this workspace as a positive case-study · workspaces architecturally similar to Madani score higher because they hit criteria the rubric explicitly measures. Mitigations: ~70% of audit is deterministic file-pattern matching · Anthropic Cookbook scores F (vendor neutrality demonstrated) · Hermes-agent (NousResearch · 165k★ · zero Madani contamination) scores C (genuine quality recognized externally) · IRR=1.0 across LLM models. Full validity-threats discussion in README "Known biases" section.
 
-The 91.67 score is appropriate within the dimensions WAB measures (governance · cybernetic self-improvement · skill curation · multi-tier memory · adversarial robustness · etc) · not a universal claim of "best agentic workspace." For UX-focused rankings see SWE-Bench · adoption-focused metrics see GitHub stars · production-scale efficiency see inference benchmarks.
+The 87.08 score (v0.4 cap applied · 91.67 raw pre-cap) is appropriate within the dimensions WAB measures (governance · cybernetic self-improvement · skill curation · multi-tier memory · adversarial robustness · etc) · not a universal claim of "best agentic workspace." For UX-focused rankings see SWE-Bench · adoption-focused metrics see GitHub stars · production-scale efficiency see inference benchmarks.
 
 ---
 
