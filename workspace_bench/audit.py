@@ -324,18 +324,29 @@ def scan_pillar_7_credentials(root: Path) -> dict:
             signals["vault_integration"] = True
             signals["runtime_resolution_pattern"] = True
             break
+    # v0.4.1 · privacy hardening: audit.json never embeds raw secret prefixes.
+    # We report file paths + counts + which pattern fired (high-level family)
+    # so the Pillar-7 signal stays intact (audit knows the file has a credential)
+    # without the audit JSON itself becoming a credential vector.
+    # Users can self-inspect their files locally · the audit output is safe to
+    # share/submit.
     secret_count = 0
     for fp in walk_files(root, extensions={".md", ".py", ".js", ".ts", ".sh", ".json", ".yml", ".yaml", ".env", ".txt"}):
         if fp.name == ".envrc.template":
             continue
         content = safe_read(fp, max_bytes=100_000)
         for pattern in SECRET_PATTERNS:
-            for match in pattern.findall(content)[:3]:
-                secret_count += 1
-                rel = str(fp.relative_to(root)) if fp.is_relative_to(root) else str(fp)
-                signals["plaintext_secrets_found"].append({"file": rel, "snippet_prefix": match[:20] + "..."})
-                if secret_count >= 20:
-                    break
+            matches = pattern.findall(content)[:3]
+            if not matches:
+                continue
+            rel = str(fp.relative_to(root)) if fp.is_relative_to(root) else str(fp)
+            pattern_label = getattr(pattern, "pattern", "credential")[:40]
+            signals["plaintext_secrets_found"].append({
+                "file": rel,
+                "pattern_family": pattern_label,
+                "match_count": len(matches),
+            })
+            secret_count += len(matches)
             if secret_count >= 20:
                 break
         if secret_count >= 20:
