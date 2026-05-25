@@ -1,6 +1,6 @@
 # Submissions · Workspace Agentic Benchmark Leaderboard
 
-> MLPerf-style PR-based submission process for the public leaderboard.
+> **API-only flow.** No pull request required. Sign in once on `madani.agency/research`, run the audit on your own machine with any LLM, and the result lands on the public leaderboard in a single POST.
 
 ---
 
@@ -15,143 +15,107 @@ The leaderboard is **not a competition** — it's a maturity map. A Grade B with
 
 ---
 
-## Submission process
+## Submission flow (single POST · no PR)
 
-### 1. Run the audit
+### 1. Sign in with GitHub
+
+Visit https://www.madani.agency/research and sign in with your GitHub account. The site mints a `submit_token` derived from your GitHub numeric user id — it is bound to *your* account and cannot be used to submit on anyone else's behalf.
+
+### 2. Get your credentials
+
+After sign-in, open https://www.madani.agency/api/bench/whoami in another tab. You get back:
+
+```json
+{
+  "ok": true,
+  "github_user_id": "<your numeric GitHub id>",
+  "github_username": "<your login>",
+  "submit_token": "<32-char hex>",
+  "submit_endpoint": "https://www.madani.agency/api/bench/submit"
+}
+```
+
+Or — easier — copy the personalized prompt shown directly on the `/research` page. It already has all four values embedded.
+
+### 3. Run the audit
+
+On your workspace, with any LLM:
 
 ```bash
-cd workspace-agentic-benchmark
-python3 eval/audit.py /path/to/your/workspace > audit.json
-python3 eval/score.py audit.json > score.json
-python3 eval/report.py score.json --output report.md
+pip install --upgrade workspace-bench
+workspace-bench audit /path/to/your/workspace --output ./out
+workspace-bench score ./out --output ./out
 ```
 
-### 2. Create your submission folder
+You get `audit.json` + `score.json`. The audit tool emits sanitized output by default (no raw secret content · file paths only with pattern family + count). You're free to inspect both files before submitting — nothing private has to leave your machine if you don't want it to.
 
-```
-submissions/
-└── {your-workspace-slug}/        # e.g., "anthropic-fde-cwc", "acme-corp-prod"
-    ├── metadata.yaml              # required · see template below
-    ├── audit.json                 # required · output of audit.py
-    ├── score.json                 # required · output of score.py
-    ├── report.md                  # required · output of report.py
-    └── evidence/                  # required · 3-5 substantiating artifacts
-        ├── pillar-N-evidence.md   # one per pillar with score ≥ L3
-        └── ...
-```
-
-### 3. Fill metadata.yaml
-
-See `template/metadata.yaml.template` for the schema:
-
-```yaml
-workspace_name: "Acme Corp Internal Agent"
-slug: "acme-corp-prod"
-domain: "financial-services"  # or healthcare · ecommerce · saas · public-sector · personal · other
-stack:
-  - "Claude Code"
-  - "n8n"
-  - "Custom Python tools"
-  - "Supabase"
-size:
-  total_files: 1247
-  total_loc: 89000
-  age_months: 14
-submitted_by: "Your Name · your.email@example.com"
-submitted_at: "2026-06-15"
-benchmark_version: "0.3.0"
-public: true  # set false to leave off public leaderboard but keep on file
-confidentiality:
-  redacted_paths: false  # set true if you redacted internal paths
-  redacted_credentials: true  # always true for safety
-notes: |
-  Optional notes about your workspace · constraints · domain-specific decisions ·
-  what you'd score yourself differently and why.
-```
-
-### 4. Substantiate high-scoring pillars
-
-For each pillar scoring L3 or L4, add evidence in `evidence/pillar-N-evidence.md`:
-
-```markdown
-# Pillar N · {Title} · L3 / L4 evidence
-
-## What the audit detected
-{summary of signals found}
-
-## Substantiating artifacts (3-5 minimum)
-- `path/to/file-or-commit-1` · {one-line description of what this proves}
-- `path/to/file-or-commit-2` · {description}
-- `sha:abc1234` · {description}
-
-## Operator commentary (optional)
-{any context that helps the reviewer understand why this pillar reached this level}
-```
-
-This prevents score gaming · the audit can be fooled by keyword stuffing · the evidence cannot.
-
-### 5. Open a PR
+### 4. POST to the API
 
 ```bash
-git checkout -b submission/{your-workspace-slug}
-git add submissions/{your-workspace-slug}/
-git commit -m "submission: {workspace-name} · Grade {X} · v0.3"
-git push origin submission/{your-workspace-slug}
-gh pr create --title "Submission: {workspace-name}" \
-  --body "Composite: {X}/100 · Grade {Y} · {domain} · {stack}"
+curl -X POST https://www.madani.agency/api/bench/submit \
+  -H "Content-Type: application/json" \
+  -d @- <<JSON
+{
+  "submit_token": "<your token>",
+  "github_user_id": "<your numeric id>",
+  "github_username": "<your login>",
+  "repo": "<owner/repo>",
+  "sha": "<commit sha · optional>",
+  "audit": $(cat ./out/audit.json),
+  "score": $(cat ./out/score.json)
+}
+JSON
 ```
 
-### 6. Review
+Server-side it verifies the HMAC, sanitizes the payload (paths → `/Users/_/...`, client folders → anonymized, credentials → `[REDACTED-CREDENTIAL]`), and writes the entry to Vercel KV. The leaderboard updates within seconds.
 
-- 2 maintainers review the submission
-- 1 external reviewer (rotating · drawn from prior accepted submissions)
-- Target turnaround: 14 days
-- Reviewer checks: evidence sufficiency · audit reproducibility · metadata accuracy · confidentiality redactions
+### 5. (Optional) Drive the whole flow with an LLM
 
-On merge:
-- Entry appears on the leaderboard (website v0.4+)
-- Cited in CHANGELOG for the version that accepted it
-- Submitter invited to be a rotating external reviewer for future submissions
+Paste the personalized prompt from `/research` into any chat-style LLM with shell + HTTP capabilities (Claude Code, Cursor, OpenAI CLI tools, etc.). The prompt is self-contained: it tells the agent to clone the workspace if needed, install workspace-bench, run audit + score, and POST the result with your token.
 
 ---
 
-## Confidentiality and redaction
+## Editing or removing your submission
 
-Acceptable redactions:
-- Internal paths (e.g., `/Users/alice/work/proj` → `/Users/REDACTED/proj`)
-- Customer / client names (use placeholders · `customer_A`, `customer_B`)
-- Internal tool names (rename to `internal-tool-1` if needed)
+Same `submit_token` authenticates an owner-only delete:
 
-NOT acceptable:
-- Removing failing signals to inflate the score
-- Stripping evidence pointers entirely
-- Modifying the audit.json or score.json output (must be unmodified tool output)
+```bash
+curl -X DELETE \
+  -H "x-submit-token: <your token>" \
+  "https://www.madani.agency/api/bench/submission?key=<username>:<repo_slug>"
+```
 
-If you cannot disclose enough to substantiate L3+ scores, set `public: false` in metadata.yaml. You'll receive a private confirmation but no leaderboard entry. Useful for compliance-sensitive submissions.
+This removes the leaderboard entry, the latest snapshot, and the user/repo membership. Historical point-in-time records (`wab:history:*:<ts>`) are intentionally retained so the audit trail isn't silently rewritten — if you also want those purged, open an issue on the benchmark repo.
 
----
-
-## Re-submissions
-
-Workspaces evolve. Re-submit any time:
-- Same slug, increment `metadata.yaml` version field
-- New `audit.json` + `score.json` + `report.md`
-- Diff with previous submission in PR description
-
-Tracking deltas over time is more valuable than static scores. Quarterly re-submission encouraged.
+To resubmit (e.g. after improving your harness), just POST again. The leaderboard tracks `best_composite` per user, plus full trend history per repo.
 
 ---
 
-## Disqualification criteria
+## Privacy & safety guarantees
 
-Submissions will be rejected if:
-- Audit output was manually edited
-- Evidence pointers don't substantiate the claimed score
-- Workspace is fictional / not actually deployed
-- Single-person workspace claiming team-grade portability without isolation evidence
-
-We will not name and shame · simply close the PR with explanation.
+- The server **never publishes `audit_full`** on the public submission endpoint — only score, pillar levels, cluster averages, and metadata. The audit JSON stays in KV for owner-only retrieval.
+- Absolute home paths (`/Users/<x>/`, `/home/<x>/`) and known client folder names get anonymized server-side before storage.
+- Plaintext credential patterns (`sk-ant-*`, `ghp_*`, `sk_live_*`, JWTs, AWS keys, GCP keys, Slack tokens) get redacted server-side as a defense-in-depth layer, on top of the audit tool's own sanitization.
+- The leaderboard links to your GitHub *profile* (`github.com/<your-login>`), not to the audited repo — browsing the classifica does not expose other submitters' workspace structure.
 
 ---
 
-_submissions/README.md · v0.3 · MLPerf-inspired process · 2026-05-19_
+## What about the old PR-based flow?
+
+The previous version of this README described a PR-based, MLPerf-style review process (open a PR with `submissions/<slug>/metadata.yaml` + per-pillar evidence files). That flow has been retired in favor of the API. Reasons:
+
+- An API submission scales to thousands of audits per day without manual review bandwidth.
+- The privacy guarantees above can only be enforced server-side at write time — a PR-based flow would have leaked workspace internals in public git history before any reviewer saw them.
+- The "evidence" the old flow required is already encoded in `audit.json`'s per-pillar signals (counts, paths, presence flags) — the LLM that ran the audit *is* the evidence.
+
+If you have a workspace that genuinely needs human review before going on the leaderboard, open an issue on this repo and tag it `discuss`.
+
+---
+
+## Reference implementation
+
+The submission endpoint, owner purge, sanitizer, and personalized prompt builder all live in [`ceomadani/madani-website`](https://github.com/ceomadani/madani-website) under `app/api/bench/*` and `auth.ts`. The audit tool itself (with the sanitization baseline) lives in this repo under `workspace_bench/`.
+
+---
+
+_submissions/README.md · v0.4 · API-only flow · 2026-05-25_
