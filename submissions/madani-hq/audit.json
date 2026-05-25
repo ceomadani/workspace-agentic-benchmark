@@ -1,0 +1,359 @@
+{
+  "tool": "workspace-bench",
+  "version": "0.3.4",
+  "audited_at": "2026-05-25T13:05:14.790702",
+  "workspace": "/Users/REDACTED/madani",
+  "pillars": {
+    "1_context_memory": {
+      "tier_dirs_found": [
+        {
+          "tier": "memory",
+          "path": "/Users/REDACTED/madani/12_HARNESS/memory-engine"
+        },
+        {
+          "tier": "personalized",
+          "path": "/Users/REDACTED/madani/12_HARNESS/memory-engine/personalized"
+        },
+        {
+          "tier": "episodic",
+          "path": "/Users/REDACTED/madani/12_HARNESS/memory-engine/episodic"
+        },
+        {
+          "tier": "semantic",
+          "path": "/Users/REDACTED/madani/12_HARNESS/memory-engine/semantic"
+        },
+        {
+          "tier": "environment-dynamics",
+          "path": "/Users/REDACTED/madani/12_HARNESS/memory-engine/environment-dynamics"
+        },
+        {
+          "tier": "procedural",
+          "path": "/Users/REDACTED/madani/12_HARNESS/memory-engine/procedural"
+        }
+      ],
+      "memory_index_files": [],
+      "structured_entries_count": 30,
+      "cross_link_pattern_count": 416,
+      "retrieval_policy_doc": true,
+      "decay_policy_doc": true,
+      "mcp_query_layer": true,
+      "kv_cache_awareness": true
+    },
+    "2_skill_tool": {
+      "skill_folders": [
+        "/Users/REDACTED/madani/10_SKILLS/clickup-mcp",
+        "/Users/REDACTED/madani/10_SKILLS/ux-decisions",
+        "/Users/REDACTED/madani/10_SKILLS/clawd-modifier",
+        "/Users/REDACTED/madani/10_SKILLS/agent-browser",
+        "/Users/REDACTED/madani/10_SKILLS/peekaboo",
+        "/Users/REDACTED/madani/10_SKILLS/ui-audit",
+        "/Users/REDACTED/madani/10_SKILLS/statics-gpt-image-2",
+        "/Users/REDACTED/madani/10_SKILLS/skill-security",
+        "/Users/REDACTED/madani/10_SKILLS/copywriting",
+        "/Users/REDACTED/madani/10_SKILLS/launch-meta-campaigns",
+        "/Users/REDACTED/madani/10_SKILLS/claude-connect",
+        "/Users/REDACTED/madani/10_SKILLS/pdf-generator",
+        "/Users/REDACTED/madani/10_SKILLS/claude-code-usage",
+        "/Users/REDACTED/madani/10_SKILLS/ugc-production",
+        "/Users/REDACTED/madani/10_SKILLS/verify-on-browser",
+        "/Users/REDACTED/madani/10_SKILLS/social-content",
+        "/Users/REDACTED/madani/10_SKILLS/clawdbot-documentation-expert",
+        "/Users/REDACTED/madani/10_SKILLS/browsh",
+        "/Users/REDACTED/madani/10_SKILLS/madani-ingest",
+        "/Users/REDACTED/madani/10_SKILLS/clawdlink",
+        "/Users/REDACTED/madani/10_SKILLS/storyboard-content-production",
+        "/Users/REDACTED/madani/10_SKILLS/tweet-writer",
+        "/Users/REDACTED/madani/10_SKILLS/exa-plus",
+        "/Users/REDACTED/madani/10_SKILLS/video-frames",
+        "/Users/REDACTED/madani/10_SKILLS/skills-search",
+        "/Users/REDACTED/madani/10_SKILLS/madani-voice-dna",
+        "/Users/REDACTED/madani/10_SKILLS/audio-mastering",
+        "/Users/REDACTED/madani/10_SKILLS/clawdhub",
+        "/Users/REDACTED/madani/10_SKILLS/madani-cove-captions",
+        "/Users/REDACTED/madani/10_SKILLS/madani-extract",
+        "/Users/REDACTED/madani/10_SKILLS/skills-audit",
+        "/Users/REDACTED/madani/10_SKILLS/madani-client-onboarding",
+        "/Users/REDACTED/madani/10_SKILLS/clawddocs",
+        "/Users/REDACTED/madani/10_SKILLS/mcporter",
+        "/Users/REDACTED/madani/10_SKILLS/n8n-workflow-automation",
+        "/Users/REDACTED/madani/10_SKILLS/landing-page",
+        "/Users/REDACTED/madani/10_SKILLS/clawdbot-workspace-template-review",
+        "/Users/REDACTED/madani/10_SKILLS/creative-framework-injector",
+        "/Users/REDACTED/madani/10_SKILLS/slack",
+        "/Users/REDACTED/madani/10_SKILLS/frontend-design",
+        "/Users/REDACTED/madani/10_SKILLS/clawdbot-skill-update",
+        "/Users/REDACTED/madani/10_SKILLS/ui-skills",
+        "/Users/REDACTED/madani/10_SKILLS/x-cli",
+        "/Users/REDACTED/madani/10_SKILLS/vercel-react-best-practices",
+        "/Users/REDACTED/madani/10_SKILLS/madani-lab-article",
+        "/Users/REDACTED/madani/10_SKILLS/twitter-bookmark-sync",
+        "/Users/REDACTED/madani/10_SKILLS/claude-team",
+        "/Users/REDACTED/madani/10_SKILLS/vibe-coding",
+        "/Users/REDACTED/madani/10_SKILLS/auto-updater",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/yoink",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/erc-8004",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/clanker",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/onchainkit",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/botchan",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/qrcoin",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/zapper",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/veil",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/endaoment",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/neynar",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/ens-primary-name",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/base",
+        "/Users/REDACTED/madani/10_SKILLS/bankr-skills/bankr",
+        "/Users/REDACTED/madani/skills/ascii-madani-aesthetic",
+        "/Users/REDACTED/madani/monitoring-dash/docs/skills/launch-meta-campaigns",
+        "/Users/REDACTED/madani/monitoring-dash/docs/skills/storyboard-content-production",
+        "/Users/REDACTED/madani/monitoring-dash/docs/skills/madani-landing-funnel"
+      ],
+      "skills_with_frontmatter": 66,
+      "skill_index_files": [],
+      "auto_trigger_mechanism": true,
+      "staleness_detector_found": true,
+      "deterministic_tools_count": 10017,
+      "llm_tools_count": 39,
+      "skill_roster_doc": true,
+      "skill_changelog": 507
+    },
+    "3_governance": {
+      "constitution_found": [
+        "/Users/REDACTED/madani/CONSTITUTION.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/02a_ORGANICA/CONTENT-PRODUCTION/CONSTITUTION.md",
+        "/Users/REDACTED/madani/99_ARCHIVIO/agents-7bot-simbolico/archivio-pre/CONSTITUTION.md",
+        "/Users/REDACTED/madani/madani-website/CLAUDE.md",
+        "/Users/REDACTED/madani/99_ARCHIVIO/CLAUDE.md",
+        "/Users/REDACTED/madani/13_PROPOSTA-ARCHITETTURA/CLAUDE.md",
+        "/Users/REDACTED/madani/04_SALES/CLAUDE.md",
+        "/Users/REDACTED/madani/01_FONDAMENTA/CLAUDE.md",
+        "/Users/REDACTED/madani/08_CLIENTI/CLAUDE.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/CLAUDE.md",
+        "/Users/REDACTED/madani/academy/CLAUDE.md",
+        "/Users/REDACTED/madani/10_SKILLS/CLAUDE.md",
+        "/Users/REDACTED/madani/madani-funnels-agency/CLAUDE.md",
+        "/Users/REDACTED/madani/05_DELIVERY/CLAUDE.md",
+        "/Users/REDACTED/madani/09_KNOWLEDGE-BASE/CLAUDE.md",
+        "/Users/REDACTED/madani/voice-caller-livekit/CLAUDE.md",
+        "/Users/REDACTED/madani/03_SETTING/CLAUDE.md",
+        "/Users/REDACTED/madani/monitoring-dash/CLAUDE.md",
+        "/Users/REDACTED/madani/07_FINANZE/CLAUDE.md",
+        "/Users/REDACTED/madani/06_ORGANIZZAZIONE/CLAUDE.md",
+        "/Users/REDACTED/madani/credentials/CLAUDE.md",
+        "/Users/REDACTED/madani/voice-caller-livekit/archive/CLAUDE.md",
+        "/Users/REDACTED/madani/09_KNOWLEDGE-BASE/research/CLAUDE.md",
+        "/Users/REDACTED/madani/09_KNOWLEDGE-BASE/docs/CLAUDE.md",
+        "/Users/REDACTED/madani/09_KNOWLEDGE-BASE/brand-identity/CLAUDE.md",
+        "/Users/REDACTED/madani/10_SKILLS/ux-decisions/CLAUDE.md",
+        "/Users/REDACTED/madani/10_SKILLS/ui-audit/CLAUDE.md",
+        "/Users/REDACTED/madani/10_SKILLS/_framework/CLAUDE.md",
+        "/Users/REDACTED/madani/11_TOOLS/ghl-workflow-toolkit/CLAUDE.md",
+        "/Users/REDACTED/madani/12_HARNESS/mcp-servers/CLAUDE.md",
+        "/Users/REDACTED/madani/12_HARNESS/mcp-servers/ghl-workflow-api/CLAUDE.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/cerca-bandi/CLAUDE.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/02a_ORGANICA/email-marketing/CLAUDE.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/02a_ORGANICA/CONTENT-PRODUCTION/CLAUDE.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/02a_ORGANICA/email-signature/CLAUDE.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/02a_ORGANICA/CONTENT-PRODUCTION/output/CLAUDE.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/02a_ORGANICA/CONTENT-PRODUCTION/_accelerator-tools/CLAUDE.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/02b_PAID/ads-launch/CLAUDE.md",
+        "/Users/REDACTED/madani/99_ARCHIVIO/artifacts-legacy-iter1-24-28/CLAUDE.md",
+        "/Users/REDACTED/madani/99_ARCHIVIO/saas-waitlist-iter36/CLAUDE.md",
+        "/Users/REDACTED/madani/99_ARCHIVIO/saas-onboarding-iter36/CLAUDE.md",
+        "/Users/REDACTED/madani/madani-website/node_modules/nodemailer/CLAUDE.md",
+        "/Users/REDACTED/madani/academy/node_modules/undici/docs/docs/api/AGENT.md",
+        "/Users/REDACTED/madani/madani-website/node_modules/undici/docs/docs/api/AGENT.md",
+        "/Users/REDACTED/madani/constitution.md",
+        "/Users/REDACTED/madani/02_LEAD-GENERATION/02a_ORGANICA/CONTENT-PRODUCTION/constitution.md",
+        "/Users/REDACTED/madani/99_ARCHIVIO/agents-7bot-simbolico/archivio-pre/constitution.md"
+      ],
+      "hard_rules_count": 33,
+      "pre_output_check": true,
+      "compliance_judge": true,
+      "rules_dir_found": true,
+      "external_action_gate": true,
+      "destructive_action_gate": true,
+      "rules_versioning": true,
+      "evidence_linked_rules": 0
+    },
+    "4_auto_improvement": {
+      "dreams_pipeline": true,
+      "reflexion_runner": true,
+      "session_capture_evidence": true,
+      "scoring_rubric_for_proposals": true,
+      "two_stage_review": false,
+      "apply_log_exists": true,
+      "cron_for_improvement": true,
+      "cheaper_model_used": true
+    },
+    "5_multi_agent_dpi": {
+      "multi_agent_policy_doc": true,
+      "single_thread_default": true,
+      "explore_only_preauthorized": true,
+      "pre_spawn_checklist": true,
+      "anti_pattern_doc_count": 5,
+      "evidence_cited_dpi": true,
+      "no_recursive_subagents_rule": true
+    },
+    "6_observability": {
+      "centralized_log_dir": true,
+      "liveness_watchdog": true,
+      "aggregate_report": true,
+      "drift_detector": false,
+      "task_lifecycle_state_machine": true,
+      "stuck_task_detection": true,
+      "stderr_separated_from_stdout": true,
+      "log_rotation_policy": true,
+      "recovery_procedure_doc": true,
+      "mast_taxonomy_referenced": true,
+      "otel_genai_referenced": true
+    },
+    "7_credentials_security": {
+      "plaintext_secrets_found": [
+        {
+          "file": "madani-website/app/[locale]/research/_data/translations/sources/verbal-rl-long-lived.txt",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "99_ARCHIVIO/tools-openclaw-legacy/task-manage.js",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "99_ARCHIVIO/content-accelerator-legacy-iter34/projects/[UA]_unaware/degen_economy/research/sources.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "13_PROPOSTA-ARCHITETTURA/MAPPA-LAVORO-INTEGRALE-NOUR.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "13_PROPOSTA-ARCHITETTURA/AUDIT-360-MICRO-TASKS.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "13_PROPOSTA-ARCHITETTURA/AUDIT-360-MICRO-TASKS.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "13_PROPOSTA-ARCHITETTURA/AUDIT-360-MICRO-TASKS.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "13_PROPOSTA-ARCHITETTURA/COMPATIBILITY-AUDIT-B-INPUT-COVERAGE.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "13_PROPOSTA-ARCHITETTURA/inputs/2026-05-13-extraction-vero-bottleneck-input-contesto.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "cronologia/md-summary/2026-04/2026-04-15_1318_0c37a447.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "cronologia/md-summary/2026-04/2026-04-15_1318_0c37a447.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "cronologia/md-summary/2026-04/2026-04-30_2117_bfb16e4d.md",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "08_CLIENTI/customer_A-immobiliare/onboarding/generate_v11.py",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "08_CLIENTI/customer_A-immobiliare/onboarding/poll_v11.py",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "08_CLIENTI/customer_A-immobiliare/onboarding/scripts/poll_v11.py",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "08_CLIENTI/madani-vc/prospecting/vc_enrich.py",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "08_CLIENTI/madani-vc/prospecting/vc_search_full.py",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "08_CLIENTI/madani-vc/prospecting/vc_search.py",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "08_CLIENTI/customer_B/storyboard_v3/enrichment_v6/apollo_enrich.py",
+          "snippet_prefix": "[REDACTED]"
+        },
+        {
+          "file": "08_CLIENTI/customer_B/_archive_storyboard_v2_no_skill_v13_1778255144/refs/generate_ref_cards.py",
+          "snippet_prefix": "[REDACTED]"
+        }
+      ],
+      "vault_integration": true,
+      "runtime_resolution_pattern": true,
+      "env_in_gitignore": true,
+      "credentials_doc": true,
+      "secret_rotation_doc": false,
+      "owasp_llm_referenced": true
+    },
+    "8_portability": {
+      "bootstrap_doc": [
+        "/Users/REDACTED/madani/ONBOARDING.md",
+        "/Users/REDACTED/madani/10_SKILLS/claude-connect/QUICKSTART.md",
+        "/Users/REDACTED/madani/99_ARCHIVIO/clawd-legacy/BOOTSTRAP.md"
+      ],
+      "templates_dir": true,
+      "scaffold_dir": false,
+      "client_isolation_evidence": false,
+      "vault_per_engagement": true,
+      "handoff_artifact_format": true,
+      "hardcoded_paths_count": 202,
+      "time_to_bootstrap_measured": false,
+      "multiple_deployments_evidence": false
+    },
+    "9_metacognition": {
+      "metacog_tool_found": true,
+      "capability_profile_found": true,
+      "verbalized_confidence_mechanism": true,
+      "composite_formula_documented": true,
+      "conflict_detection": true,
+      "decision_gate_documented": true,
+      "ema_update_mechanism": true,
+      "ece_or_calibration_tracking": false,
+      "anti_pattern_doc_count": 7,
+      "dpi_integration_documented": true,
+      "policy_doc_found": true,
+      "metacog_paper_cited": true
+    },
+    "10_reliability": {
+      "pass_at_k_measurement": true,
+      "retry_logic_documented": true,
+      "idempotency_doc": true,
+      "mast_taxonomy_coverage": true,
+      "replay_harness": true,
+      "circuit_breaker_pattern": true,
+      "determinism_doc": true
+    },
+    "11_human_in_the_loop": {
+      "approval_gate_documented": true,
+      "escalation_criteria_doc": true,
+      "feedback_collection_structured": true,
+      "approval_friction_measured": true,
+      "bypass_detection": true,
+      "hitl_policy_doc": true,
+      "nist_ai_rmf_referenced": true
+    },
+    "12_cost_performance": {
+      "cost_tracking_doc": true,
+      "latency_measurement_doc": true,
+      "cache_hit_rate_measured": true,
+      "model_routing_policy": true,
+      "subscription_vs_api_doc": true,
+      "cost_per_outcome_doc": true,
+      "cheaper_model_in_cron": true,
+      "clear_paper_cited": true
+    }
+  }
+}

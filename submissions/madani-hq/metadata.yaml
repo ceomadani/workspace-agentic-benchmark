@@ -1,0 +1,57 @@
+workspace_name: "Madani HQ Workspace"
+slug: "madani-hq"
+
+domain: "other"
+sub_domain: "agency / portfolio operations · lead-gen + content production + client delivery"
+
+stack:
+  - "Claude Code"          # primary agentic harness
+  - "Anthropic API"        # Claude Opus / Sonnet / Haiku
+  - "Custom Python"        # 37 harness tools in 11_TOOLS/
+  - "n8n"                  # automation / workflow orchestration
+  - "GoHighLevel"          # CRM (location-scoped subaccounts)
+  - "Supabase"             # monitoring dashboard backend
+  - "Vercel"               # frontend hosting
+  - "1Password CLI + direnv"  # op:// credential resolution
+
+size:
+  total_files: 17333       # excl. node_modules / .git / .venv / .next / dist
+  total_loc: 4966725       # code+docs; bulk is accumulated session transcripts (cronologia/) + nested sub-projects — see notes
+  age_months: 4            # first commit 2026-02-04 → 2026-05-25
+  team_size: 1             # solo operator (CEO) + agentic peer
+
+submitted_by: "Nour Matine · nour@madani.agency"
+submitted_at: "2026-05-25"
+
+benchmark_version: "0.3.4"
+
+public: true
+
+confidentiality:
+  redacted_paths: true        # absolute home paths → /Users/REDACTED (123 occurrences)
+  redacted_customers: true    # 2 client names → customer_A / customer_B
+  redacted_credentials: true  # 20 plaintext_secrets_found snippet_prefix values → [REDACTED]
+
+notes: |
+  Solo-operator agentic workspace operating a portfolio of businesses. Claude Code is the
+  primary harness; the governance/cognition core lives in CONSTITUTION.md, 15 hard rules,
+  .claude/rules/, a 4-tier memory engine (12_HARNESS/memory-engine/) and 37 Python harness
+  tools (11_TOOLS/).
+
+  Size caveat (metadata accuracy): total_loc ~5M is dominated by accumulated session
+  transcripts (cronologia/), nested sub-projects (madani-website, monitoring-dash, academy,
+  client apps), and research data. The hand-authored harness + governance core is a small
+  fraction of that figure. total_files counts the same filtered tree.
+
+  Self-scored differently than the raw audit:
+  - P7 Credentials (audit: L3 / 70) is understated by keyword noise. 18 of 20
+    "plaintext secrets" the regex flagged are sk-prefixed *skill slugs*
+    (e.g. sk-initialization-pattern, sk-fireflies-monitor), not secrets. Two are a real
+    Anthropic API key prefix in an old cronologia/ transcript, already flagged for rotation
+    in .claude/rules/credentials-policy.md. Operationally credentials run through an op://
+    1Password vault + direnv + a PreToolUse secret-guard hook — see evidence/pillar-7.
+  - P8 Portability (L2 / 50) is accurate and not contested: 202 hardcoded absolute paths,
+    no cross-tenant isolation, bootstrap time never measured. This is a single-machine
+    personal workspace, not a multi-tenant re-deployable scaffold.
+
+next_review_date: ""
